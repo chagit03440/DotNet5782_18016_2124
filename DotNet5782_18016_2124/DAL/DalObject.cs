@@ -12,144 +12,71 @@ using IDAL.DO;
 
 namespace DalObject
 {
-    public class DalObject
+    public partial class DalObject : IDal
     {
         public DalObject()
         {
             DataSource.Initialize();
 
         }
-        /// <summary>
-        /// A function that recieve a customer and add it to the lists of the customers
-        /// </summary>
-        /// <param name="customer">the customer we need to add </param>
-        public void AddCustomer(Customer customer)
-        {
-            DataSource.customers.Add(customer);
-        }
 
-        /// <summary>
-        ///  A function that recieve a station and add it to the lists of the stations
-        /// </summary>
-        /// <param name="station">the station we need to add</param>
-        public void AddStation(Station station)
-        {
-            DataSource.stations.Add(station);
-        }
-        /// <summary>
-        ///  A function that recieve a drone and add it to the lists of the drones
-        /// </summary>
-        /// <param name="drone">the drone we need to add</param>
-        public void AddDrone(Drone drone)
-        {
-            DataSource.drones.Add(drone);
-
-        }
-        /// <summary>
-        ///  A function that recieve a parcel and add it to the lists of the parcels
-        /// </summary>
-        /// <param name="newParcel">the parcel we need to add</param>
-        public void AddParcel(Parcel newParcel)
-        {
-            DataSource.parcels.Add(newParcel);
-        }
-        /// <summary>
-        /// A function that recieve a droneCharge id and return from the list of the droneCharges the droneCharge with this id 
-        /// </summary>
-        /// <param name="id">the id of the droneCharge</param>
-        /// <returns>return the droneCharge with this id </returns>
-        public DroneCharge GetDroneCharge(int id)
-        {
-            return DataSource.incharge.FirstOrDefault(x => x.DroneId == id);
-        }
-        /// <summary>
-        /// A function that recieve a drones id and return from the list of the drones the drone with this id 
-        /// </summary>
-        /// <param name="id">the id of the drone</param>
-        /// <returns>return the drone with this id</returns>
-        public Drone GetDrone(int id)
-        {
-            return DataSource.drones.FirstOrDefault(x => x.ID == id);
-        }
-        /// <summary>
-        /// A function that recieve a parcels id and return from the list of the parcels the parcel with this id
-        /// </summary>
-        /// <param name="id">the id of the parcel</param>
-        /// <returns>return the drone with this id</returns>
-        public Parcel GetParcel(int id)
-        {
-            return DataSource.parcels.FirstOrDefault(x => x.ID == id);
-        }
-        /// <summary>
-        ///  A function that recieve a stations id and return from the list of the stations the station with this id
-        /// </summary>
-        /// <param name="id">the id of the station</param>
-        /// <returns>return the station with this id</returns>
-        public Station GetStation(int id)
-        {
-            return DataSource.stations.FirstOrDefault(x => x.ID == id);
-        }
-        /// <summary>
-        /// A function that recieve a customers id and return from the list of the customers the customer with this id
-        /// </summary>
-        /// <param name="id">the id of the customer</param>
-        /// <returns>return the customer with this id</returns>
-        public Customer GetCustomer(int id)
-        {
-            return DataSource.customers.FirstOrDefault(x => x.ID == id);
-        }
         /// <summary>
         /// A function that return from the list of the drones
         /// </summary>
         /// <returns>return the list of drones </returns>
-        public List<Drone> GetDrones()
+        public IEnumerable<Drone> GetDrones(Func<Drone, bool> predicate = null)
         {
-            return DataSource.drones;
+            if (predicate == null)
+                return DataSource.drones;
+            return DataSource.drones.Where(predicate);
         }
         /// <summary>
         /// A function that return from the list of the customers
         /// </summary>
         /// <returns>return the list of customers</returns>
-        public List<Customer> Getcustomers()
+        public IEnumerable<Customer> Getcustomers(Func<Customer, bool> predicate = null)
         {
-            return DataSource.customers;
+            if (predicate == null)
+                return DataSource.customers;
+            return DataSource.customers.Where(predicate);
         }
         /// <summary>
         /// A function that return from the list of the parcels
         /// </summary>
         /// <returns>return the list of parcels</returns>
-        public List<Parcel> GetParcels()
+        public IEnumerable<Parcel> GetParcels(Func<Parcel, bool> predicate = null)
         {
-            return DataSource.parcels;
+            if (predicate == null)
+                return DataSource.parcels;
+            return DataSource.parcels.Where(predicate);
+        }
+        public IEnumerable<DroneCharge> GetDronesInCharge(Func<DroneCharge, bool> predicate = null)
+        {
+            if (predicate == null)
+                return DataSource.incharge;
+            return DataSource.incharge.Where(predicate);
         }
         /// <summary>
         /// A function that return from the list of the statoins
         /// </summary>
         /// <returns>return the list of stations</returns>
-        public List<Station> GetStations()
+        public IEnumerable<Station> GetStations(Func<Station, bool> predicate = null)
         {
-            return DataSource.stations;
+            if (predicate == null)
+                return DataSource.stations;
+            return DataSource.stations.Where(predicate);
         }
-        /// <summary>
-        /// A function that recieve a parcel and update the parcel whith the same id in the parcels list
-        /// </summary>
-        /// <param name="parcel">the parcel with new data to update</param>
-        public void UpdateParcel(Parcel parcel)
-        {
+        //public IEnumerable<Station> AvailableChargingStations()
+        //{
+        //    Station[] baseStations = new Station[DataSource.Config.newBaseStationId];
+        //    for (int i = 0; i < DataSource.Config.newBaseStationId; i++)
+        //    {
+        //        baseStations[i] = DataSource.stations[i];
+        //        baseStations[i].ChargeSlots -= DataSource.incharge.Count(dc => dc.StationId == i);
+        //    }
+        //    return baseStations;
+        //}
 
-            Parcel Ptmp = new Parcel();
-            int result = DataSource.parcels.FindIndex(x => x.ID == parcel.ID);
-            Ptmp.ID = DataSource.parcels[result].ID;
-            Ptmp.SenderId = DataSource.parcels[result].ID;
-            Ptmp.Longitude = DataSource.parcels[result].Longitude;
-            Ptmp.Priority = DataSource.parcels[result].Priority;
-            Ptmp.Requested = DataSource.parcels[result].Requested;
-            Ptmp.Scheduled = DataSource.parcels[result].Scheduled;
-            Ptmp.PickedUp = DataSource.parcels[result].PickedUp;
-            Ptmp.TargetId = DataSource.parcels[result].TargetId;
-            DataSource.parcels.RemoveAt(result);
-            DataSource.parcels.Add(Ptmp);
-        }
 
         /// <summary>
         /// A function that recieve a station and a drone and create a new dronecharge with both id`s and update the station accordingly
@@ -158,6 +85,22 @@ namespace DalObject
         /// <param name="drone">the drone thet need to charge</param>
         public void AnchorDroneStation(Station station, Drone drone)
         {
+            try
+            {
+                GetStation(station.ID);
+            }
+            catch (StationException p)
+            {
+                throw new StationException($"cannot anchor station{station.ID}to drone", p);
+            }
+            try
+            {
+                GetDrone(drone.ID);
+            }
+            catch (DroneException p)
+            {
+                throw new DroneException($"cannot anchor drone{drone.ID}to station", p);
+            }
             station.ChargeSlots--;
             DroneCharge dCharge = new DroneCharge()
             {
@@ -171,20 +114,9 @@ namespace DalObject
         }
 
 
-        /// <summary>
-        ///  A function that recieve a drone and update the drone whith the same id in the drones list
-        /// </summary>
-        /// <param name="dr">the drone with new data to update</param>
-        public void UpdateDrone(Drone dr)
-        {
 
-            Drone drone = DataSource.drones.FirstOrDefault(x => x.ID == dr.ID);
 
-            int index = DataSource.drones.FindIndex(x => x.ID == dr.ID);
 
-            DataSource.drones.RemoveAt(index);
-            DataSource.drones.Insert(index, drone);
-        }
         /// <summary>
         /// A function that recieve a parcel and a drone and and update the parcel to be connected to the drone, update the list of the parcels and drones accordingly
         /// </summary>
@@ -193,21 +125,37 @@ namespace DalObject
         public void BelongingParcel(Parcel parcel, Drone drone)
 
         {
+            try
+            {
+                GetParcel(parcel.ID);
+            }
+            catch (ParcelException p)
+            {
+                throw new ParcelException($"cannot belonging parcel{parcel.ID}to station", p);
+            }
+            try
+            {
+                GetDrone(drone.ID);
+            }
+            catch (DroneException p)
+            {
+                throw new DroneException($"cannot belonging parcel{drone.ID}to station", p);
+            }
+
             parcel.DroneId = drone.ID;
             parcel.Scheduled = DateTime.Today;
-            drone.Status = DroneStatuses.shipping;
+            //drone.Status = DroneStatuses.shipping;
 
             //updating drones
-            DataSource.drones.RemoveAll(x => x.ID == drone.ID);
-            DataSource.drones.Add(drone);
+            UpdateDrones(drone);
 
             //updating parcels
-            DataSource.parcels.RemoveAll(x => x.ID == parcel.ID);
-            DataSource.parcels.Add(parcel);
-
-
+            UpdateParcels(parcel);
 
         }
+
+
+
 
 
         /// <summary>
@@ -218,12 +166,32 @@ namespace DalObject
         public void ReleasDrone(Drone drone, Station st)
         {
 
+            try
+            {
+                GetStation(st.ID);
+            }
+            catch (StationException p)
+            {
+                throw new StationException($"cannot releas drone{ st.ID}from station", p);
+            }
+            try
+            {
+                GetDrone(drone.ID);
+            }
+            catch (DroneException p)
+            {
+                throw new DroneException($"cannot releas drone{drone.ID}from station", p);
+            }
+
+
             DataSource.incharge.RemoveAll(dc => dc.StationId == st.ID && dc.DroneId == drone.ID);
             st.ChargeSlots++;
-            DataSource.stations.RemoveAll(item => item.ID == st.ID);
-            DataSource.stations.Add(st);
+            UpdateStations(st);
 
         }
+
+
+
         /// <summary>
         /// function that recieve a parcel and a customer,update the parcel supply to the customer and update  the lists of the customers and parcels accordingly
         /// </summary>
@@ -231,11 +199,27 @@ namespace DalObject
         /// <param name="customer">the customer that recieve the parcel</param>
         public void SupplyParcel(Parcel parcel, Customer customer)
         {
+            try
+            {
+                GetParcel(parcel.ID);
+            }
+            catch (ParcelException p)
+            {
+                throw new ParcelException($"cannot supllay parcel{ parcel.ID}to customer", p);
+            }
+            try
+            {
+                GetCustomer(customer.ID);
+            }
+            catch (CustomerException p)
+            {
+                throw new CustomerException($"cannot supllay parcel{ parcel.ID}to customer", p);
+            }
+
 
             parcel.Scheduled = DateTime.Today;
             DataSource.customers.RemoveAll(x => x.ID == customer.ID);
-            DataSource.parcels.RemoveAll(x => x.ID == parcel.ID);
-            DataSource.parcels.Add(parcel);
+            UpdateParcels(parcel);
         }
         /// <summary>
         /// 
@@ -283,7 +267,7 @@ namespace DalObject
         }
 
         /// <summary>
-        /// Computes an angle in radians
+        /// computes an angle in radians
         /// </summary>
         /// <param name="degree">a number to transfore to radian</param>
         /// <returns>returns an angle in radians</returns>
@@ -294,7 +278,7 @@ namespace DalObject
 
 
         /// <summary>
-        ///  Receiving 2 points the haversine formula returns the distance (in km) between the 2
+        ///  receiving 2 points the haversine formula returns the distance (in km) between the 2
         /// </summary>
         /// <param name="lon1"></param>
         /// <param name="lat1"></param>
@@ -323,6 +307,19 @@ namespace DalObject
             return 0.0;// default return
         }
 
+
+
+
+        public double[] PowerRequest()
+        {
+            double[] arr = new double[5];
+            arr[0] = DataSource.Config.available;
+            arr[1] = DataSource.Config.lightWeight;
+            arr[2] = DataSource.Config.mediumWeight;
+            arr[3] = DataSource.Config.heavyWeight;
+            arr[4] = DataSource.Config.chargingRate;
+            return arr;
+        }
 
     }
 }
