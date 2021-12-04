@@ -44,16 +44,6 @@ namespace BL
 
                 Console.WriteLine(ex);
             }
-            catch (FailedDeliveryParcelException ex)
-            {
-
-                Console.WriteLine(ex);
-            }
-            catch (FailedToCollectParcelException ex)
-            {
-
-                Console.WriteLine(ex);
-            }
             catch (IDAL.DO.CustomerException ex)
             {
 
@@ -528,18 +518,18 @@ namespace BL
                     drones[index] = droneL;
                     myDal.UpdateParcels(parcel);
                 }
-                else throw new FailedToCollectParcelException("The drone meet the condition that it is associated but has not been collect");
+                else throw new BLDroneException("The drone meet the condition that it is associated but has not been collect");
 
 
             }
 
             catch (ArgumentNullException ex)
             {
-                throw new FailedToCollectParcelException($"Drone {droneId} not exist", ex);
+                throw new BLDroneException($"Drone {droneId} not exist", ex);
             }
-            catch (FailedToCollectParcelException ex)
+            catch (BLDroneException ex)
             {
-                throw new FailedToCollectParcelException("not sucsseed", ex);
+                throw new BLDroneException("not sucsseed", ex);
             }
 
 
@@ -594,18 +584,18 @@ namespace BL
                         myDal.UpdateParcels(parcel);
                     }
                     else
-                        throw new FailedDeliveryParcelException("drone could not deliver parcel");
+                        throw new BLDroneException("drone could not deliver parcel");
 
 
                 }
 
                 catch (ArgumentNullException ex)
                 {
-                    throw new FailedDeliveryParcelException($"drone {droneId} not exist", ex);
+                    throw new BLDroneException($"drone {droneId} not exist", ex);
                 }
-                catch (FailedDeliveryParcelException ex)
+                catch (BLDroneException ex)
                 {
-                    throw new FailedDeliveryParcelException($"drone {droneId}could not deliver parcel", ex);
+                    throw new BLDroneException($"drone {droneId}could not deliver parcel", ex);
                 }
             }
         }
