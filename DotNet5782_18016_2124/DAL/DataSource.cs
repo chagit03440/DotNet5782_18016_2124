@@ -13,10 +13,18 @@ namespace DAL
         {
             internal class Config
             {
-                internal static int newDroneID = 0;
-                internal static int newStationID = 0;
-                internal static int newCustomerID = 0;
-                internal static int newParcelID = 0;
+
+                internal static double available = 0;
+                internal static double lightWeight = 10;
+                internal static double mediumWeight = 50;
+                internal static double heavyWeight = 150;
+                internal static double chargingRate = 10.25;
+                internal static int newDroneId = 1;
+                internal static int newBaseStationId = 1;
+                internal static int newCustomerId = 1;
+                internal static int newParcelId = 1;
+
+
             }
             internal static List<Drone> drones = new List<Drone>();
             internal static List<Station> stations = new List<Station>();
@@ -28,8 +36,8 @@ namespace DAL
 
             internal static void Initialize()
             {
-                creatDrone(2);
-                creatStation(5);
+                creatDrone(10);
+                creatStation(10);
                 creatCustomer(10);
                 creatParcel(10);
             }
@@ -44,12 +52,12 @@ namespace DAL
                     Customer newCustomer = new Customer();
 
                     newCustomer.ID = rand.Next(100000000, 999999999);
-                    newCustomer.Name = $"Customer {Config.newCustomerID}";
+                    newCustomer.Name = $"Customer {i}";
                     newCustomer.Phone = $"0{rand.Next(50, 58)}-{rand.Next(1000000, 10000000)}";
                     newCustomer.Lattitude = getRandomCoordinate(31.7);
                     newCustomer.Longitude = getRandomCoordinate(35.1);
                     DataSource.customers.Add(newCustomer);
-                    Config.newCustomerID++;
+
 
                 }
             }
@@ -62,9 +70,9 @@ namespace DAL
                 for (int i = 0; i < n; i++)
                 {
                     Parcel newParcel = new Parcel();
-                    newParcel.ID = Config.newParcelID;
-                    newParcel.SenderId = rand.Next(Config.newParcelID);
-                    newParcel.TargetId = rand.Next(Config.newParcelID);
+                    newParcel.ID = i;
+                    newParcel.SenderId = rand.Next(i);
+                    newParcel.TargetId = rand.Next(i);
                     newParcel.Longitude = (WeightCategories)rand.Next(3);
                     newParcel.DroneId = rand.Next(100000000, 999999999);
                     newParcel.Priority = (Priorities)rand.Next(1, 3);
@@ -73,7 +81,7 @@ namespace DAL
                     newParcel.PickedUp = DateTime.Now;
                     newParcel.Delivered = DateTime.Now;
                     parcels.Add(newParcel);
-                    Config.newParcelID++;
+
                 }
             }
             /// <summary>
@@ -85,13 +93,13 @@ namespace DAL
                 for (int i = 0; i < n; i++)
                 {
                     Station newStation = new Station();
-                    newStation.ID = rand.Next(100000000, 999999999);
-                    newStation.Name = $"Station{Config.newStationID}";
+                    newStation.ID = i;
+                    newStation.Name = $"Station{i}";
                     newStation.ChargeSlots = 10 + i;
                     newStation.Lattitude = 31.785664 + i;
                     newStation.Longitude = 35.189938 + i;
                     stations.Add(newStation);
-                    Config.newStationID++;
+
                 }
             }
             /// <summary>
@@ -112,13 +120,13 @@ namespace DAL
                 for (int i = 0; i < n; i++)
                 {
                     Drone newDrone = new Drone();
-                    newDrone.ID = Config.newDroneID;
-                    newDrone.Battery = 1;
+                    newDrone.ID = i;
+                    //newDrone.Battery = 1;
                     newDrone.MaxWeight = (WeightCategories)rand.Next(3);
                     newDrone.Model = "iFly" + i;
-                    newDrone.Status = DroneStatuses.maintenance;
+                    //newDrone.Status = DroneStatuses.maintenance;
                     drones.Add(newDrone);
-                    Config.newDroneID++;
+
                 }
             }
         }
