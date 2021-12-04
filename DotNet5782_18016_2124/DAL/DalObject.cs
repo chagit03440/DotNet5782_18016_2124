@@ -283,7 +283,7 @@ namespace DalObject
         }
 
         /// <summary>
-        /// computes an angle in radians
+        /// Computes an angle in radians
         /// </summary>
         /// <param name="degree">a number to transfore to radian</param>
         /// <returns>returns an angle in radians</returns>
@@ -294,7 +294,7 @@ namespace DalObject
 
 
         /// <summary>
-        ///  receiving 2 points the haversine formula returns the distance (in km) between the 2
+        ///  Receiving 2 points the haversine formula returns the distance (in km) between the 2
         /// </summary>
         /// <param name="lon1"></param>
         /// <param name="lat1"></param>
