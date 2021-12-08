@@ -132,13 +132,38 @@ namespace BL
         /// </summary>
         /// <param name="requestedId">drone id</param>
         /// <returns>return the drone with this id</returns>
-        public DroneForList GetDrone(int requestedId)
+        public Drone GetDrone(int requestedId)
         {
 
             DroneForList df = drones.FirstOrDefault(x => x.Id == requestedId);
+            Parcel p = GetParcel(df.ParcelId);
+            PackageInTransfer Pack = new PackageInTransfer()
+            {
+                Id = df.ParcelId,
+                Longitude = p.Longitude,
+                Collection = GetCustomer(p.Sender.Id).Location,
+                DeliveryDestination = GetCustomer(p.Target.Id).Location,
+                Priority = p.Priority,
+                Sender = p.Sender,
+                Target = p.Target,
+                Status = (ParcelStatuses)getParcelStatus(myDal.GetParcel(p.Id)),
+                TransportDistance = calcDistance(GetCustomer(p.Sender.Id).Location, GetCustomer(p.Target.Id).Location)
+            };
+            Drone droneBO = new Drone()
+            {
+                Id = df.Id,
+                Model = df.Model,
+                MaxWeight = df.MaxWeight,
+                Location = df.Location,
+                Battery = df.Battery,
+                Status = df.Status,
+                Package = Pack
+
+            };
+        
+        
             if (df.Id != 0)
-                return df;
-            DroneForList droneBO = new DroneForList();
+                return droneBO;
             IDAL.DO.Drone droneDO = myDal.GetDrone(requestedId);
             DroneForList drone = drones.Find(d => d.Id == requestedId);
             droneBO.Id = droneDO.ID;
@@ -147,7 +172,7 @@ namespace BL
             droneBO.Location = drone.Location;
             droneBO.Battery = drone.Battery;
             droneBO.Status = drone.Status;
-            droneBO.ParcelId = drone.ParcelId;
+            droneBO.Package=Pack;
             return droneBO;
         }
         /// <summary>
@@ -180,6 +205,26 @@ namespace BL
                 throw new BLDroneException("", exp);
             }
         }
+        public DroneForList GetDroneForList(int requestedId)
+        {
+
+            DroneForList df = drones.FirstOrDefault(x => x.Id == requestedId);
+            if (df.Id != 0)
+                return df;
+            DroneForList droneBO = new DroneForList();
+            IDAL.DO.Drone droneDO = myDal.GetDrone(requestedId);
+            DroneForList drone = drones.Find(d => d.Id == requestedId);
+            droneBO.Id = droneDO.ID;
+            droneBO.Model = droneDO.Model;
+            droneBO.MaxWeight = (WeightCategories)droneDO.MaxWeight;
+            droneBO.Location = drone.Location;
+            droneBO.Battery = drone.Battery;
+            droneBO.Status = drone.Status;
+            droneBO.ParcelId = drone.ParcelId;
+            return droneBO;
+        }
+
+        /// 
         /// <summary>
         ///  A function that recieve a drone and update the drone whith the same id in the drones list
         /// </summary>

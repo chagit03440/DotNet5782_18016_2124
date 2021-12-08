@@ -13,7 +13,38 @@ namespace BL
         /// </summary>
         /// <param name="requestedId">id parcel</param>
         /// <returns>return the parcel with this id</returns>
-        public ParcelForList GetParcel(int requestedId)
+        public Parcel GetParcel(int requestedId)
+        {
+            IDAL.DO.Parcel parcelDO;
+            try
+            {
+                parcelDO = myDal.GetParcel(requestedId);
+
+            }
+            catch (BLParcelException ex)
+            {
+                throw new BLParcelException("id didn't exist", ex);
+            }
+            IBL.BO.Parcel parcelBO = new Parcel()
+            {
+                Id = parcelDO.ID,
+                Longitude = (WeightCategories)parcelDO.Longitude,
+                Priority = (Priorities)parcelDO.Priority,
+                Sender =new CustomerInParcel() {Id= parcelDO.SenderId, Name=GetCustomer( parcelDO.SenderId).Name },
+                Target = new CustomerInParcel() { Id = parcelDO.TargetId, Name = GetCustomer(parcelDO.TargetId).Name },
+                AssociationTime=0,
+                CollectionTime=0,
+                CreationTime=DateTime.MinValue,
+                DroneP=new DroneInParcel() { Battery=GetDrone(parcelDO.DroneId).Battery,Id=parcelDO.DroneId,Location= GetDrone(parcelDO.DroneId).Location},
+                SupplyTime=0
+             
+            };
+
+
+
+            return parcelBO;
+        }
+        public ParcelForList GetParcelForList(int requestedId)
         {
             IDAL.DO.Parcel parcelDO;
             try
@@ -35,17 +66,14 @@ namespace BL
                 TargetId = parcelDO.TargetId
 
             };
-
-
-
             return parcelBO;
         }
-        /// <summary>
-        /// A function that recieve a parcels id and returns the status of the parcel
-        /// </summary>
-        /// <param name="p">thd  requierd parcel  </param>
-        /// <returns></returns>
-        private int getParcelStatus(IDAL.DO.Parcel p)
+            /// <summary>
+            /// A function that recieve a parcels id and returns the status of the parcel
+            /// </summary>
+            /// <param name="p">thd  requierd parcel  </param>
+            /// <returns></returns>
+            private int getParcelStatus(IDAL.DO.Parcel p)
         {
             if (p.Requested != null)
                 return 0;
