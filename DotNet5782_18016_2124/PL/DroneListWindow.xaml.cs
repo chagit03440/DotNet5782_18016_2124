@@ -42,7 +42,7 @@ namespace PL
         {
             IBL.BO.WeightCategories status = (IBL.BO.WeightCategories)comboStatusSelector.SelectedItem;
             Func<IBL.BO.DroneForList, bool> func;
-            //  this.DronesListView.ItemsSource = myBl.GetDrones(func);
+         // this.DronesListView.ItemsSource = myBl.GetDrones(func);
         }
 
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
