@@ -124,7 +124,7 @@ namespace DAL
                     //newDrone.Battery = 1;
                     newDrone.MaxWeight = (WeightCategories)rand.Next(3);
                     newDrone.Model = "iFly" + i;
-                    //newDrone.Status = DroneStatuses.maintenance;
+                  //  newDrone.Status = DroneStatuses.maintenance;
                     drones.Add(newDrone);
 
                 }
