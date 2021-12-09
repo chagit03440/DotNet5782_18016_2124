@@ -48,7 +48,13 @@ namespace IBL
         /// </summary>
         /// <param name="requestedId">drone id</param>
         /// <returns>return the drone with this id</returns>
-        DroneForList GetDrone(int requestedId);
+        Drone GetDrone(int requestedId);
+        /// <summary>
+        /// A function that recieve a drones id and return from the list of the drone the drone with this id
+        /// </summary>
+        /// <param name="requestedId">drone id</param>
+        /// <returns>return the drone with this id</returns>
+        DroneForList GetDroneForList(int requestedId);
         /// <summary>
         /// A function that recieve a customers id and return from the list of the customers the customer with this id
         /// </summary>
@@ -60,7 +66,13 @@ namespace IBL
         /// </summary>
         /// <param name="requestedId">id parcel</param>
         /// <returns>return the parcel with this id</returns>
-        BO.ParcelForList GetParcel(int requestedId);
+        Parcel GetParcel(int requestedId);
+        /// <summary>
+        /// A function that recieve a parcels id and return from the list of the parcel the parcel with this id
+        /// </summary>
+        /// <param name="requestedId">id parcel</param>
+        /// <returns>return the parcel with this id</returns>
+        ParcelForList GetParcelForList(int requestedId);
         /// <summary>
         /// A function that return  the list of the stations
         /// </summary>
