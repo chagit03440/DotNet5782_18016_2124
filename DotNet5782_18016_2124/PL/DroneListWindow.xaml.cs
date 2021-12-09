@@ -50,19 +50,21 @@ namespace PL
         private void comboStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             IBL.BO.DroneStatuses status = (IBL.BO.DroneStatuses)comboStatusSelector.SelectedItem;
-            
-            this.DronesListView.ItemsSource = myBl.GetDrones(dr => dr.Status == status);
+           // IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)comboStatusSelector.SelectedItem;
+
+            this.DronesListView.ItemsSource = myBl.GetDrones(dr => dr.Status == status );
 
         }
 
         private void comboMaxWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)comboStatusSelector.SelectedItem;
-           
-            this.DronesListView.ItemsSource = myBl.GetDrones(dr=> dr.MaxWeight== weight);
-        }
+        
+                IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)comboStatusSelector.SelectedItem;
+              //  IBL.BO.DroneStatuses status = (IBL.BO.DroneStatuses)comboStatusSelector.SelectedItem;
+                this.DronesListView.ItemsSource = myBl.GetDrones(dr=> dr.MaxWeight== weight);
+            }
 
-        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (DronesListView.SelectedItem == null)
                 return;

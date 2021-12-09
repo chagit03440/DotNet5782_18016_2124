@@ -15,7 +15,7 @@ namespace IBL
         /// </summary>
         /// <param name="parcelId">the parcel we want to assign</param>
         /// <param name="droneId">the drone we want to assign</param>
-        void AssignmentParcelToDrone(int parcelId, int droneId);
+        void AssignmentParcelToDrone( int droneId);
         /// <summary>
         ///   The function collects the package by the drone if the package can be collected and updates the required data,If no appropriate exception is sent
         /// </summary>

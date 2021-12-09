@@ -167,9 +167,9 @@ namespace BL
         //                if (pr.PickedUp == null && pr.Scheduled != null)//החבילה שויכה אבל עדיין לא נאספה
         //                {
         //                    drt.Location = new Location { Lattitude = findClosetBaseStationLocation(senderLocation).Lattitude, Longitude = findClosetBaseStationLocation(senderLocation).Longitude };
-        //                    minBatery = calcDistance(drt.Location, senderLocation) *myDal.PowerRequest()[0];
+        //                    minBatery = calcDistance(drt.Location, senderLocation) * myDal.PowerRequest()[0];
         //                    minBatery += calcDistance(senderLocation, targetLocation) * myDal.PowerRequest()[3]/*/*//*indexOfChargeCapacity(pr.Longitude)*//*/*/;
-        //                    minBatery += calcDistance(targetLocation, new Location { Lattitude = findClosetBaseStationLocation(targetLocation).Lattitude, Longitude = findClosetBaseStationLocation(targetLocation).Longitude })* myDal.PowerRequest()[0];
+        //                    minBatery += calcDistance(targetLocation, new Location { Lattitude = findClosetBaseStationLocation(targetLocation).Lattitude, Longitude = findClosetBaseStationLocation(targetLocation).Longitude }) * myDal.PowerRequest()[0];
         //                }
         //                if (pr.PickedUp != null && pr.Delivered == null)//החבילה נאספה אבל עדיין לא הגיעה ליעד
         //                {
@@ -203,12 +203,15 @@ namespace BL
         //                }
         //                Station station = new Station()
         //                {
-        //                    Id = s.ID, ChargeSlots = s.ChargeSlots, Name = s.Name, Location = new Location() { Lattitude = s.Lattitude, Longitude = s.Longitude }
+        //                    Id = s.ID,
+        //                    ChargeSlots = s.ChargeSlots,
+        //                    Name = s.Name,
+        //                    Location = new Location() { Lattitude = s.Lattitude, Longitude = s.Longitude }
         //                };
         //                drt.Location = new Location { Lattitude = s.Lattitude, Longitude = s.Longitude };
         //                drt.Battery = rnd.Next(0, 21);
 
-        //                AnchorDroneStation(station,drt);
+        //                AnchorDroneStation(station, drt);
         //            }
         //            else
         //            {
@@ -412,7 +415,7 @@ namespace BL
         /// </summary>
         /// <param name="parcelId">the parcel we want to assign</param>
         /// <param name="droneId">the drone we want to assign</param>
-        public void AssignmentParcelToDrone(int parcelId, int droneId)
+        public void AssignmentParcelToDrone( int droneId)
         {
             try
             {
