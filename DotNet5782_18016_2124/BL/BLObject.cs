@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DalObject;
+using DAL;
 namespace BL
 {
 
@@ -18,7 +18,7 @@ namespace BL
         /// </summary>
         public BLObject()
         {
-            myDal = new DalObject.DalObject();
+            myDal = DalFactory.GetDal("DalObject");
             drones = new List<DroneForList>();
             try
             {

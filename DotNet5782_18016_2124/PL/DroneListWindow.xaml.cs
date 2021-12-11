@@ -73,8 +73,9 @@ namespace PL
             DroneWindow droneWindow = new DroneWindow(myBl, dr);
             droneWindow.Show();
 
-        }
 
+        }
+         
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
         {
             new DroneWindow(myBl).Show();

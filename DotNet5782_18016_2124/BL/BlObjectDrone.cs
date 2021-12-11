@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DalObject;
+using DAL;
 namespace BL
 {
     public partial class BLObject : IBL.IBL

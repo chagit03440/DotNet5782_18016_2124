@@ -3,23 +3,29 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using IDAL;
-using DAL.DalObject;
+using DAL;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
 using IDAL.DO;
 
 
-namespace DalObject
+namespace DAL
 {
-    public partial class DalObject : IDal
+    sealed public partial  class DalObject : IDal
     {
-        public DalObject()
+        #region singelton
+        static readonly DalObject instance = new DalObject();
+        static DalObject() { }// static ctor to ensure instance init is done just before first usage
+        public static DalObject Instance { get => instance; }// The public Instance property to use
+        
+
+        private DalObject()
         {
             DataSource.Initialize();
 
         }
-
+        #endregion
         /// <summary>
         /// A function that return from the list of the drones
         /// </summary>

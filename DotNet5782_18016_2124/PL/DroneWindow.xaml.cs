@@ -78,22 +78,22 @@ namespace PL
             new DroneWindow(myBl).Show();
             grdRelease.Visibility = Visibility.Hidden;
             fillTextbox(drone);
-            //if (d.Status == DroneStatuses.Free)
-            //{
-            //    btnCharge.Visibility = Visibility.Visible;
-            //    btnAssignment.Visibility = Visibility.Visible;
-            //}
+            if (d.Status == DroneStatuses.Free)
+            {
+                btnCharge.Visibility = Visibility.Visible;
+                btnAssignment.Visibility = Visibility.Visible;
+            }
 
-            //if (d.Status == DroneStatuses.Maintenance)
-            //{
-            //    btnRelease.Visibility = Visibility.Visible;
-            //}
+            if (d.Status == DroneStatuses.Maintenance)
+            {
+                btnRelease.Visibility = Visibility.Visible;
+            }
 
-            //if (d.Status == DroneStatuses.Shipping)
-            //{
-            //     btnDelivery.Visibility = Visibility.Visible;
-            //    btnPickedup.Visibility = Visibility.Visible;
-            //}
+            if (d.Status == DroneStatuses.Shipping)
+            {
+                btnDelivery.Visibility = Visibility.Visible;
+                btnPickedup.Visibility = Visibility.Visible;
+            }
             txtId.IsEnabled = false;
             comboStatus.IsEnabled = false;
             comboMaxWeight.IsEnabled = false;
