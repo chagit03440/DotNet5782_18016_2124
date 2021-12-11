@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IDAL
-{
+
+
     namespace DO
     {
         public struct DroneCharge
@@ -20,4 +20,3 @@ namespace IDAL
         }
     }
 
-}

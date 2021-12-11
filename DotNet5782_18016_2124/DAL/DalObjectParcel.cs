@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using IDAL;
 using DAL.DalObject;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
-using IDAL.DO;
+using DO;
 
 namespace DalObject
 {
-    public partial class DalObject : IDal
+    public partial class DalObject : DalApi
     {
         /// <summary>
         ///  A function that recieve a parcel and add it to the lists of the parcels

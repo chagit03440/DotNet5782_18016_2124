@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
-using IDAL.DO;
+using DO;
 namespace DAL
 {
     namespace DalObject

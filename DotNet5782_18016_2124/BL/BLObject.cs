@@ -10,7 +10,7 @@ namespace BL
     public partial class BLObject : IBL.IBL
     {
 
-        private IDAL.DO.IDal myDal;
+        private IDAL.DO.DalApi myDal;
         private List<DroneForList> drones;
         private static Random rand = new Random();
         /// <summary>

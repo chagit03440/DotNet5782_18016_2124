@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IDAL
-{
+
+
     namespace DO
     {
         public enum WeightCategories { low, middle, heavy};
@@ -11,4 +11,4 @@ namespace IDAL
        
     }
 
-}
+

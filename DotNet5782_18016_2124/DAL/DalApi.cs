@@ -7,10 +7,10 @@ using DAL.DalObject;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
-using IDAL.DO;
-namespace IDAL.DO
+using DO;
+namespace DO
 {
-    public interface IDal
+    public interface DalApi
     {
         /// <summary>
         /// A function that recieve a customer and add it to the lists of the customers
