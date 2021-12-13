@@ -5,19 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="640" Width="800">
-    <Grid Name="MainGrid">
-        <Grid.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="Black"/>
-                <GradientStop Color="#FF3137BD" Offset="1"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-        <Button Name="btnstart" Content="DroneListView" HorizontalAlignment="Center" Margin="0,45,0,0" VerticalAlignment="Top" Height="79" Width="722" Click="Button_Click" Background="#FF2282B9" FontWeight="Bold" FontSize="36"/>
-        <Image Margin="8,262,35,5"/>
-        <Image Margin="38,179,40,27" Stretch="Fill" Source="pack://siteoforigin:,,,/DRON.jpg"/>
-        <Image x:Name="drone" Margin="39,179,39,36" Stretch="Fill" Source="pack://siteoforigin:,,,/DRON.jpg"/>
+        Title="MainWindow" Height="640" Width="800" Background="#FFCCF3FF">
+    <Grid Name="MainGrid" Background="#FFCCF3FF">
+        <Button Name="btnstart" Content="DroneListView" HorizontalAlignment="Center" Margin="0,45,0,0" VerticalAlignment="Top" Height="79" Width="722" Click="Button_Click" Background="#FF2939D6" FontWeight="Bold" FontSize="36"/>
+        <Image Width="200" 
+Source="C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Water Lilies.jpg"/>
 
+         
+         
 
     </Grid>
 </Window>

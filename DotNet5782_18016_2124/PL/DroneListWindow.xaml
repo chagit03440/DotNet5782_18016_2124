@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DroneListWindow" Height="640" Width="800">
+        Title="DroneListWindow" Height="640" Width="800" Background="#FFCCF3FF">
     <Grid Name="mainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="29*"/>
@@ -18,16 +18,30 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="comboStatusSelector" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.481,0.676" Margin="37,31,40,0" Height="24" SelectionChanged="comboStatusSelector_SelectionChanged"/>
-            <ComboBox Name="comboMaxWeightSelector" Grid.Column="1" Width="120" RenderTransformOrigin="0.481,0.676" Margin="32,28,46,64"  Height="24" SelectionChanged="comboMaxWeightSelector_SelectionChanged"/>
+            <ComboBox Name="comboStatusSelector" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.481,0.676" Margin="37,31,40,0" Height="24" SelectionChanged="comboStatusSelector_SelectionChanged">
+                <ComboBox.Background>
+                    <LinearGradientBrush EndPoint="0,1">
+                        <GradientStop Color="#FFF0F0F0"/>
+                        <GradientStop Color="#FF2939D6" Offset="1"/>
+                    </LinearGradientBrush>
+                </ComboBox.Background>
+            </ComboBox>
+            <ComboBox Name="comboMaxWeightSelector" Grid.Column="1" Width="120" RenderTransformOrigin="0.481,0.676" Margin="32,28,46,64"  Height="24" SelectionChanged="comboMaxWeightSelector_SelectionChanged">
+                <ComboBox.Background>
+                    <LinearGradientBrush EndPoint="0,1">
+                        <GradientStop Color="#FFF0F0F0"/>
+                        <GradientStop Color="#FF2939D6" Offset="1"/>
+                    </LinearGradientBrush>
+                </ComboBox.Background>
+            </ComboBox>
             <Label Content="Status Selector" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top"/>
             <Label Content="Max Weight Selector" Grid.Column="1" HorizontalAlignment="Center" Margin="0,63,0,0" VerticalAlignment="Top"/>
             <Label Content="Add Drone" Grid.Column="2" HorizontalAlignment="Center" Margin="0,68,0,0" VerticalAlignment="Top"/>
             <Label Content="Close" Grid.Column="3" HorizontalAlignment="Center" Margin="0,70,0,-24"/>
-            <Button Name="btnAddDrone" Content="Add drone" Grid.Column="2" HorizontalAlignment="Center" Margin="0,23,0,0" VerticalAlignment="Top" Height="35" Width="124" Click="btnAddDrone_Click"/>
-            <Button Name="btnClose" Content="Close" Grid.Column="3" HorizontalAlignment="Left" Margin="40,20,0,0" VerticalAlignment="Top" Height="36" Width="126" Click="btnClose_Click"/>
+            <Button Name="btnAddDrone" Content="Add drone" Grid.Column="2" HorizontalAlignment="Center" Margin="0,23,0,0" VerticalAlignment="Top" Height="35" Width="124" Click="btnAddDrone_Click" Background="#FF2939D6"/>
+            <Button Name="btnClose" Content="Close" Grid.Column="3" HorizontalAlignment="Left" Margin="40,20,0,0" VerticalAlignment="Top" Height="36" Width="126" Click="btnClose_Click" Background="#FF2939D6"/>
         </Grid>
-        <ListView x:Name="DronesListView" Margin="5,116,5,23" MouseDoubleClick="ListView_MouseDoubleClick" Grid.RowSpan="2"/>
+        <ListView x:Name="DronesListView" Margin="5,116,5,23" MouseDoubleClick="ListView_MouseDoubleClick" Grid.RowSpan="2" Background="#FFCCF3FF"/>
     </Grid>
 
 </Window>
