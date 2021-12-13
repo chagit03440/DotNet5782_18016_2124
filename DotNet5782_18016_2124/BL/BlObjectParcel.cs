@@ -15,15 +15,15 @@ namespace BL
         /// <returns>return the parcel with this id</returns>
         public Parcel GetParcel(int requestedId)
         {
-            IDAL.DO.Parcel parcelDO;
+            DO.Parcel parcelDO;
             try
             {
                 parcelDO = myDal.GetParcel(requestedId);
 
             }
-            catch (BLParcelException ex)
+            catch (DO.InVaildIdException ex)
             {
-                throw new BLParcelException("id didn't exist", ex);
+                throw new BLInVaildIdException("id didn't exist", ex);
             }
             IBL.BO.Parcel parcelBO = new Parcel()
             {
@@ -46,15 +46,15 @@ namespace BL
         }
         public ParcelForList GetParcelForList(int requestedId)
         {
-            IDAL.DO.Parcel parcelDO;
+            DO.Parcel parcelDO;
             try
             {
                 parcelDO = myDal.GetParcel(requestedId);
 
             }
-            catch (BLParcelException ex)
+            catch (DO.InVaildIdException ex)
             {
-                throw new BLParcelException("id didn't exist", ex);
+                throw new BLInVaildIdException("id didn't exist", ex);
             }
             IBL.BO.ParcelForList parcelBO = new ParcelForList()
             {
@@ -73,7 +73,7 @@ namespace BL
             /// </summary>
             /// <param name="p">thd  requierd parcel  </param>
             /// <returns></returns>
-            private int getParcelStatus(IDAL.DO.Parcel p)
+            private int getParcelStatus(DO.Parcel p)
         {
             if (p.Requested != null)
                 return 0;
@@ -97,16 +97,16 @@ namespace BL
             newParcel.SupplyTime = 0;
             newParcel.CreationTime = DateTime.Now;
             newParcel.DroneP = null;
-            IDAL.DO.Parcel parcelDO = new IDAL.DO.Parcel();
+            DO.Parcel parcelDO = new DO.Parcel();
             parcelDO.ID = newParcel.Id;
             try
             {
                 myDal.AddParcel(parcelDO);
             }
-            catch (Exception exp)
+            catch (DO.InVaildIdException exp)
             {
 
-                throw new BLParcelException("", exp);
+                throw new BLInVaildIdException("", exp);
             }
         }
         /// <summary>
@@ -115,7 +115,7 @@ namespace BL
         /// <param name="parcel">parcel to update</param>
         public void UpdateParcel(Parcel parcel)
         {
-            IDAL.DO.Parcel p = myDal.GetParcels().FirstOrDefault(x => x.ID == parcel.Id);
+            DO.Parcel p = myDal.GetParcels().FirstOrDefault(x => x.ID == parcel.Id);
             p.DroneId = parcel.DroneP.Id;
             p.Scheduled = DateTime.Today;
             myDal.UpdateParcel(p);

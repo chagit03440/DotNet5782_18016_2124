@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using IDAL;
+using DAL.DalObject;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
-using IDAL.DO;
+using DO;
 
 namespace DAL
 {
-    public partial class DalObject : IDal
+    public partial class DalObject : DalApi
     {
         /// <summary>
         ///  A function that recieve a parcel and add it to the lists of the parcels
@@ -19,7 +19,7 @@ namespace DAL
         {
             if (DataSource.parcels.Exists(x => x.ID == newParcel.ID))
             {
-                throw new ParcelException($"id{newParcel.ID} allready exist!!");
+                throw new AlreadyExistExeption($"id{newParcel.ID} allready exist!!");
             };
             DataSource.parcels.Add(newParcel);
         }
@@ -32,7 +32,7 @@ namespace DAL
         {
             if (!DataSource.parcels.Exists(x => x.ID == id))
             {
-                throw new StationException($"id{id} doesn't exist!!");
+                throw new InVaildIdException($"id{id} doesn't exist!!");
             };
             return DataSource.parcels.Find(x => x.ID == id);
         }
@@ -46,9 +46,9 @@ namespace DAL
             {
                 GetParcel(parcel.ID);
             }
-            catch (ParcelException p)
+            catch (InVaildIdException p)
             {
-                throw new ParcelException($"cannot update parcel{parcel.ID}", p);
+                throw new InVaildIdException($"cannot update parcel{parcel.ID}", p);
             }
 
 

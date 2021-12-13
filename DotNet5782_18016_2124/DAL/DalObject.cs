@@ -2,121 +2,116 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using IDAL;
-using DAL;
+using DAL.DalObject;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
-using IDAL.DO;
-
+using DO;
 
 namespace DAL
+{ 
+namespace DalObject
 {
-    //sealed public partial  class DalObject : IDal
-    //{
-    //    #region singelton
-    //    static readonly DalObject instance = new DalObject();
-    //    static DalObject() { }// static ctor to ensure instance init is done just before first usage
-    //    public static DalObject Instance { get => instance; }// The public Instance property to use
-        
-
-        private DalObject()
+        public partial class DalObject : DalApi
         {
-            DataSource.Initialize();
-
-        }
-        #endregion
-        /// <summary>
-        /// A function that return from the list of the drones
-        /// </summary>
-        /// <returns>return the list of drones </returns>
-        public IEnumerable<Drone> GetDrones(Func<Drone, bool> predicate = null)
-        {
-            if (predicate == null)
-                return DataSource.drones;
-            return DataSource.drones.Where(predicate);
-        }
-        /// <summary>
-        /// A function that return from the list of the customers
-        /// </summary>
-        /// <returns>return the list of customers</returns>
-        public IEnumerable<Customer> Getcustomers(Func<Customer, bool> predicate = null)
-        {
-            if (predicate == null)
-                return DataSource.customers;
-            return DataSource.customers.Where(predicate);
-        }
-        /// <summary>
-        /// A function that return from the list of the parcels
-        /// </summary>
-        /// <returns>return the list of parcels</returns>
-        public IEnumerable<Parcel> GetParcels(Func<Parcel, bool> predicate = null)
-        {
-            if (predicate == null)
-                return DataSource.parcels;
-            return DataSource.parcels.Where(predicate);
-        }
-        public IEnumerable<DroneCharge> GetDronesInCharge(Func<DroneCharge, bool> predicate = null)
-        {
-            if (predicate == null)
-                return DataSource.incharge;
-            return DataSource.incharge.Where(predicate);
-        }
-        /// <summary>
-        /// A function that return from the list of the statoins
-        /// </summary>
-        /// <returns>return the list of stations</returns>
-        public IEnumerable<Station> GetStations(Func<Station, bool> predicate = null)
-        {
-            if (predicate == null)
-                return DataSource.stations;
-            return DataSource.stations.Where(predicate);
-        }
-        //public IEnumerable<Station> AvailableChargingStations()
-        //{
-        //    Station[] baseStations = new Station[DataSource.Config.newBaseStationId];
-        //    for (int i = 0; i < DataSource.Config.newBaseStationId; i++)
-        //    {
-        //        baseStations[i] = DataSource.stations[i];
-        //        baseStations[i].ChargeSlots -= DataSource.incharge.Count(dc => dc.StationId == i);
-        //    }
-        //    return baseStations;
-        //}
-
-
-        /// <summary>
-        /// A function that recieve a station and a drone and create a new dronecharge with both id`s and update the station accordingly
-        /// </summary>
-        /// <param name="station">the station that the drone charge there</param>
-        /// <param name="drone">the drone thet need to charge</param>
-        public void AnchorDroneStation(Station station, Drone drone)
-        {
-            try
+            public DalObject()
             {
-                GetStation(station.ID);
+                DataSource.Initialize();
+
             }
-            catch (StationException p)
+            //  #endregion
+            /// <summary>
+            /// A function that return from the list of the drones
+            /// </summary>
+            /// <returns>return the list of drones </returns>
+            public IEnumerable<Drone> GetDrones(Func<Drone, bool> predicate = null)
             {
-                throw new StationException($"cannot anchor station{station.ID}to drone", p);
+                if (predicate == null)
+                    return DataSource.drones;
+                return DataSource.drones.Where(predicate);
             }
-            try
+            /// <summary>
+            /// A function that return from the list of the customers
+            /// </summary>
+            /// <returns>return the list of customers</returns>
+            public IEnumerable<Customer> Getcustomers(Func<Customer, bool> predicate = null)
             {
-                GetDrone(drone.ID);
+                if (predicate == null)
+                    return DataSource.customers;
+                return DataSource.customers.Where(predicate);
             }
-            catch (DroneException p)
+            /// <summary>
+            /// A function that return from the list of the parcels
+            /// </summary>
+            /// <returns>return the list of parcels</returns>
+            public IEnumerable<Parcel> GetParcels(Func<Parcel, bool> predicate = null)
             {
-                throw new DroneException($"cannot anchor drone{drone.ID}to station", p);
+                if (predicate == null)
+                    return DataSource.parcels;
+                return DataSource.parcels.Where(predicate);
             }
-            station.ChargeSlots--;
-            DroneCharge dCharge = new DroneCharge()
+            public IEnumerable<DroneCharge> GetDronesInCharge(Func<DroneCharge, bool> predicate = null)
             {
-                DroneId = drone.ID,
-                StationId = station.ID
-            };
-            DataSource.incharge.Add(dCharge);
-            DataSource.stations.RemoveAll(s => s.ID == station.ID);
-            DataSource.stations.Add(station);
+                if (predicate == null)
+                    return DataSource.incharge;
+                return DataSource.incharge.Where(predicate);
+            }
+            /// <summary>
+            /// A function that return from the list of the statoins
+            /// </summary>
+            /// <returns>return the list of stations</returns>
+            public IEnumerable<Station> GetStations(Func<Station, bool> predicate = null)
+            {
+                if (predicate == null)
+                    return DataSource.stations;
+                return DataSource.stations.Where(predicate);
+            }
+            //public IEnumerable<Station> AvailableChargingStations()
+            //{
+            //    Station[] baseStations = new Station[DataSource.Config.newBaseStationId];
+            //    for (int i = 0; i < DataSource.Config.newBaseStationId; i++)
+            //    {
+            //        baseStations[i] = DataSource.stations[i];
+            //        baseStations[i].ChargeSlots -= DataSource.incharge.Count(dc => dc.StationId == i);
+            //    }
+            //    return baseStations;
+            //}
 
+
+            /// <summary>
+            /// A function that recieve a station and a drone and create a new dronecharge with both id`s and update the station accordingly
+            /// </summary>
+            /// <param name="station">the station that the drone charge there</param>
+            /// <param name="drone">the drone thet need to charge</param>
+            public void AnchorDroneStation(Station station, Drone drone)
+            {
+                try
+                {
+                    GetStation(station.ID);
+                }
+                catch (InVaildIdException p)
+                {
+                    throw new InVaildIdException($"cannot anchor station{station.ID}to drone", p);
+                }
+                try
+                {
+                    GetDrone(drone.ID);
+                }
+                catch (InVaildIdException p)
+                {
+                    throw new InVaildIdException($"cannot anchor drone{drone.ID}to station", p);
+                }
+                station.ChargeSlots--;
+                DroneCharge dCharge = new DroneCharge()
+                {
+                    DroneId = drone.ID,
+                    StationId = station.ID
+                };
+                DataSource.incharge.Add(dCharge);
+                DataSource.stations.RemoveAll(s => s.ID == station.ID);
+                DataSource.stations.Add(station);
+
+            }
         }
 
 
@@ -135,17 +130,17 @@ namespace DAL
             {
                 GetParcel(parcel.ID);
             }
-            catch (ParcelException p)
+            catch (InVaildIdException p)
             {
-                throw new ParcelException($"cannot belonging parcel{parcel.ID}to station", p);
+                throw new InVaildIdException($"cannot belonging parcel{parcel.ID}to station", p);
             }
             try
             {
                 GetDrone(drone.ID);
             }
-            catch (DroneException p)
+            catch (InVaildIdException p)
             {
-                throw new DroneException($"cannot belonging parcel{drone.ID}to station", p);
+                throw new InVaildIdException($"cannot belonging parcel{drone.ID}to station", p);
             }
 
             parcel.DroneId = drone.ID;
@@ -176,17 +171,17 @@ namespace DAL
             {
                 GetStation(st.ID);
             }
-            catch (StationException p)
+            catch (InVaildIdException p)
             {
-                throw new StationException($"cannot releas drone{ st.ID}from station", p);
+                throw new InVaildIdException($"cannot releas drone{ st.ID}from station", p);
             }
             try
             {
                 GetDrone(drone.ID);
             }
-            catch (DroneException p)
+            catch (InVaildIdException p)
             {
-                throw new DroneException($"cannot releas drone{drone.ID}from station", p);
+                throw new InVaildIdException($"cannot releas drone{drone.ID}from station", p);
             }
 
 
@@ -209,17 +204,17 @@ namespace DAL
             {
                 GetParcel(parcel.ID);
             }
-            catch (ParcelException p)
+            catch (InVaildIdException p)
             {
-                throw new ParcelException($"cannot supllay parcel{ parcel.ID}to customer", p);
+                throw new InVaildIdException($"cannot supllay parcel{ parcel.ID}to customer", p);
             }
             try
             {
                 GetCustomer(customer.ID);
             }
-            catch (CustomerException p)
+            catch (InVaildIdException p)
             {
-                throw new CustomerException($"cannot supllay parcel{ parcel.ID}to customer", p);
+                throw new InVaildIdException($"cannot supllay parcel{ parcel.ID}to customer", p);
             }
 
 

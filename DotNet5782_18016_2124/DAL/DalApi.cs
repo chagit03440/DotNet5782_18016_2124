@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using DAL;
-using IDAL;
+//using DalObject;
+using DAL.DalObject;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
-using IDAL.DO;
-namespace IDAL.DO
+using DO;
+namespace DO
 {
-    public interface IDal
+    public interface DalApi
     {
         /// <summary>
         /// A function that recieve a customer and add it to the lists of the customers
@@ -37,14 +37,14 @@ namespace IDAL.DO
         void AddParcel(Parcel newParcel);
 
         /// <summary>
-        /// A function that recieve a droneCharge id and return from the list of the droneCharges the droneCharge with this id 
+        /// A function that recieve a droneCharge id and return from the list of the droneCharges the droneCharge with this id
         /// </summary>
         /// <param name="id">the id of the droneCharge</param>
         /// <returns>return the droneCharge with this id </returns>
         DroneCharge GetDroneCharge(int id);
 
         /// <summary>
-        /// A function that recieve a drones id and return from the list of the drones the drone with this id 
+        /// A function that recieve a drones id and return from the list of the drones the drone with this id
         /// </summary>
         /// <param name="id">the id of the drone</param>
         /// <returns>return the drone with this id</returns>
@@ -140,7 +140,7 @@ namespace IDAL.DO
         void SupplyParcel(Parcel parcel, Customer customer);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="coord"></param>
         /// <param name="latOrLot"></param>
@@ -192,4 +192,5 @@ namespace IDAL.DO
         int GetStatusOfParcel(int iD);
     }
 }
+
 

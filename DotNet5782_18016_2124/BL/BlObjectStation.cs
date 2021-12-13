@@ -15,16 +15,16 @@ namespace BL
         /// <returns>return the stations location</returns>
         private Location getBaseStationLocation(int stationId)
         {
-            IDAL.DO.Station baseStation;
+            DO.Station baseStation;
             try
             {
 
                 baseStation = myDal.GetStation(stationId);
             }
-            catch (Exception ex)
+            catch (DO.InVaildIdException ex)
             {
 
-                throw new BLStationException("The station not exsit", ex);
+                throw new BLInVaildIdException("The station not exsit", ex);
             }
             return new Location { Lattitude = baseStation.Lattitude, Longitude = baseStation.Longitude };
 
@@ -41,17 +41,17 @@ namespace BL
             {
                 s = GetStation(st.Id);
             }
-            catch (Exception ex)
+            catch (DO.InVaildIdException ex)
             {
 
-                throw new BLStationException("The station not exsit", ex);
+                throw new BLInVaildIdException("The station not exsit", ex);
             }
             StationForList sf;
             if (st.Name != null)
                 s.Name = st.Name;
             if (cs != -1)
             {
-                int notAvailible = drones.Count(x => x.Location == s.Location);
+                int notAvailible = drones.Count(x => x.DroneLocation == s.Location);
                 int availible = cs - notAvailible;
 
 
@@ -65,7 +65,7 @@ namespace BL
                 s.ChargeSlots = sf.AvailableChargeSlots;
             }
 
-            IDAL.DO.Station stationDo = new IDAL.DO.Station() { ID = s.Id, Name = s.Name, ChargeSlots = s.ChargeSlots, Longitude = s.Location.Longitude, Lattitude = s.Location.Lattitude };
+            DO.Station stationDo = new DO.Station() { ID = s.Id, Name = s.Name, ChargeSlots = s.ChargeSlots, Longitude = s.Location.Longitude, Lattitude = s.Location.Lattitude };
             myDal.UpdateStations(stationDo);
 
 
@@ -76,8 +76,8 @@ namespace BL
         /// <param name="AddbaseStation">receive from BL</param>
         public void AddStation(Station AddbaseStation)
         {
-            IDAL.DO.Station baseStationDO =
-                new IDAL.DO.Station()
+            DO.Station baseStationDO =
+                new DO.Station()
                 {
                     ID = AddbaseStation.Id,
                     Name = AddbaseStation.Name,
@@ -90,10 +90,10 @@ namespace BL
             {
                 myDal.AddStation(baseStationDO);
             }
-            catch (Exception ex)
+            catch (DO.InVaildIdException ex)
             {
                 //sending inner exception for the exception returning from the DAL
-                throw new BLStationException(ex.Message, ex);
+                throw new BLInVaildIdException(ex.Message, ex);
             }
         }
         /// <summary>
@@ -103,15 +103,15 @@ namespace BL
         /// <returns>return the station with this id</returns>
         public Station GetStation(int requestedId)
         {
-            IDAL.DO.Station baseStationDO;
+            DO.Station baseStationDO;
             try
             {
                 baseStationDO = myDal.GetStation(requestedId);
 
             }
-            catch (BLCustomerException ex)
+            catch (BLInVaildIdException ex)
             {
-                throw new BLCustomerException("id didn't exist", ex);
+                throw new BLInVaildIdException("id didn't exist", ex);
             }
             IBL.BO.Station baseStationBO = new Station();
             baseStationBO.Id = baseStationDO.ID;

@@ -21,7 +21,7 @@ namespace IBL.BO
             result += $"MaxWeight is {MaxWeight},\n";
             result += $"Status is {Status},\n";
             result += $"Battery is {Battery},\n";
-            result += $"Location is {Location},\n";
+            result += $"DroneLocation is {Location.ToString()},\n";
             result += $"Package In Transfer is {Package},\n";
 
             return result;

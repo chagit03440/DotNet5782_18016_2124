@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using IDAL;
+using DAL.DalObject;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
-using IDAL.DO;
+using DO;
 
 namespace DAL
 {
-    public partial class DalObject : IDal
+    public partial class DalObject : DalApi
     {
         /// <summary>
         /// A function that recieve a customer and add it to the lists of the customers
@@ -19,7 +19,7 @@ namespace DAL
         {
             if (DataSource.customers.Exists(x => x.ID == customer.ID))
             {
-                throw new CustomerException($"id{customer.ID} allready exist!!");
+                throw new InVaildIdException($"id{customer.ID} allready exist!!");
             };
             DataSource.customers.Add(customer);
         }
@@ -32,7 +32,7 @@ namespace DAL
         {
             if (!DataSource.customers.Exists(x => x.ID == id))
             {
-                throw new CustomerException($"id{id} doesn't exist!!");
+                throw new InVaildIdException($"id{id} doesn't exist!!");
             };
             return DataSource.customers.Find(x => x.ID == id);
         }

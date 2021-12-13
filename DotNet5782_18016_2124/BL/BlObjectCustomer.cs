@@ -22,13 +22,13 @@ namespace BL
             catch (Exception ex)
             {
 
-                throw new BLCustomerException("The customer not exsit", ex);
+                throw new BLInVaildIdException("The customer not exsit", ex);
             }
             if (cus.Name != null)
                 c.Name = cus.Name;
             if (cus.Phone != null)
                 c.Phone = cus.Phone;
-            IDAL.DO.Customer cuaDo = new IDAL.DO.Customer()
+            DO.Customer cuaDo = new DO.Customer()
             {
                 ID = c.Id,
                 Name = c.Name,
@@ -44,8 +44,8 @@ namespace BL
         /// <param name="customer">the customer we need to add</param>
         public void AddCustomer(Customer customer)
         {
-            IDAL.DO.Customer customerDO =
-                            new IDAL.DO.Customer()
+            DO.Customer customerDO =
+                            new DO.Customer()
                             {
                                 ID = customer.Id,
                                 Name = customer.Name,
@@ -61,7 +61,7 @@ namespace BL
             catch (Exception ex)
             {
                 //sending inner exception for the exception returning from the DAL
-                throw new BLCustomerException(ex.Message, ex);
+                throw new BLInVaildIdException(ex.Message, ex);
             }
         }
         /// <summary>
@@ -71,23 +71,23 @@ namespace BL
         /// <returns>return customer with this id</returns>
         public Customer GetCustomer(int requestedId)
         {
-            IDAL.DO.Customer customerDO;
+            DO.Customer customerDO;
             try
             {
                 customerDO = myDal.GetCustomer(requestedId);
 
             }
-            catch (BLCustomerException ex)
+            catch (BLInVaildIdException ex)
             {
-                throw new BLCustomerException("id didn't exist", ex);
+                throw new BLInVaildIdException("id didn't exist", ex);
             }
             IBL.BO.Customer customerBO = new Customer();
             customerBO.Id = customerDO.ID;
             customerBO.Name = customerDO.Name;
             customerBO.Phone = customerDO.Phone;
             customerBO.Location = new Location() { Lattitude = customerDO.Lattitude, Longitude = customerDO.Longitude };
-            customerBO.ParcelsFromTheCustomer = (List<CustomerInParcel>)getCustomerShippedParcels(requestedId);
-            customerBO.ParcelsToTheCustomer = (List<CustomerInParcel>)getCustomerReceivedParcels(requestedId);
+            customerBO.ParcelsFromTheCustomer =(List<ParcelInCustomer> )getCustomerShippedParcels(requestedId);
+            customerBO.ParcelsToTheCustomer = (List<ParcelInCustomer>)getCustomerReceivedParcels(requestedId);
             return customerBO;
         }
         /// <summary>
@@ -98,7 +98,7 @@ namespace BL
         private IEnumerable<ParcelInCustomer> getCustomerReceivedParcels(int requestedId)
         {
             List<ParcelInCustomer> deliveries = new List<ParcelInCustomer>();
-            foreach (IDAL.DO.Parcel p in myDal.GetParcels())
+            foreach (DO.Parcel p in myDal.GetParcels())
             {
                 if (p.TargetId == requestedId)
                 {
@@ -152,8 +152,8 @@ namespace BL
         //    customerDO.ID = customer.Id;
         //    customerDO.Name = customer.Name;
         //    customerDO.Phone = customer.Phone;
-        //    customerDO.Lattitude = customer.Location.Lattitude;
-        //    customerDO.Longitude = customer.Location.Longitude;
+        //    customerDO.Lattitude = customer.DroneLocation.Lattitude;
+        //    customerDO.Longitude = customer.DroneLocation.Longitude;
 
         //    try
         //    {
@@ -162,7 +162,7 @@ namespace BL
         //    catch (Exception exp)
         //    {
 
-        //        throw new BLCustomerException("", exp);
+        //        throw new BLInVaildIdException("", exp);
         //    }
         //}
 

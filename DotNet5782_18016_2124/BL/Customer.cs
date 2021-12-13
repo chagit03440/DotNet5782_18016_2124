@@ -13,8 +13,8 @@ namespace IBL.BO
         public String Name { get; set; }
         public String Phone { get; set; }
         public Location Location { get; set; }
-        public List<CustomerInParcel> ParcelsFromTheCustomer { get; set; }
-        public List<CustomerInParcel> ParcelsToTheCustomer { get; set; }
+        public List<ParcelInCustomer> ParcelsFromTheCustomer { get; set; }
+        public List<ParcelInCustomer> ParcelsToTheCustomer { get; set; }
 
         public override String ToString()
         {

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using IDAL;
+using DAL.DalObject;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
-using IDAL.DO;
+using DO;
 
 namespace DAL
 {
-    public partial class DalObject : IDal
+    public partial class DalObject : DalApi
     {
         /// <summary>
         ///  A function that recieve a drone and add it to the lists of the drones
@@ -19,7 +19,7 @@ namespace DAL
         {
             if (DataSource.drones.Exists(x => x.ID == drone.ID))
             {
-                throw new DroneException($"id{drone.ID} allready exist!!");
+                throw new AlreadyExistExeption($"id{drone.ID} allready exist!!");
             };
             DataSource.drones.Add(drone);
 
@@ -33,7 +33,7 @@ namespace DAL
         {
             if (!DataSource.drones.Exists(x => x.ID == id))
             {
-                throw new DroneException($"id{id} doesn't exist!!");
+                throw new InVaildIdException($"id{id} doesn't exist!!");
             };
             return DataSource.drones.Find(x => x.ID == id);
         }

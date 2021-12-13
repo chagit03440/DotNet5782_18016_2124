@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,16 +35,20 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
         private IBL.IBL myBl { get; }
-
+        private ObservableCollection<IBL.BO.DroneForList> collection;
         public DroneListWindow(IBL.IBL MyBl)
         {
             myBl = MyBl;
+            DataContext = this;
             InitializeComponent();
+
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
      
             comboStatusSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.DroneStatuses));
-            DronesListView.ItemsSource = myBl.GetDrones();
+            //   DronesListView.ItemsSource = myBl.GetDrones();
+            collection = new ObservableCollection<IBL.BO.DroneForList>(myBl.GetDrones(null));
+            DronesListView.ItemsSource = collection;
             comboMaxWeightSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
         }
 
@@ -62,28 +67,48 @@ namespace PL
                 IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)comboStatusSelector.SelectedItem;
               //  IBL.BO.DroneStatuses status = (IBL.BO.DroneStatuses)comboStatusSelector.SelectedItem;
                 this.DronesListView.ItemsSource = myBl.GetDrones(dr=> dr.MaxWeight== weight);
-            }
+           }
 
     private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (DronesListView.SelectedItem == null)
                 return;
+            IBL.BO.Drone dr = new IBL.BO.Drone() ;
+            IBL.BO.DroneForList drL = DronesListView.SelectedItem as IBL.BO.DroneForList;
+            
+            try
+            {
+                dr = myBl.GetDrone(drL.Id);
 
-            IBL.BO.Drone dr = DronesListView.SelectedItem as IBL.BO.Drone;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
             DroneWindow droneWindow = new DroneWindow(myBl, dr);
             droneWindow.Show();
+            droneWindow.Update += DroneWindow_Update;
 
 
         }
          
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
         {
-            new DroneWindow(myBl).Show();
+            DroneWindow dw = new DroneWindow(myBl);
+            dw.Show();
+            dw.Update += DroneWindow_Update;
+
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+        private void DroneWindow_Update()
+        {
+            collection = new ObservableCollection<IBL.BO.DroneForList>(myBl.GetDrones(null));
+            DronesListView.ItemsSource = collection;
         }
     }
 }
