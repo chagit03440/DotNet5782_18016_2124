@@ -13,3 +13,4 @@ namespace IBL.BO
     public enum BatteryUsage { Available, Light, Medium, Heavy, Charging }
 
 }
+

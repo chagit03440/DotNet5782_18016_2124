@@ -90,8 +90,9 @@ namespace PL
             droneWindow.Show();
             droneWindow.Update += DroneWindow_Update;
 
-        }
 
+        }
+         
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
         {
             DroneWindow dw = new DroneWindow(myBl);

@@ -114,7 +114,7 @@ namespace PL
             comboStatus.IsEnabled = false;
             comboMaxWeight.IsEnabled = false;
             txtBattery.IsEnabled = false;
-            //comboPackage.IsEnabled = false;
+           
             txtLongtitude.IsEnabled = false;
             txtLatitude.IsEnabled = false;
         }
@@ -148,7 +148,7 @@ namespace PL
             txtId.Text = d.Id.ToString();
             txtModel.Text = d.Model.ToString();
             txtBattery.Text = d.Battery.ToString() + "%";
-           // comboPackage.Text = d.ParcelId.ToString();
+            
             txtLongtitude.Text = d.DroneLocation.Longitude.ToString();
             txtLatitude.Text = d.DroneLocation.Lattitude.ToString();
         }
@@ -161,13 +161,7 @@ namespace PL
                 txtId.Text = d.Id.ToString();
                 txtModel.Text = d.Model.ToString();
                 txtBattery.Text = d.Battery.ToString() + "%";
-                //if (d.Package != null)
-                //{
-                //    comboPackage.Text = d.Package.Id.ToString();
-
-                //}
-                //else
-                //    comboPackage.Text = 0.ToString();
+                
                 txtLongtitude.Text = d.Location.Longitude.ToString();
                 txtLatitude.Text = d.Location.Lattitude.ToString();
                 return;
@@ -239,8 +233,8 @@ namespace PL
             btnAssignment.Visibility = Visibility.Visible;
 
             grdUpdate.Visibility = Visibility.Visible;
-           
-           
+            grdRelease.Visibility = Visibility.Hidden;
+            Update();
 
         }
 
@@ -261,6 +255,7 @@ namespace PL
                 btnRelease.Visibility = Visibility.Visible;
                 btnCharge.Visibility = Visibility.Hidden;
                 btnAssignment.Visibility = Visibility.Hidden;
+                Update();
             }
             catch (Exception ex)
             {
@@ -282,7 +277,8 @@ namespace PL
                     btnDelivery.Visibility = Visibility.Visible;
                     btnCharge.Visibility = Visibility.Hidden;
                     btnAssignment.Visibility = Visibility.Hidden;
-                }
+                Update();
+            }
                 catch (Exception ex)
                 {
 
@@ -307,8 +303,9 @@ namespace PL
                     btnDelivery.Visibility = Visibility.Hidden;
                     btnCharge.Visibility = Visibility.Visible;
                     btnAssignment.Visibility = Visibility.Visible;
+                Update();
 
-                }
+            }
                 catch (Exception ex)
                 {
 
@@ -326,6 +323,7 @@ namespace PL
                 DroneForList dr = myBl.GetDroneForList(drone.Id);
                 fillTextbox(dr);
                 MessageBox.Show("the parcel was collected by the parcel");
+                Update();
             }
             catch (Exception ex)
             {
