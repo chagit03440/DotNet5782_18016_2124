@@ -68,11 +68,11 @@ namespace PL
             txtStatus.Visibility= Visibility.Hidden;
             lblStatus.Content = "Station";
             txtBattery.Visibility = Visibility.Hidden;
-            comboPackage.Visibility = Visibility.Hidden;
+            //comboPackage.Visibility = Visibility.Hidden;
             txtLongtitude.Visibility = Visibility.Hidden;
             txtLatitude.Visibility = Visibility.Hidden;
             lblBattery.Visibility = Visibility.Hidden;
-            lblPackage.Visibility = Visibility.Hidden;
+            //lblPackage.Visibility = Visibility.Hidden;
             lblLatitude.Visibility = Visibility.Hidden;
             lblLongtitude.Visibility = Visibility.Hidden;
         }
@@ -81,6 +81,9 @@ namespace PL
         {
 
             InitializeComponent();
+           
+            //to remove close box from window
+            Loaded += ToolWindow_Loaded;
             this.myBl = myBl;
             drone = new Drone();
             drone = d;
@@ -111,7 +114,7 @@ namespace PL
             comboStatus.IsEnabled = false;
             comboMaxWeight.IsEnabled = false;
             txtBattery.IsEnabled = false;
-            comboPackage.IsEnabled = false;
+            //comboPackage.IsEnabled = false;
             txtLongtitude.IsEnabled = false;
             txtLatitude.IsEnabled = false;
         }
@@ -145,8 +148,8 @@ namespace PL
             txtId.Text = d.Id.ToString();
             txtModel.Text = d.Model.ToString();
             txtBattery.Text = d.Battery.ToString() + "%";
-            comboPackage.Text = d.ParcelId.ToString();
-            //txtLongtitude.Text = d.DroneLocation.Longitude.ToString();
+           // comboPackage.Text = d.ParcelId.ToString();
+            txtLongtitude.Text = d.DroneLocation.Longitude.ToString();
             txtLatitude.Text = d.DroneLocation.Lattitude.ToString();
         }
         private void fillTextbox(Drone d)
@@ -158,15 +161,15 @@ namespace PL
                 txtId.Text = d.Id.ToString();
                 txtModel.Text = d.Model.ToString();
                 txtBattery.Text = d.Battery.ToString() + "%";
-                if (d.Package != null)
-                {
-                    comboPackage.Text = d.Package.Id.ToString();
+                //if (d.Package != null)
+                //{
+                //    comboPackage.Text = d.Package.Id.ToString();
 
-                }
-                else
-                    comboPackage.Text = 0.ToString();
-                //txtLongtitude.Text = d.Location.Longitude.ToString();
-                //txtLatitude.Text = d.Location.Lattitude.ToString();
+                //}
+                //else
+                //    comboPackage.Text = 0.ToString();
+                txtLongtitude.Text = d.Location.Longitude.ToString();
+                txtLatitude.Text = d.Location.Lattitude.ToString();
                 return;
             }
              
