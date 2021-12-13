@@ -23,7 +23,7 @@ namespace IBL.BO
             result += $"Name is {Name},\n";
             result += $"Telephone is {Phone},\n";
             result += Location.ToString();
-            result += $"Parcels from the customer is {ParcelsFromTheCustomer},\n";
+            result += $"Parcels from the customer is i{ParcelsFromTheCustomer},\n";
             result += $"Parcels to the customer is {ParcelsToTheCustomer},\n";
 
 
