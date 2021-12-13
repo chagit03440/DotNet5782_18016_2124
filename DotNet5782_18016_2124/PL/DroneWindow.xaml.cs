@@ -19,43 +19,53 @@ namespace PL
     /// <summary>
     /// Interaction logic for DroneWindow.xaml
     /// </summary>
+    /// 
     public partial class DroneWindow : Window
     {
+        //to remove close box from window
+        private const int GWL_STYLE = -16;
+        private const int WS_SYSMENU = 0x80000;
+        [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+
+        void ToolWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Code to remove close box from window
+            var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
+        }
         private IBL.IBL myBl;
         private IBL.BO.Drone drone ;
+        public event Action Update=delegate { };
         public DroneWindow()
         {
-            InitializeComponent();
-        }
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
 
-        //    new (myBl).ShowDialog();
-        //    fillListView();
-        //}
-        //private void fillListView()
-        //{
-        //    IEnumerable<DroneForList> d = new List<DroneForList>();
-        //    d = myBl.GetDrones();
-        //    if (statusSelector.Text != "")
-        //        d = this.myBl.droneFilterStatus((DroneStatuses)statusSelector.SelectedItem);
-        //    if (weightSelector.Text != "")
-        //        d = bl.droneFilterWheight((WeightCategories)weightSelector.SelectedItem);
-        //    DroneListWindow.ItemsSource = d;
-        //}
+            InitializeComponent();
+            //to remove close box from window
+            Loaded += ToolWindow_Loaded;
+        }
+        
 
         public DroneWindow(IBL.IBL myBl)
         {
             InitializeComponent();
+            //to remove close box from window
+            Loaded += ToolWindow_Loaded;
+
             drone = new Drone();
             comboStatus.ItemsSource = myBl.GetStations();
             comboMaxWeight.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
             grdAdd.Visibility = Visibility.Visible;
+            grdRelease.Visibility = Visibility.Hidden;
             grdUpdate.Visibility = Visibility.Hidden;
             this.drone = new IBL.BO.Drone();
             this.myBl = myBl;
             DataContext = drone;
-
+            txtMaxWeight.Visibility= Visibility.Hidden;
+            txtStatus.Visibility= Visibility.Hidden;
             lblStatus.Content = "Station";
             txtBattery.Visibility = Visibility.Hidden;
             comboPackage.Visibility = Visibility.Hidden;
@@ -75,7 +85,8 @@ namespace PL
             drone = new Drone();
             drone = d;
             grdAdd.Visibility = Visibility.Hidden;
-            new DroneWindow(myBl).Show();
+            comboMaxWeight.Visibility= Visibility.Hidden;
+            comboStatus.Visibility= Visibility.Hidden;
             grdRelease.Visibility = Visibility.Hidden;
             fillTextbox(drone);
             if (d.Status == DroneStatuses.Free)
@@ -89,11 +100,11 @@ namespace PL
                 btnRelease.Visibility = Visibility.Visible;
             }
 
-            if (d.Status == DroneStatuses.Shipping)
-            {
-                btnDelivery.Visibility = Visibility.Visible;
-                btnPickedup.Visibility = Visibility.Visible;
-            }
+            //if (d.Status == DroneStatuses.Shipping)
+            //{
+            //     btnDelivery.Visibility = Visibility.Visible;
+            //    btnPickedup.Visibility = Visibility.Visible;
+            //}
             txtId.IsEnabled = false;
             comboStatus.IsEnabled = false;
             comboMaxWeight.IsEnabled = false;
@@ -112,6 +123,8 @@ namespace PL
 
                 DroneForList dr = myBl.GetDroneForList(drone.Id);
                 fillTextbox(dr);
+                Update();
+
             }
             catch (Exception ex)
             {
@@ -119,24 +132,27 @@ namespace PL
 
             }
         }
+
+        
+
         private void fillTextbox(DroneForList d)
         {
 
-            comboStatus.Text = d.Status.ToString();
-            comboMaxWeight.Text = d.MaxWeight.ToString();
+            txtStatus.Text = d.Status.ToString();
+            txtMaxWeight.Text = d.MaxWeight.ToString();
             txtId.Text = d.Id.ToString();
             txtModel.Text = d.Model.ToString();
             txtBattery.Text = d.Battery.ToString() + "%";
             comboPackage.Text = d.ParcelId.ToString();
-            txtLongtitude.Text = d.Location.Longitude.ToString();
-            txtLatitude.Text = d.Location.Lattitude.ToString();
+            //txtLongtitude.Text = d.DroneLocation.Longitude.ToString();
+            txtLatitude.Text = d.DroneLocation.Lattitude.ToString();
         }
         private void fillTextbox(Drone d)
         {
             if (d != null)
             {
-                comboStatus.Text = d.Status.ToString();
-                comboMaxWeight.Text = d.MaxWeight.ToString();
+                txtStatus.Text = d.Status.ToString();
+                txtMaxWeight.Text = d.MaxWeight.ToString();
                 txtId.Text = d.Id.ToString();
                 txtModel.Text = d.Model.ToString();
                 txtBattery.Text = d.Battery.ToString() + "%";
@@ -147,8 +163,8 @@ namespace PL
                 }
                 else
                     comboPackage.Text = 0.ToString();
-                txtLongtitude.Text = d.Location.Longitude.ToString();
-                txtLatitude.Text = d.Location.Lattitude.ToString();
+                //txtLongtitude.Text = d.Location.Longitude.ToString();
+                //txtLatitude.Text = d.Location.Lattitude.ToString();
                 return;
             }
              
@@ -156,6 +172,7 @@ namespace PL
 
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
         {
+            bool flag = true;
             try
             {
                 StationForList s = (StationForList)comboStatus.SelectedItem;
@@ -169,15 +186,31 @@ namespace PL
                    
                 myBl.AddDrone(dr, Convert.ToInt32(s.Id));
                 MessageBox.Show("the drone was successfully added");
+                Update();
 
-                this.Close();
             }
+            catch(BLAlreadyExistExeption ex)
+            {
+                MessageBox.Show("this id already exist");
+                flag = false;
+               
+            }
+           
             catch (Exception ex)
             {
 
                 MessageBox.Show(ex.Message);
+                flag = false;
+            }
+           if(!flag)
+            {
+                var bc = new BrushConverter();
+                txtId.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
 
             }
+            new DroneListWindow(myBl);
+            if(flag)
+                this.Close();
         }
 
         
@@ -190,6 +223,7 @@ namespace PL
       
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
+
             myBl.ReleaseDroneFromRecharge(drone.Id, Convert.ToInt32(txtTime.Text));
             MessageBox.Show("the drone was relase from charge");
             DroneForList dr = myBl.GetDroneForList(drone.Id);
@@ -283,7 +317,7 @@ namespace PL
         {
             try
             {
-                myBl.PickedupParcel( drone.Package.Id);
+                myBl.PickedupParcel( drone.Id);
                 DroneForList dr = myBl.GetDroneForList(drone.Id);
                 fillTextbox(dr);
                 MessageBox.Show("the parcel was collected by the parcel");
@@ -297,24 +331,15 @@ namespace PL
            
 
         }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 
 
 
-    //private void btnAddDrone_Click(object sender, RoutedEventArgs e)
-    //{
-    //    // int sId =(int)comboStations.SelectedItem;
-    //    IBL.BO.DroneForList df = new IBL.BO.DroneForList()
-    //    {
-    //        Id = drone.Id,
-    //        Battery = drone.Battery,
-    //        Location = drone.Location,
-    //        MaxWeight = drone.MaxWeight,
-    //        Model = drone.Model,
-    //        ParcelId = drone.Package.Id,
-    //        Status = drone.Status
-    //    };
-    //    //myBl.AddDrone(df,sId);
-    //}
+  
 }
 
