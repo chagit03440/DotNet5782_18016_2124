@@ -90,7 +90,8 @@ namespace DalObject
             }
             catch (InVaildIdException p)
             {
-                throw new InVaildIdException($"cannot anchor station{station.ID}to drone", p);
+                throw new InVaildIdException($"cannot anchor station{station.ID}to drone");
+               
             }
             try
             {
@@ -98,7 +99,7 @@ namespace DalObject
             }
             catch (InVaildIdException p)
             {
-                throw new InVaildIdException($"cannot anchor drone{drone.ID}to station", p);
+                throw new InVaildIdException($"cannot anchor drone{drone.ID}to station");
             }
             station.ChargeSlots--;
             DroneCharge dCharge = new DroneCharge()

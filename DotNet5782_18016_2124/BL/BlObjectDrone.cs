@@ -108,7 +108,7 @@ namespace BL
                 {
 
                     DO.Station station = new DO.Station();
-                    station.ID = rand.Next(1, myDal.GetStations().Count());
+                    station.ID = rand.Next(1, myDal.GetStations().Count())+1000;
                     DO.Drone tdrone = myDal.GetDrone(drone.Id);
                     myDal.AnchorDroneStation(station, tdrone);
                     return getBaseStationLocation(station.ID);

@@ -95,8 +95,17 @@ namespace BL
 
                             throw new BLInVaildIdException("the drone doesn't exist", ex);
                         }
+                        try
+                        {
+                            myDal.AnchorDroneStation(station, drone1);
+                        }
+                        catch (DO.InVaildIdException ex)
+                        {
 
-                        myDal.AnchorDroneStation(station, drone1);
+                            throw new BLInVaildIdException($"cannot anchor station{ station.ID }to drone",ex); 
+                        }
+
+                        
                         drone.DroneLocation = getBaseStationLocation(stationId+1000);
                         drone.Battery = (double)rand.Next(0, 20) ;
                         drone.ParcelId = 0;
