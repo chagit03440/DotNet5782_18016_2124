@@ -28,7 +28,7 @@ namespace IBL.BO
             result += $"Target is {Target},\n";
             result += $"Longitude is {Longitude},\n";
             result += $"Priority is {Priority},\n";
-            result += $"DroneP in parcel is {DroneP},\n";
+            result += $"Drone P in parcel is {DroneP},\n";
             result += $"Creation time is {CreationTime},\n";
             result += $"AssociationTime {AssociationTime},\n";
             result += $"CollectionTime {CollectionTime},\n";

@@ -100,11 +100,13 @@ namespace PL
                 btnRelease.Visibility = Visibility.Visible;
             }
 
-            //if (d.Status == DroneStatuses.Shipping)
-            //{
-            //     btnDelivery.Visibility = Visibility.Visible;
-            //    btnPickedup.Visibility = Visibility.Visible;
-            //}
+            if (d.Status == DroneStatuses.Shipping)
+            {
+                btnDelivery.Visibility = Visibility.Visible;
+                btnPickedup.Visibility = Visibility.Visible;
+            }
+            txtStatus.IsEnabled = false;
+            txtMaxWeight.IsEnabled = false;
             txtId.IsEnabled = false;
             comboStatus.IsEnabled = false;
             comboMaxWeight.IsEnabled = false;
