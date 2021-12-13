@@ -45,48 +45,23 @@ namespace ConsoleUI_BL
                     }
                 } while (menuOption != MenueOptions.Exit);
             }
-            catch (BLStationException ex)
-            {
-
-                Console.WriteLine(ex);
-            }
-            catch (BLCustomerException ex)
-            {
-
-                Console.WriteLine(ex);
-            }
-            catch (BLDroneException ex)
-            {
-
-                Console.WriteLine(ex);
-            }
-            catch (BLParcelException ex)
-            {
-
-                Console.WriteLine(ex);
-            }
            
-            catch (IDAL.DO.CustomerException ex)
+            catch (DO.InVaildIdException ex)
             {
 
                 Console.WriteLine(ex);
             }
-            catch (IDAL.DO.StationException ex)
+            catch (DO.AlreadyExistExeption ex)
             {
 
                 Console.WriteLine(ex);
             }
-            catch (IDAL.DO.DroneChargeException ex)
+            catch (BLInVaildIdException ex)
             {
 
                 Console.WriteLine(ex);
             }
-            catch (IDAL.DO.DroneException ex)
-            {
-
-                Console.WriteLine(ex);
-            }
-            catch (IDAL.DO.ParcelException ex)
+            catch (BLAlreadyExistExeption ex)
             {
 
                 Console.WriteLine(ex);
@@ -321,7 +296,7 @@ namespace ConsoleUI_BL
             Console.WriteLine("Enter IDs for parcel and drone:");
             parcelId = int.Parse(Console.ReadLine());
             droneId = int.Parse(Console.ReadLine());
-            data.AssignmentParcelToDrone(parcelId, droneId);
+            data.AssignmentParcelToDrone(droneId);
         }
 
 

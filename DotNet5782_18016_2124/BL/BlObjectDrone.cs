@@ -17,19 +17,19 @@ namespace BL
         {
             if (drone.Status == DroneStatuses.Free)
             {
-                Location location = findClosetBaseStationLocation(drone.Location);
-                return (int)(myDal.PowerRequest()[(int)BatteryUsage.Available] * calcDistance(drone.Location, location));
+                Location location = findClosetBaseStationLocation(drone.DroneLocation);
+                return (int)(myDal.PowerRequest()[(int)BatteryUsage.Available] * calcDistance(drone.DroneLocation, location));
             }
 
             if (drone.Status == DroneStatuses.Shipping)
             {
-                IDAL.DO.Parcel parcel = myDal.GetParcel(drone.ParcelId);
+                DO.Parcel parcel = myDal.GetParcel(drone.ParcelId);
                 if (parcel.PickedUp is null)
                 {
                     int minValue;
                     Customer sender = GetCustomer(parcel.SenderId);
                     Customer target = GetCustomer(parcel.TargetId);
-                    double droneToSender = calcDistance(drone.Location, sender.Location);
+                    double droneToSender = calcDistance(drone.DroneLocation, sender.Location);
                     minValue = (int)(myDal.PowerRequest()[(int)BatteryUsage.Available] * droneToSender);
                     double senderToTarget = calcDistance(sender.Location, target.Location);
                     BatteryUsage batteryUsage =
@@ -87,7 +87,7 @@ namespace BL
         {
             if (drone.Status == DroneStatuses.Shipping)
             {
-                IDAL.DO.Parcel parcel = myDal.GetParcel(drone.ParcelId);
+                DO.Parcel parcel = myDal.GetParcel(drone.ParcelId);
                 if (parcel.PickedUp == null)
                 {
                     Customer customer = GetCustomer(parcel.SenderId);
@@ -107,16 +107,16 @@ namespace BL
                 if (targetsIds.Count == 0)
                 {
 
-                    IDAL.DO.Station station = new IDAL.DO.Station();
+                    DO.Station station = new DO.Station();
                     station.ID = rand.Next(1, myDal.GetStations().Count());
-                    IDAL.DO.Drone tdrone = myDal.GetDrone(drone.Id);
+                    DO.Drone tdrone = myDal.GetDrone(drone.Id);
                     myDal.AnchorDroneStation(station, tdrone);
                     return getBaseStationLocation(station.ID);
                 }
                 //TODO: get last customer location
                 return GetCustomer(targetsIds[rand.Next(targetsIds.Count)]).Location;
             }
-            return new Location();
+            return new Location() { Longitude=0,Lattitude=0};
         }
         /// <summary>
         /// A function that recieve a drones id and return him buttery
@@ -136,43 +136,43 @@ namespace BL
         {
 
             DroneForList df = drones.FirstOrDefault(x => x.Id == requestedId);
-            Parcel p = GetParcel(df.ParcelId);
-            PackageInTransfer Pack = new PackageInTransfer()
-            {
-                Id = df.ParcelId,
-                Longitude = p.Longitude,
-                Collection = GetCustomer(p.Sender.Id).Location,
-                DeliveryDestination = GetCustomer(p.Target.Id).Location,
-                Priority = p.Priority,
-                Sender = p.Sender,
-                Target = p.Target,
-                Status = (ParcelStatuses)getParcelStatus(myDal.GetParcel(p.Id)),
-                TransportDistance = calcDistance(GetCustomer(p.Sender.Id).Location, GetCustomer(p.Target.Id).Location)
-            };
+            //Parcel p = GetParcel(df.ParcelId);
+            //PackageInTransfer Pack = new PackageInTransfer()
+            //{
+            //    Id = df.ParcelId,
+            //    Longitude = p.Longitude,
+            //    Collection = GetCustomer(p.Sender.Id).DroneLocation,
+            //    DeliveryDestination = GetCustomer(p.Target.Id).DroneLocation,
+            //    Priority = p.Priority,
+            //    Sender = p.Sender,
+            //    Target = p.Target,
+            //    Status = (ParcelStatuses)getParcelStatus(myDal.GetParcel(p.Id)),
+            //    TransportDistance = calcDistance(GetCustomer(p.Sender.Id).DroneLocation, GetCustomer(p.Target.Id).DroneLocation)
+            //};
             Drone droneBO = new Drone()
             {
                 Id = df.Id,
                 Model = df.Model,
                 MaxWeight = df.MaxWeight,
-                Location = df.Location,
+                Location = df.DroneLocation,
                 Battery = df.Battery,
                 Status = df.Status,
-                Package = Pack
+                //Package = Pack
 
             };
         
         
             if (df.Id != 0)
                 return droneBO;
-            IDAL.DO.Drone droneDO = myDal.GetDrone(requestedId);
+            DO.Drone droneDO = myDal.GetDrone(requestedId);
             DroneForList drone = drones.Find(d => d.Id == requestedId);
             droneBO.Id = droneDO.ID;
             droneBO.Model = droneDO.Model;
             droneBO.MaxWeight = (WeightCategories)droneDO.MaxWeight;
-            droneBO.Location = drone.Location;
+            droneBO.Location = drone.DroneLocation;
             droneBO.Battery = drone.Battery;
             droneBO.Status = drone.Status;
-            droneBO.Package=Pack;
+           // droneBO.Package=Pack;
             return droneBO;
         }
         /// <summary>
@@ -185,16 +185,17 @@ namespace BL
             drone.Battery = (double)rand.Next(20, 40);
 
             //IDAL.DO.Drone tdrone = myDal.GetDrones(drone.Id);
-            IDAL.DO.Drone tdrone = new IDAL.DO.Drone() { ID = drone.Id, MaxWeight = (IDAL.DO.WeightCategories)drone.MaxWeight, Model = drone.Model };
-            IDAL.DO.Station tstation = myDal.GetStation(stationId);
+            DO.Drone tdrone = new DO.Drone() { ID = drone.Id, MaxWeight = (DO.WeightCategories)drone.MaxWeight, Model = drone.Model };
+            DO.Station tstation = myDal.GetStation(stationId);
             drone.Status = DroneStatuses.Maintenance;
-            myDal.AnchorDroneStation(tstation, tdrone);
-            drone.Location = getBaseStationLocation(stationId);
+            drone.DroneLocation = getBaseStationLocation(stationId);
             drone.ParcelId = 0;
             drones.Add(drone);
+            DO.Drone droneDO = new DO.Drone();
+            droneDO.ID = drone.Id; 
+            droneDO.MaxWeight =(DO.WeightCategories) drone.MaxWeight;
+            droneDO.Model = drone.Model;
 
-            IDAL.DO.Drone droneDO = new IDAL.DO.Drone();
-            droneDO.ID = drone.Id;
             try
             {
                 myDal.AddDrone(droneDO);
@@ -202,8 +203,12 @@ namespace BL
             catch (Exception exp)
             {
 
-                throw new BLDroneException("", exp);
+                throw new BLAlreadyExistExeption("", exp);
             }
+            myDal.AnchorDroneStation(tstation, tdrone);
+            
+
+            
         }
         public DroneForList GetDroneForList(int requestedId)
         {
@@ -212,12 +217,12 @@ namespace BL
             if (df.Id != 0)
                 return df;
             DroneForList droneBO = new DroneForList();
-            IDAL.DO.Drone droneDO = myDal.GetDrone(requestedId);
+            DO.Drone droneDO = myDal.GetDrone(requestedId);
             DroneForList drone = drones.Find(d => d.Id == requestedId);
             droneBO.Id = droneDO.ID;
             droneBO.Model = droneDO.Model;
             droneBO.MaxWeight = (WeightCategories)droneDO.MaxWeight;
-            droneBO.Location = drone.Location;
+            droneBO.DroneLocation = drone.DroneLocation;
             droneBO.Battery = drone.Battery;
             droneBO.Status = drone.Status;
             droneBO.ParcelId = drone.ParcelId;
@@ -237,7 +242,7 @@ namespace BL
                 Model = d.Model,
                 MaxWeight = d.MaxWeight,
                 Battery = d.Battery,
-                Location = d.Location,
+                DroneLocation = d.DroneLocation,
                 Status = d.Status,
                 ParcelId = d.ParcelId
 
@@ -263,7 +268,7 @@ namespace BL
             catch (Exception ex)
             {
 
-                throw new BLDroneException("The drone not exsit", ex);
+                throw new BLAlreadyExistExeption("The drone not exsit", ex);
             }
             DroneForList dr = drones.Find(x => x.Id == drone.Id);
 

@@ -19,7 +19,7 @@ namespace DalObject
         {
             if (DataSource.customers.Exists(x => x.ID == customer.ID))
             {
-                throw new CustomerException($"id{customer.ID} allready exist!!");
+                throw new InVaildIdException($"id{customer.ID} allready exist!!");
             };
             DataSource.customers.Add(customer);
         }
@@ -32,7 +32,7 @@ namespace DalObject
         {
             if (!DataSource.customers.Exists(x => x.ID == id))
             {
-                throw new CustomerException($"id{id} doesn't exist!!");
+                throw new InVaildIdException($"id{id} doesn't exist!!");
             };
             return DataSource.customers.Find(x => x.ID == id);
         }

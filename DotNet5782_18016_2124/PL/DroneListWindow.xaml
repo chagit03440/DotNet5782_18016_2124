@@ -8,27 +8,26 @@
         Title="DroneListWindow" Height="640" Width="800">
     <Grid Name="mainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="400*"/>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="127*"/>
         </Grid.RowDefinitions>
-        <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto">
+        <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" Margin="10,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="comboStatusSelector" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.481,0.676" Margin="41,11,39,0" Height="43" SelectionChanged="comboStatusSelector_SelectionChanged"/>
-            <ComboBox Name="comboMaxWeightSelector" Grid.Column="1" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.481,0.676" Margin="41,11,39,0" Height="43" SelectionChanged="comboMaxWeightSelector_SelectionChanged"/>
-            <Label Content="Status Selector" HorizontalAlignment="Center" Margin="0,46,0,0" VerticalAlignment="Top"/>
-            <Label Content="Max Weight Selector" Grid.Column="1" HorizontalAlignment="Center" Margin="0,47,0,0" VerticalAlignment="Top"/>
-            <Label Content="Add Drone" Grid.Column="2" HorizontalAlignment="Center" Margin="0,46,0,0" VerticalAlignment="Top"/>
-            <Label Content="Close" Grid.Column="3" HorizontalAlignment="Center" Margin="0,46,0,0"/>
-            <Button Name="btnAddDrone" Content="Add drone" Grid.Column="2" HorizontalAlignment="Center" Margin="0,11,0,0" VerticalAlignment="Top" Height="35" Width="124" Click="btnAddDrone_Click"/>
-            <Button Name="btnClose" Content="Close" Grid.Column="3" HorizontalAlignment="Left" Margin="40,10,0,0" VerticalAlignment="Top" Height="36" Width="126" Click="btnClose_Click"/>
+            <ComboBox Name="comboStatusSelector" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.481,0.676" Margin="37,31,40,0" Height="24" SelectionChanged="comboStatusSelector_SelectionChanged"/>
+            <ComboBox Name="comboMaxWeightSelector" Grid.Column="1" Width="120" RenderTransformOrigin="0.481,0.676" Margin="32,28,46,64"  Height="24" SelectionChanged="comboMaxWeightSelector_SelectionChanged"/>
+            <Label Content="Status Selector" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top"/>
+            <Label Content="Max Weight Selector" Grid.Column="1" HorizontalAlignment="Center" Margin="0,63,0,0" VerticalAlignment="Top"/>
+            <Label Content="Add Drone" Grid.Column="2" HorizontalAlignment="Center" Margin="0,68,0,0" VerticalAlignment="Top"/>
+            <Label Content="Close" Grid.Column="3" HorizontalAlignment="Center" Margin="0,70,0,-24"/>
+            <Button Name="btnAddDrone" Content="Add drone" Grid.Column="2" HorizontalAlignment="Center" Margin="0,23,0,0" VerticalAlignment="Top" Height="35" Width="124" Click="btnAddDrone_Click"/>
+            <Button Name="btnClose" Content="Close" Grid.Column="3" HorizontalAlignment="Left" Margin="40,20,0,0" VerticalAlignment="Top" Height="36" Width="126" Click="btnClose_Click"/>
         </Grid>
-        <ListView Grid.Row="1" x:Name="DronesListView" Margin="0,0,0,20"
-                  Height="528" Width="790" MouseDoubleClick="ListView_MouseDoubleClick"/>
+        <ListView x:Name="DronesListView" Margin="5,116,5,23" MouseDoubleClick="ListView_MouseDoubleClick" Grid.RowSpan="2"/>
     </Grid>
 
 </Window>

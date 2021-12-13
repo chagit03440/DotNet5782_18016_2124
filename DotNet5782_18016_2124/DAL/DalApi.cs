@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using DalObject;
-using IDAL;
 using DAL.DalObject;
 using System.Linq;
 using System.Threading.Tasks;

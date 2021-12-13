@@ -88,17 +88,17 @@ namespace DalObject
             {
                 GetStation(station.ID);
             }
-            catch (StationException p)
+            catch (InVaildIdException p)
             {
-                throw new StationException($"cannot anchor station{station.ID}to drone", p);
+                throw new InVaildIdException($"cannot anchor station{station.ID}to drone", p);
             }
             try
             {
                 GetDrone(drone.ID);
             }
-            catch (DroneException p)
+            catch (InVaildIdException p)
             {
-                throw new DroneException($"cannot anchor drone{drone.ID}to station", p);
+                throw new InVaildIdException($"cannot anchor drone{drone.ID}to station", p);
             }
             station.ChargeSlots--;
             DroneCharge dCharge = new DroneCharge()
@@ -128,17 +128,17 @@ namespace DalObject
             {
                 GetParcel(parcel.ID);
             }
-            catch (ParcelException p)
+            catch (InVaildIdException p)
             {
-                throw new ParcelException($"cannot belonging parcel{parcel.ID}to station", p);
+                throw new InVaildIdException($"cannot belonging parcel{parcel.ID}to station", p);
             }
             try
             {
                 GetDrone(drone.ID);
             }
-            catch (DroneException p)
+            catch (InVaildIdException p)
             {
-                throw new DroneException($"cannot belonging parcel{drone.ID}to station", p);
+                throw new InVaildIdException($"cannot belonging parcel{drone.ID}to station", p);
             }
 
             parcel.DroneId = drone.ID;
@@ -169,17 +169,17 @@ namespace DalObject
             {
                 GetStation(st.ID);
             }
-            catch (StationException p)
+            catch (InVaildIdException p)
             {
-                throw new StationException($"cannot releas drone{ st.ID}from station", p);
+                throw new InVaildIdException($"cannot releas drone{ st.ID}from station", p);
             }
             try
             {
                 GetDrone(drone.ID);
             }
-            catch (DroneException p)
+            catch (InVaildIdException p)
             {
-                throw new DroneException($"cannot releas drone{drone.ID}from station", p);
+                throw new InVaildIdException($"cannot releas drone{drone.ID}from station", p);
             }
 
 
@@ -202,17 +202,17 @@ namespace DalObject
             {
                 GetParcel(parcel.ID);
             }
-            catch (ParcelException p)
+            catch (InVaildIdException p)
             {
-                throw new ParcelException($"cannot supllay parcel{ parcel.ID}to customer", p);
+                throw new InVaildIdException($"cannot supllay parcel{ parcel.ID}to customer", p);
             }
             try
             {
                 GetCustomer(customer.ID);
             }
-            catch (CustomerException p)
+            catch (InVaildIdException p)
             {
-                throw new CustomerException($"cannot supllay parcel{ parcel.ID}to customer", p);
+                throw new InVaildIdException($"cannot supllay parcel{ parcel.ID}to customer", p);
             }
 
 

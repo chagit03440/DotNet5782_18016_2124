@@ -17,7 +17,7 @@ namespace IBL.BO
             String result = "";
             result += $"Id is {Id},\n";
             result += $"Battery is {Battery},\n";
-            result += $"Location is {Location},\n";
+            result += $"DroneLocation is {Location},\n";
 
             return result;
         }

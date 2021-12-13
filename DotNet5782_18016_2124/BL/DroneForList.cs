@@ -11,10 +11,10 @@ namespace IBL.BO
         public WeightCategories MaxWeight { get; set; }
         public DroneStatuses Status { get; set; }
         public double Battery { get; set; }
-        public Location Location { get; set; }
+        public Location DroneLocation { get; set; }
         public int ParcelId { get; set; }
         //public int DeliveryId { get; internal set; }
-
+        
         public override String ToString()
         {
             String result = "";
@@ -23,7 +23,7 @@ namespace IBL.BO
             result += $"MaxWeight is {MaxWeight},\n";
             result += $"Status is {Status},\n";
             result += $"Battery is {Battery},\n";
-            result += $"Location is {Location},\n";
+            result += $"DroneLocation is {DroneLocation.ToString()},\n";
             result += $"Parcel Id is {ParcelId},\n";
 
             return result;

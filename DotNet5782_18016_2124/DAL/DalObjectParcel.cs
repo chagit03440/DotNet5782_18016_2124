@@ -19,7 +19,7 @@ namespace DalObject
         {
             if (DataSource.parcels.Exists(x => x.ID == newParcel.ID))
             {
-                throw new ParcelException($"id{newParcel.ID} allready exist!!");
+                throw new AlreadyExistExeption($"id{newParcel.ID} allready exist!!");
             };
             DataSource.parcels.Add(newParcel);
         }
@@ -32,7 +32,7 @@ namespace DalObject
         {
             if (!DataSource.parcels.Exists(x => x.ID == id))
             {
-                throw new StationException($"id{id} doesn't exist!!");
+                throw new InVaildIdException($"id{id} doesn't exist!!");
             };
             return DataSource.parcels.Find(x => x.ID == id);
         }
@@ -46,9 +46,9 @@ namespace DalObject
             {
                 GetParcel(parcel.ID);
             }
-            catch (ParcelException p)
+            catch (InVaildIdException p)
             {
-                throw new ParcelException($"cannot update parcel{parcel.ID}", p);
+                throw new InVaildIdException($"cannot update parcel{parcel.ID}", p);
             }
 
 

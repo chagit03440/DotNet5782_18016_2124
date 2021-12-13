@@ -19,7 +19,7 @@ namespace DalObject
         {
             if (DataSource.drones.Exists(x => x.ID == drone.ID))
             {
-                throw new DroneException($"id{drone.ID} allready exist!!");
+                throw new AlreadyExistExeption($"id{drone.ID} allready exist!!");
             };
             DataSource.drones.Add(drone);
 
@@ -33,7 +33,7 @@ namespace DalObject
         {
             if (!DataSource.drones.Exists(x => x.ID == id))
             {
-                throw new DroneException($"id{id} doesn't exist!!");
+                throw new InVaildIdException($"id{id} doesn't exist!!");
             };
             return DataSource.drones.Find(x => x.ID == id);
         }

@@ -19,7 +19,7 @@ namespace DalObject
         {
             if (DataSource.stations.Exists(x => x.ID == station.ID))
             {
-                throw new StationException($"id{station.ID} allready exist!!");
+                throw new AlreadyExistExeption($"id{station.ID} allready exist!!");
             };
             DataSource.stations.Add(station);
         }
@@ -32,7 +32,7 @@ namespace DalObject
         {
             if (!DataSource.stations.Exists(x => x.ID == id))
             {
-                throw new StationException($"id{id} doesn't exist!!");
+                throw new InVaildIdException($"id{id} doesn't exist!!");
             };
             return DataSource.stations.Find(x => x.ID == id);
         }
@@ -48,9 +48,9 @@ namespace DalObject
                 return GetStation(baseStationId).ChargeSlots - DataSource.incharge.Count(dc => dc.StationId == baseStationId);
 
             }
-            catch (StationException ex)
+            catch (InVaildIdException ex)
             {
-                throw new StationException("Station didn't exist", ex);
+                throw new InVaildIdException("Station didn't exist", ex);
             }
         }
     }

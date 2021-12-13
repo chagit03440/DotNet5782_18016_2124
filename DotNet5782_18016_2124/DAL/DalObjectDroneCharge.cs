@@ -20,7 +20,7 @@ namespace DalObject
         {
             if (!DataSource.incharge.Exists(x => x.DroneId == id))
             {
-                throw new DroneChargeException($"id{id} doesn't exist!!");
+                throw new InVaildIdException($"id{id} doesn't exist!!");
             };
             return DataSource.incharge.Find(x => x.DroneId == id);
         }

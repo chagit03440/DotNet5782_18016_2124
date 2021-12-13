@@ -47,11 +47,11 @@ namespace DAL
             /// <param name="n">a number of customers to intilize</param>
             private static void creatCustomer(int n)
             {
-                for (int i = 0; i < n; i++)
+                for (int i =0; i <n; i++)
                 {
                     Customer newCustomer = new Customer();
 
-                    newCustomer.ID = rand.Next(100000000, 999999999);
+                    newCustomer.ID = i+1000;
                     newCustomer.Name = $"Customer {i}";
                     newCustomer.Phone = $"0{rand.Next(50, 58)}-{rand.Next(1000000, 10000000)}";
                     newCustomer.Lattitude = getRandomCoordinate(31.7);
@@ -70,11 +70,11 @@ namespace DAL
                 for (int i = 0; i < n; i++)
                 {
                     Parcel newParcel = new Parcel();
-                    newParcel.ID = i;
+                    newParcel.ID = i+1000;
                     newParcel.SenderId = rand.Next(i);
                     newParcel.TargetId = rand.Next(i);
                     newParcel.Longitude = (WeightCategories)rand.Next(3);
-                    newParcel.DroneId = rand.Next(100000000, 999999999);
+                    newParcel.DroneId = rand.Next(1000, 9999);
                     newParcel.Priority = (Priorities)rand.Next(1, 3);
                     newParcel.Requested = DateTime.Now;
                     newParcel.Scheduled = DateTime.Now;
@@ -93,7 +93,7 @@ namespace DAL
                 for (int i = 0; i < n; i++)
                 {
                     Station newStation = new Station();
-                    newStation.ID = i;
+                    newStation.ID = i+1000;
                     newStation.Name = $"Station{i}";
                     newStation.ChargeSlots = 10 + i;
                     newStation.Lattitude = 31.785664 + i;
@@ -120,7 +120,7 @@ namespace DAL
                 for (int i = 0; i < n; i++)
                 {
                     Drone newDrone = new Drone();
-                    newDrone.ID = i;
+                    newDrone.ID = i+1000;
                     //newDrone.Battery = 1;
                     newDrone.MaxWeight = (WeightCategories)rand.Next(3);
                     newDrone.Model = "iFly" + i;
