@@ -68,11 +68,11 @@ namespace PL
             txtStatus.Visibility= Visibility.Hidden;
             lblStatus.Content = "Station";
             txtBattery.Visibility = Visibility.Hidden;
-            
+            //comboPackage.Visibility = Visibility.Hidden;
             txtLongtitude.Visibility = Visibility.Hidden;
             txtLatitude.Visibility = Visibility.Hidden;
             lblBattery.Visibility = Visibility.Hidden;
-            
+            //lblPackage.Visibility = Visibility.Hidden;
             lblLatitude.Visibility = Visibility.Hidden;
             lblLongtitude.Visibility = Visibility.Hidden;
         }
@@ -81,6 +81,9 @@ namespace PL
         {
 
             InitializeComponent();
+           
+            //to remove close box from window
+            Loaded += ToolWindow_Loaded;
             this.myBl = myBl;
             drone = new Drone();
             drone = d;
