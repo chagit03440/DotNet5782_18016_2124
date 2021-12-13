@@ -64,7 +64,7 @@ namespace PL
         private void comboMaxWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
         
-                IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)comboStatusSelector.SelectedItem;
+                IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)comboMaxWeightSelector.SelectedItem;
               //  IBL.BO.DroneStatuses status = (IBL.BO.DroneStatuses)comboStatusSelector.SelectedItem;
                 this.DronesListView.ItemsSource = myBl.GetDrones(dr=> dr.MaxWeight== weight);
            }

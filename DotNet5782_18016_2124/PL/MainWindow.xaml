@@ -6,13 +6,19 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="640" Width="800" Background="#FFCCF3FF">
-    <Grid Name="MainGrid" Background="#FFCCF3FF">
+    <Grid Name="MainGrid" Margin="0,0,0,489">
+        <Grid.Background>
+            <ImageBrush/>
+        </Grid.Background>
         <Button Name="btnstart" Content="DroneListView" HorizontalAlignment="Center" Margin="0,45,0,0" VerticalAlignment="Top" Height="79" Width="722" Click="Button_Click" Background="#FF2939D6" FontWeight="Bold" FontSize="36"/>
-        <Image Width="200" 
-Source="C:\Documents and Settings\All Users\Documents\My Pictures\Sample Pictures\Water Lilies.jpg"/>
+        <Grid Margin="39,164,39,-439">
+            <Grid.Background>
+                <ImageBrush ImageSource="/DRON.jpg"/>
+            </Grid.Background>
+        </Grid>
 
-         
-         
+
+
 
     </Grid>
 </Window>

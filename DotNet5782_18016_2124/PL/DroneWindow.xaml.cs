@@ -233,8 +233,8 @@ namespace PL
             btnAssignment.Visibility = Visibility.Visible;
 
             grdUpdate.Visibility = Visibility.Visible;
-           
-           
+            grdRelease.Visibility = Visibility.Hidden;
+            Update();
 
         }
 
@@ -255,6 +255,7 @@ namespace PL
                 btnRelease.Visibility = Visibility.Visible;
                 btnCharge.Visibility = Visibility.Hidden;
                 btnAssignment.Visibility = Visibility.Hidden;
+                Update();
             }
             catch (Exception ex)
             {
@@ -276,7 +277,8 @@ namespace PL
                     btnDelivery.Visibility = Visibility.Visible;
                     btnCharge.Visibility = Visibility.Hidden;
                     btnAssignment.Visibility = Visibility.Hidden;
-                }
+                Update();
+            }
                 catch (Exception ex)
                 {
 
@@ -301,8 +303,9 @@ namespace PL
                     btnDelivery.Visibility = Visibility.Hidden;
                     btnCharge.Visibility = Visibility.Visible;
                     btnAssignment.Visibility = Visibility.Visible;
+                Update();
 
-                }
+            }
                 catch (Exception ex)
                 {
 
@@ -320,6 +323,7 @@ namespace PL
                 DroneForList dr = myBl.GetDroneForList(drone.Id);
                 fillTextbox(dr);
                 MessageBox.Show("the parcel was collected by the parcel");
+                Update();
             }
             catch (Exception ex)
             {
