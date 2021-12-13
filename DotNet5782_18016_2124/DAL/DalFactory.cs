@@ -9,18 +9,18 @@ namespace DAL
 {
    public class DalFactory
     {
-        public static IDal GetDal(string choice)
+        //public static IDal GetDal(string choice)
 
-        {
-            switch (choice)
-            {
-                case "DalObject":
-                    return DalObject.Instance;
+        //{
+        //    switch (choice)
+        //    {
+        //        case "DalObject":
+        //            return DalObject.Instance;
                     
-                default:
-                    return DalObject.Instance;
+        //        default:
+        //            return DalObject.Instance;
                     
-            }
+        //    }
         }
     }
 }
