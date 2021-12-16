@@ -11,19 +11,22 @@ using DO;
 
 namespace DalObject
 {
-    internal partial class DalObject : DalApi
-    {
-        public DalObject()
-        {
-            DataSource.Initialize();
+    internal sealed partial class DalObject : DalApi
+    { 
+            #region singelton
+            static readonly DalObject instance = new DalObject();
+            static DalObject() { }// static ctor to ensure instance init is done just before first usage
+            DalObject() { } // default => private
+            public static DalObject Instance { get => instance; }// The public Instance property to use
+            #endregion
+                    
+    
 
-        }
-
-        /// <summary>
-        /// A function that return from the list of the drones
-        /// </summary>
-        /// <returns>return the list of drones </returns>
-        public IEnumerable<Drone> GetDrones(Func<Drone, bool> predicate = null)
+    /// <summary>
+    /// A function that return from the list of the drones
+    /// </summary>
+    /// <returns>return the list of drones </returns>
+    public IEnumerable<Drone> GetDrones(Func<Drone, bool> predicate = null)
         {
             if (predicate == null)
                 return DataSource.drones;
