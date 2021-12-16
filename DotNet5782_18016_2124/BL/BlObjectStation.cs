@@ -1,12 +1,13 @@
-﻿using IBL.BO;
+﻿using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DalObject;
+using IBL;
 namespace BL
 {
-    public partial class BLObject : IBL.IBL
+    public partial class BLObject : BlApi
     {
         /// <summary>
         /// A function that recieve a stations id and return the location of this station.
@@ -113,7 +114,7 @@ namespace BL
             {
                 throw new BLInVaildIdException("id didn't exist", ex);
             }
-            IBL.BO.Station baseStationBO = new Station();
+            Station baseStationBO = new Station();
             baseStationBO.Id = baseStationDO.ID;
             baseStationBO.Name = baseStationDO.Name;
             baseStationBO.ChargeSlots = myDal.AvailableChargingPorts(baseStationDO.ID);

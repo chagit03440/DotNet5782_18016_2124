@@ -1,15 +1,16 @@
-﻿using IBL.BO;
+﻿using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DalObject;
+using  IBL;
 
 namespace BL
 
 {
 
-    public partial class BLObject : IBL.IBL
+    public partial class BLObject : BlApi
     {
 
         private DO.DalApi myDal;
@@ -131,7 +132,7 @@ namespace BL
         //    IEnumerable<IDAL.DO.Parcel> p = myDal.GetParcels();
         //    foreach (var item in d)
         //    {
-        //        IBL.BO.DroneForList drt = new DroneForList();
+        //        BlApi.BO.DroneForList drt = new DroneForList();
         //        drt.Id = item.ID;
         //        drt.Model = item.Model;
         //        foreach (var pr in p)
@@ -140,8 +141,8 @@ namespace BL
         //            {
         //                IDAL.DO.Customer sender = myDal.GetCustomer(pr.SenderId);
         //                IDAL.DO.Customer target = myDal.GetCustomer(pr.TargetId);
-        //                IBL.BO.DroneLocation senderLocation = new DroneLocation { Lattitude = sender.Lattitude, Longitude = sender.Longitude };
-        //                IBL.BO.DroneLocation targetLocation = new DroneLocation { Lattitude = target.Lattitude, Longitude = target.Longitude };
+        //                BlApi.BO.DroneLocation senderLocation = new DroneLocation { Lattitude = sender.Lattitude, Longitude = sender.Longitude };
+        //                BlApi.BO.DroneLocation targetLocation = new DroneLocation { Lattitude = target.Lattitude, Longitude = target.Longitude };
         //                drt.Status = DroneStatuses.Shipping;
         //                if (pr.PickedUp == null && pr.Scheduled != null)//החבילה שויכה אבל עדיין לא נאספה
         //                {
@@ -166,10 +167,10 @@ namespace BL
         //        {
         //            int temp = rnd.Next(1, 3);
         //            if (temp == 1)
-        //                drt.Status = IBL.BO.DroneStatuses.Free;
+        //                drt.Status = BlApi.BO.DroneStatuses.Free;
         //            else
-        //                drt.Status = IBL.BO.DroneStatuses.Maintenance;
-        //            if (drt.Status == IBL.BO.DroneStatuses.Maintenance)
+        //                drt.Status = BlApi.BO.DroneStatuses.Maintenance;
+        //            if (drt.Status == BlApi.BO.DroneStatuses.Maintenance)
         //            {
         //                int l = rnd.Next(0, myDal.GetStations().Count()), i = 0;
         //                IDAL.DO.Station s = new IDAL.DO.Station();

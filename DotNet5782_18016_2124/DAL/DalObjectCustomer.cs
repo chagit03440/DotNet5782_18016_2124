@@ -9,7 +9,7 @@ using DO;
 
 namespace DalObject
 {
-    public partial class DalObject : DalApi
+    internal partial class DalObject : DalApi
     {
         /// <summary>
         /// A function that recieve a customer and add it to the lists of the customers

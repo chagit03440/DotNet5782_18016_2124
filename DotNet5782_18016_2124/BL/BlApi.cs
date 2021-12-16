@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IBL.BO;
+using BO;
 
 namespace IBL
 {
-    public interface IBL
+    public interface BlApi
     {
 
         /// <summary>

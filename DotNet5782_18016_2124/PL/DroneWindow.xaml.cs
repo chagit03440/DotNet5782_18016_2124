@@ -37,7 +37,7 @@ namespace PL
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
-        private IBL.IBL myBl;
+        private IBL.BlApi myBl;
         private IBL.BO.Drone drone ;
         public event Action Update=delegate { };
         public DroneWindow()
@@ -49,7 +49,7 @@ namespace PL
         }
         
 
-        public DroneWindow(IBL.IBL myBl)
+        public DroneWindow(IBL.BlApi myBl)
         {
             InitializeComponent();
             //to remove close box from window
@@ -77,7 +77,7 @@ namespace PL
             lblLongtitude.Visibility = Visibility.Hidden;
         }
         
-        public DroneWindow(IBL.IBL myBl, Drone d)
+        public DroneWindow(IBL.BlApi myBl, Drone d)
         {
 
             InitializeComponent();

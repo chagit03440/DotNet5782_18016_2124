@@ -34,9 +34,9 @@ namespace PL
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
-        private IBL.IBL myBl { get; }
+        private IBL.BlApi myBl { get; }
         private ObservableCollection<IBL.BO.DroneForList> collection;
-        public DroneListWindow(IBL.IBL MyBl)
+        public DroneListWindow(IBL.BlApi MyBl)
         {
             myBl = MyBl;
             DataContext = this;
@@ -55,7 +55,7 @@ namespace PL
         private void comboStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             IBL.BO.DroneStatuses status = (IBL.BO.DroneStatuses)comboStatusSelector.SelectedItem;
-           // IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)comboStatusSelector.SelectedItem;
+           // BlApi.BO.WeightCategories weight = (BlApi.BO.WeightCategories)comboStatusSelector.SelectedItem;
 
             this.DronesListView.ItemsSource = myBl.GetDrones(dr => dr.Status == status );
 
@@ -65,7 +65,7 @@ namespace PL
         {
         
                 IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)comboMaxWeightSelector.SelectedItem;
-              //  IBL.BO.DroneStatuses status = (IBL.BO.DroneStatuses)comboStatusSelector.SelectedItem;
+              //  BlApi.BO.DroneStatuses status = (BlApi.BO.DroneStatuses)comboStatusSelector.SelectedItem;
                 this.DronesListView.ItemsSource = myBl.GetDrones(dr=> dr.MaxWeight== weight);
            }
 
