@@ -1,12 +1,13 @@
-﻿using IBL.BO;
+﻿using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DalObject;
+using IBL;
 namespace BL
 {
-    public partial class BLObject : IBL.IBL
+    public partial class BLObject : BlApi
     {
         /// <summary>
         /// A function that recieve a parcels id and return from the list of the parcel the parcel with this id
@@ -25,7 +26,7 @@ namespace BL
             {
                 throw new BLInVaildIdException("id didn't exist", ex);
             }
-            IBL.BO.Parcel parcelBO = new Parcel()
+            Parcel parcelBO = new Parcel()
             {
                 Id = parcelDO.ID,
                 Longitude = (WeightCategories)parcelDO.Longitude,
@@ -56,7 +57,7 @@ namespace BL
             {
                 throw new BLInVaildIdException("id didn't exist", ex);
             }
-            IBL.BO.ParcelForList parcelBO = new ParcelForList()
+            ParcelForList parcelBO = new ParcelForList()
             {
                 Id = parcelDO.ID,
                 Longitude = (WeightCategories)parcelDO.Longitude,

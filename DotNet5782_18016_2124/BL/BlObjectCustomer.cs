@@ -1,12 +1,14 @@
-﻿using IBL.BO;
+﻿using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DalObject;
+using IBL;
+
 namespace BL
 {
-    public partial class BLObject : IBL.IBL
+    public partial class BLObject : BlApi
     {
         /// <summary>
         ///  A function that recieve a customer and update the customer whith the same id in the customer list
@@ -81,7 +83,7 @@ namespace BL
             {
                 throw new BLInVaildIdException("id didn't exist", ex);
             }
-            IBL.BO.Customer customerBO = new Customer();
+            BO.Customer customerBO = new Customer();
             customerBO.Id = customerDO.ID;
             customerBO.Name = customerDO.Name;
             customerBO.Phone = customerDO.Phone;

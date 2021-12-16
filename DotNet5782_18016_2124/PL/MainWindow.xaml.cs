@@ -22,7 +22,7 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        IBL.IBL myBl;
+        IBL.BlApi myBl;
         public MainWindow()
         {
             myBl = new BL.BLObject();

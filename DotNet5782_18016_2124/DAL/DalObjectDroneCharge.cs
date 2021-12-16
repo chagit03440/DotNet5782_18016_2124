@@ -9,7 +9,7 @@ using DO;
 
 namespace DalObject
 {
-    public partial class DalObject : DalApi
+    internal partial class DalObject : DalApi
     {
         /// <summary>
         /// A function that recieve a droneCharge id and return from the list of the droneCharges the droneCharge with this id 

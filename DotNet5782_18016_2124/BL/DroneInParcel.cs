@@ -5,7 +5,7 @@ using System.Text;
 
 
 
-namespace IBL.BO
+namespace BO
 {
     public class DroneInParcel
     {

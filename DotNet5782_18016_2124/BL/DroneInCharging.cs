@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IBL.BO
+namespace BO
 {
     public class DroneInCharging
     {

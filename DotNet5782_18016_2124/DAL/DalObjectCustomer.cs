@@ -9,6 +9,8 @@ using DO;
 
 namespace DalObject
 {
+    internal partial class DalObject : DalApi
+    {
     internal sealed partial class DalObject : DalApi
  {
         #region singelton

@@ -11,7 +11,7 @@ using DO;
 
 namespace DalObject
 {
-    public partial class DalObject : DalApi
+    internal partial class DalObject : DalApi
     {
         public DalObject()
         {
