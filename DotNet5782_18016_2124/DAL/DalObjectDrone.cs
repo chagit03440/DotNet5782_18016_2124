@@ -6,10 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
 using DO;
+using DalApi;
 
 namespace DalObject
 {
-    internal partial class DalObject : DalApi
+    internal partial class DalObject : IDal
     {
         /// <summary>
         ///  A function that recieve a drone and add it to the lists of the drones

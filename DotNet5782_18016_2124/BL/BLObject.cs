@@ -8,7 +8,7 @@ using BlApi;
 
 namespace BL
 {
-    internal sealed partial class BLObject : IBL
+    public partial class BLObject : IBL
     {
         #region singelton
         static readonly BLObject instance = new BLObject();
