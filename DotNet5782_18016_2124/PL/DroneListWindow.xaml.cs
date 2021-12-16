@@ -34,9 +34,9 @@ namespace PL
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
-        private IBL.BlApi myBl { get; }
+        private BlApi.IBL myBl { get; }
         private ObservableCollection<BO.DroneForList> collection;
-        public DroneListWindow(IBL.BlApi MyBl)
+        public DroneListWindow( BlApi.IBL MyBl)
         {
             myBl = MyBl;
             DataContext = this;
