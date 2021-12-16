@@ -9,8 +9,14 @@ using DO;
 
 namespace DalObject
 {
-    public partial class DalObject : DalApi
-    {
+    internal sealed partial class DalObject : DalApi
+ {
+        #region singelton
+        static readonly DalObject instance = new DalObject();
+        static DalObject() { }// static ctor to ensure instance init is done just before first usage
+        DalObject() { } // default => private
+        public static DalObject Instance { get => instance; }// The public Instance property to use
+        #endregion
         /// <summary>
         /// A function that recieve a customer and add it to the lists of the customers
         /// </summary>
