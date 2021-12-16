@@ -7,11 +7,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
 using DO;
+using DalApi;
 
 
 namespace DalObject
 {
-    internal sealed partial class DalObject : DalApi
+    internal sealed partial class DalObject : IDal
     { 
             #region singelton
             static readonly DalObject instance = new DalObject();
