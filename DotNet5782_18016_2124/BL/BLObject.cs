@@ -10,6 +10,13 @@ namespace BL
 {
     public partial class BLObject : IBL
     {
+        #region singelton
+        static readonly BLObject instance = new BLObject();
+        static BLObject() { }// static ctor to ensure instance init is done just before first usage
+        BLObject() { } // default => private
+        public static BLObject Instance { get => instance; }// The public Instance property to use
+        #endregion
+
 
         private DalApi.IDal myDal;
         private List<DroneForList> drones;
@@ -17,30 +24,30 @@ namespace BL
         /// <summary>
         /// constructor
         /// </summary>
-        public BLObject()
-        {
-            //myDal = new DalFactory();
-            drones = new List<DroneForList>();
-            try
-            {
-                initializeDrones();
-            }
+        //public BLObject()
+        //{
+        //    //myDal = new DalFactory();
+        //    drones = new List<DroneForList>();
+        //    try
+        //    {
+        //        initializeDrones();
+        //    }
             
-            catch (BLInVaildIdException ex)
-            {
+        //    catch (BLInVaildIdException ex)
+        //    {
 
-                Console.WriteLine(ex);
-            }
-            catch (BLAlreadyExistExeption ex)
-            {
+        //        Console.WriteLine(ex);
+        //    }
+        //    catch (BLAlreadyExistExeption ex)
+        //    {
 
-                Console.WriteLine(ex);
-            }
+        //        Console.WriteLine(ex);
+        //    }
            
            
 
 
-        }
+        //}
         /// <summary>
         /// a function that intialize the list of drones with the information from the datasource
         /// </summary>
