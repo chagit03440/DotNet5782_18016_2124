@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DalObject;
-using IBL;
+using BlApi;
+
 namespace BL
 {
-    public partial class BLObject : BlApi
-    {
-        /// <summary>
-        /// A function that receives a skimmer and returns the minimum battery the skimmer needs to reach the destination
-        /// </summary>
-        /// <param name="drone">the drone to calculate</param>
-        /// <returns>the minimum battery required</returns>
+    public partial class BLObject : IBL
+    {        /// <summary>
+             /// A function that receives a skimmer and returns the minimum battery the skimmer needs to reach the destination
+             /// </summary>
+             /// <param name="drone">the drone to calculate</param>
+             /// <returns>the minimum battery required</returns>
         private int calcMinBatteryRequired(DroneForList drone)
         {
             if (drone.Status == DroneStatuses.Free)

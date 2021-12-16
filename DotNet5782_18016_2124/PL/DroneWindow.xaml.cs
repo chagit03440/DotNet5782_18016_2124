@@ -12,7 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using IBL.BO;
+using BO;
 
 namespace PL
 {
@@ -38,7 +38,7 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
         private IBL.BlApi myBl;
-        private IBL.BO.Drone drone ;
+        private BO.Drone drone ;
         public event Action Update=delegate { };
         public DroneWindow()
         {
@@ -57,11 +57,11 @@ namespace PL
 
             drone = new Drone();
             comboStatus.ItemsSource = myBl.GetStations();
-            comboMaxWeight.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+            comboMaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             grdAdd.Visibility = Visibility.Visible;
             grdRelease.Visibility = Visibility.Hidden;
             grdUpdate.Visibility = Visibility.Hidden;
-            this.drone = new IBL.BO.Drone();
+            this.drone = new BO.Drone();
             this.myBl = myBl;
             DataContext = drone;
             txtMaxWeight.Visibility= Visibility.Hidden;

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BO;
 
-namespace IBL
+namespace BlApi
 {
-    public interface BlApi
+    public interface IBL
     {
 
         /// <summary>

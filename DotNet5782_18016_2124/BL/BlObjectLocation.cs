@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DalObject;
-using IBL;
+using BlApi;
+
 namespace BL
 {
-    public partial class BLObject : BlApi
+    public partial class BLObject : IBL
     {
         /// <summary>
         /// A function that receives a start and a destination and returns the distance between the two locations

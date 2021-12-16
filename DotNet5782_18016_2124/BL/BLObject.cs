@@ -4,16 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DalObject;
-using  IBL;
+using BlApi;
 
 namespace BL
-
 {
-
-    public partial class BLObject : BlApi
+    public partial class BLObject : IBL
     {
 
-        private DO.DalApi myDal;
+        private DalApi.IDal myDal;
         private List<DroneForList> drones;
         private static Random rand = new Random();
         /// <summary>
@@ -21,7 +19,7 @@ namespace BL
         /// </summary>
         public BLObject()
         {
-            myDal = new DalObject.DalObject();
+            //myDal = new DalFactory();
             drones = new List<DroneForList>();
             try
             {
@@ -132,7 +130,7 @@ namespace BL
         //    IEnumerable<IDAL.DO.Parcel> p = myDal.GetParcels();
         //    foreach (var item in d)
         //    {
-        //        BlApi.BO.DroneForList drt = new DroneForList();
+        //        IBL.BO.DroneForList drt = new DroneForList();
         //        drt.Id = item.ID;
         //        drt.Model = item.Model;
         //        foreach (var pr in p)
@@ -141,8 +139,8 @@ namespace BL
         //            {
         //                IDAL.DO.Customer sender = myDal.GetCustomer(pr.SenderId);
         //                IDAL.DO.Customer target = myDal.GetCustomer(pr.TargetId);
-        //                BlApi.BO.DroneLocation senderLocation = new DroneLocation { Lattitude = sender.Lattitude, Longitude = sender.Longitude };
-        //                BlApi.BO.DroneLocation targetLocation = new DroneLocation { Lattitude = target.Lattitude, Longitude = target.Longitude };
+        //                IBL.BO.DroneLocation senderLocation = new DroneLocation { Lattitude = sender.Lattitude, Longitude = sender.Longitude };
+        //                IBL.BO.DroneLocation targetLocation = new DroneLocation { Lattitude = target.Lattitude, Longitude = target.Longitude };
         //                drt.Status = DroneStatuses.Shipping;
         //                if (pr.PickedUp == null && pr.Scheduled != null)//החבילה שויכה אבל עדיין לא נאספה
         //                {
@@ -167,10 +165,10 @@ namespace BL
         //        {
         //            int temp = rnd.Next(1, 3);
         //            if (temp == 1)
-        //                drt.Status = BlApi.BO.DroneStatuses.Free;
+        //                drt.Status = IBL.BO.DroneStatuses.Free;
         //            else
-        //                drt.Status = BlApi.BO.DroneStatuses.Maintenance;
-        //            if (drt.Status == BlApi.BO.DroneStatuses.Maintenance)
+        //                drt.Status = IBL.BO.DroneStatuses.Maintenance;
+        //            if (drt.Status == IBL.BO.DroneStatuses.Maintenance)
         //            {
         //                int l = rnd.Next(0, myDal.GetStations().Count()), i = 0;
         //                IDAL.DO.Station s = new IDAL.DO.Station();

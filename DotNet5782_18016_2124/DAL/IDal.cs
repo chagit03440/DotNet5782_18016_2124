@@ -7,9 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
 using DO;
-namespace DO
+namespace DalApi
 {
-    public interface DalApi
+    public interface IDal
     {
         /// <summary>
         /// A function that recieve a customer and add it to the lists of the customers
