@@ -11,9 +11,9 @@ namespace BL
     public sealed partial class BLObject : IBL
     {
         #region singelton
-        public static readonly Lazy<BLObject> instance = new Lazy<BLObject>(()=>new BLObject());
+        public static readonly Lazy<BLObject> instance = new Lazy<BLObject>(() => new BLObject());
         static BLObject() { }// static ctor to ensure instance init is done just before first usage
-        //BLObject() { } // default => private
+        BLObject() { } // default => private
         public static BLObject Instance { get => instance.Value; }// The public Instance property to use
         #endregion
 
@@ -24,37 +24,35 @@ namespace BL
         /// <summary>
         /// constructor
         /// </summary>
-        private BLObject()
+        //public BLObject()
+        //{
+        //    //myDal = new DalFactory();
+        //    drones = new List<DroneForList>();
+        //    try
+        //    {
+        //        initializeDrones();
+        //    }
+
+        //    catch (BLInVaildIdException ex)
+        //    {
+
+        //        Console.WriteLine(ex);
+        //    }
+        //    catch (BLAlreadyExistExeption ex)
+        //    {
+
+        //        Console.WriteLine(ex);
+        //    }
+
+
+
+
+        //}
+        /// <summary>
+        /// a function that intialize the list of drones with the information from the datasource
+        /// </summary>
+        private void initializeDrones()
         {
-            myDal = DalApi.DalFactory.GetDal();
-            drones = new List<DroneForList>();
-            try
-            {
-                initializeDrones();
-            }
-
-            catch (BLInVaildIdException ex)
-            {
-
-                Console.WriteLine(ex);
-            }
-            catch (BLAlreadyExistExeption ex)
-            {
-
-                Console.WriteLine(ex);
-            }
-
-        }
-
-
-
-            //}
-            /// <summary>
-            /// a function that intialize the list of drones with the information from the datasource
-            /// </summary>
-            private void initializeDrones()
-            { 
-        
             foreach (var drone in myDal.GetDrones())
             {
                 drones.Add(new DroneForList
@@ -86,7 +84,7 @@ namespace BL
                         try
                         {
 
-                            station = myDal.GetStation(stationId+1000);
+                            station = myDal.GetStation(stationId + 1000);
                         }
                         catch (DO.InVaildIdException ex)
                         {
@@ -110,12 +108,12 @@ namespace BL
                         catch (DO.InVaildIdException ex)
                         {
 
-                            throw new BLInVaildIdException($"cannot anchor station{ station.ID }to drone",ex); 
+                            throw new BLInVaildIdException($"cannot anchor station{ station.ID }to drone", ex);
                         }
 
-                        
-                        drone.DroneLocation = getBaseStationLocation(stationId+1000);
-                        drone.Battery = (double)rand.Next(0, 20) ;
+
+                        drone.DroneLocation = getBaseStationLocation(stationId + 1000);
+                        drone.Battery = (double)rand.Next(0, 20);
                         drone.ParcelId = 0;
                     }
 
@@ -402,7 +400,7 @@ namespace BL
         /// </summary>
         /// <param name="parcelId">the parcel we want to assign</param>
         /// <param name="droneId">the drone we want to assign</param>
-        public void AssignmentParcelToDrone( int droneId)
+        public void AssignmentParcelToDrone(int droneId)
         {
             try
             {
