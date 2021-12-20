@@ -13,7 +13,7 @@ namespace BL
         #region singelton
         public static readonly Lazy<BLObject> instance = new Lazy<BLObject>(()=>new BLObject());
         static BLObject() { }// static ctor to ensure instance init is done just before first usage
-        BLObject() { } // default => private
+        //BLObject() { } // default => private
         public static BLObject Instance { get => instance.Value; }// The public Instance property to use
         #endregion
 
@@ -24,35 +24,37 @@ namespace BL
         /// <summary>
         /// constructor
         /// </summary>
-        //public BLObject()
-        //{
-        //    //myDal = new DalFactory();
-        //    drones = new List<DroneForList>();
-        //    try
-        //    {
-        //        initializeDrones();
-        //    }
-            
-        //    catch (BLInVaildIdException ex)
-        //    {
-
-        //        Console.WriteLine(ex);
-        //    }
-        //    catch (BLAlreadyExistExeption ex)
-        //    {
-
-        //        Console.WriteLine(ex);
-        //    }
-           
-           
-
-
-        //}
-        /// <summary>
-        /// a function that intialize the list of drones with the information from the datasource
-        /// </summary>
-        private void initializeDrones()
+        private BLObject()
         {
+            myDal = DalApi.DalFactory.GetDal();
+            drones = new List<DroneForList>();
+            try
+            {
+                initializeDrones();
+            }
+
+            catch (BLInVaildIdException ex)
+            {
+
+                Console.WriteLine(ex);
+            }
+            catch (BLAlreadyExistExeption ex)
+            {
+
+                Console.WriteLine(ex);
+            }
+
+        }
+
+
+
+            //}
+            /// <summary>
+            /// a function that intialize the list of drones with the information from the datasource
+            /// </summary>
+            private void initializeDrones()
+            { 
+        
             foreach (var drone in myDal.GetDrones())
             {
                 drones.Add(new DroneForList

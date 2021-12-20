@@ -46,9 +46,9 @@ namespace PL
             Loaded += ToolWindow_Loaded;
      
             comboStatusSelector.ItemsSource = Enum.GetValues(typeof(BO.DroneStatuses));
-            DronesListView.ItemsSource = myBl.GetDrones();
-            //collection = new ObservableCollection<BO.DroneForList>(myBl.GetDrones(null));
-            //DronesListView.ItemsSource = collection;
+           // DronesListView.ItemsSource = myBl.GetDrones();
+            collection = new ObservableCollection<BO.DroneForList>(myBl.GetDrones());
+            DronesListView.ItemsSource = collection;
             comboMaxWeightSelector.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
         }
 
