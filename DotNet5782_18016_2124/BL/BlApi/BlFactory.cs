@@ -5,13 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using BlApi;
 
-namespace BL
+namespace BlApi
 {
-    public  class BlFactory
+    public static class BlFactory
     {
-        public static IBL GetBl()
-        {
-            return new BLObject();
-        }
+        public static IBL GetBl() => BL.BLObject.Instance;
     }
 }
+

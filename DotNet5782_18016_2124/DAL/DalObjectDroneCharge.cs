@@ -8,7 +8,7 @@ using System.Collections;
 using DO;
 using DalApi;
 
-namespace DalObject
+namespace Dal
 {
     internal partial class DalObject : IDal
     {

@@ -5,8 +5,8 @@
 //using System.Collections.Generic;
 //using System.Text;
 //using IDAL;
-//using DalObject;
-//using DAL.DalObject;
+//using Dal;
+//using DAL.Dal;
 //using System.Linq;
 //using System.Threading.Tasks;
 //using System.Collections;
@@ -26,7 +26,7 @@
 //        enum UpdateOptions { Assignment = 1, Pickedup, Delivery, Recharge, Releas, Exit }
 //        enum ListOptions { Exit, Station, Drones, Cusomers, Parcels, UnAssignmentParcel, AvailableChargingStations }
 
-//        static DalObject.DalObject data = new DalObject.DalObject();
+//        static Dal.Dal data = new Dal.Dal();
 
 //        public static void Menue()
 //        {

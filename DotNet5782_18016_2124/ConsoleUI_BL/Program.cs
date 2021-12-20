@@ -1,5 +1,5 @@
 ﻿using System;
-using IBL.BO;
+using BO;
 
 namespace ConsoleUI_BL
 {
@@ -10,10 +10,10 @@ namespace ConsoleUI_BL
         enum UpdateOptions { Exit, Assignment, Pickedup, Delivery, Recharge, Release, Drone, Station, Customer }
         enum ListOptions { Exit, Stations, Drones, Customers, Parcels, UnAssignmentParcel, AvailableChargingStations }
 
-        static BL.BLObject data;
-        static void Main(string[] args)
+        static BlApi.IBL data;
+        public static void Main(string[] args)
         {
-            data = new BL.BLObject();
+            data =  BlApi.BlFactory.GetBl();
             ShowMenu();
         }
         private static void ShowMenu()
@@ -45,7 +45,7 @@ namespace ConsoleUI_BL
                     }
                 } while (menuOption != MenueOptions.Exit);
             }
-           
+
             catch (DO.InVaildIdException ex)
             {
 
@@ -105,20 +105,20 @@ namespace ConsoleUI_BL
                     }
 
                     break;
-                case ListOptions.UnAssignmentParcel:
-                    foreach (var item in data.UnAssignmentParcels())
-                    {
-                        Console.WriteLine(item);
-                    }
+                //case ListOptions.UnAssignmentParcel:
+                //    foreach (var item in data.UnAssignmentParcels())
+                //    {
+                //        Console.WriteLine(item);
+                //    }
 
-                    break;
-                case ListOptions.AvailableChargingStations:
-                    foreach (var item in data.AvailableChargingStations())
-                    {
-                        Console.WriteLine(item);
-                    }
+                //    break;
+                //case ListOptions.AvailableChargingStations:
+                //    foreach (var item in data.AvailableChargingStations())
+                //    {
+                //        Console.WriteLine(item);
+                //    }
 
-                    break;
+                //    break;
                 case ListOptions.Exit:
                     break;
             }
