@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Dal;
 using BlApi;
+using DalApi;
 
 namespace BL
 {
@@ -13,7 +14,6 @@ namespace BL
         #region singelton
         public static readonly Lazy<BLObject> instance = new Lazy<BLObject>(() => new BLObject());
         static BLObject() { }// static ctor to ensure instance init is done just before first usage
-        BLObject() { } // default => private
         public static BLObject Instance { get => instance.Value; }// The public Instance property to use
         #endregion
 
@@ -24,109 +24,110 @@ namespace BL
         /// <summary>
         /// constructor
         /// </summary>
-        //public BLObject()
-        //{
-        //    //myDal = new DalFactory();
-        //    drones = new List<DroneForList>();
-        //    try
-        //    {
-        //        initializeDrones();
-        //    }
-
-        //    catch (BLInVaildIdException ex)
-        //    {
-
-        //        Console.WriteLine(ex);
-        //    }
-        //    catch (BLAlreadyExistExeption ex)
-        //    {
-
-        //        Console.WriteLine(ex);
-        //    }
-
-
-
-
-        //}
-        /// <summary>
-        /// a function that intialize the list of drones with the information from the datasource
-        /// </summary>
-        private void initializeDrones()
+        public BLObject()
         {
-            foreach (var drone in myDal.GetDrones())
+            myDal = DalFactory.GetDal();
+            drones = new List<DroneForList>();
+            try
             {
-                drones.Add(new DroneForList
-                {
-                    Id = drone.ID,
-                    Model = drone.Model,
-                    MaxWeight = (WeightCategories)drone.MaxWeight
-                });
+                initializeDrones();
             }
 
-            foreach (var drone in drones)
+            catch (BLInVaildIdException ex)
             {
-                if (isDroneWhileShipping(drone))
+
+                Console.WriteLine(ex);
+            }
+            catch (BLAlreadyExistExeption ex)
+            {
+
+                Console.WriteLine(ex);
+            }
+        }
+
+
+
+            //}
+            /// <summary>
+            /// a function that intialize the list of drones with the information from the datasource
+            /// </summary>
+            private void initializeDrones()
+            {
+                foreach (var drone in myDal.GetDrones())
                 {
-                    drone.Status = DroneStatuses.Shipping;
-                    drone.DroneLocation = findDroneLocation(drone);
-                    // note : drone.DeliveryId getting value inside isDroneWhileShipping
-                    int minBattery = calcMinBatteryRequired(drone);
-                    drone.Battery = (double)rand.Next(minBattery, 100) / 100;
+                    drones.Add(new DroneForList
+                    {
+                        Id = drone.ID,
+                        Model = drone.Model,
+                        MaxWeight = (WeightCategories)drone.MaxWeight
+                    });
                 }
-                else
+
+                foreach (var drone in drones)
                 {
-                    drone.Status = (DroneStatuses)rand.Next(0, 2);
-                    if (drone.Status == DroneStatuses.Maintenance)
+                    if (isDroneWhileShipping(drone))
                     {
-                        DO.Station station = default;
-                        DO.Drone drone1 = default;
-                        int stationId = rand.Next(1, myDal.GetStations().Count());
-                        try
-                        {
-
-                            station = myDal.GetStation(stationId + 1000);
-                        }
-                        catch (DO.InVaildIdException ex)
-                        {
-
-                            throw new BLInVaildIdException("the station doesn't exist", ex);
-                        }
-                        try
-                        {
-                            drone1 = myDal.GetDrone(drone.Id);
-
-                        }
-                        catch (DO.InVaildIdException ex)
-                        {
-
-                            throw new BLInVaildIdException("the drone doesn't exist", ex);
-                        }
-                        try
-                        {
-                            myDal.AnchorDroneStation(station, drone1);
-                        }
-                        catch (DO.InVaildIdException ex)
-                        {
-
-                            throw new BLInVaildIdException($"cannot anchor station{ station.ID }to drone", ex);
-                        }
-
-
-                        drone.DroneLocation = getBaseStationLocation(stationId + 1000);
-                        drone.Battery = (double)rand.Next(0, 20);
-                        drone.ParcelId = 0;
-                    }
-
-                    if (drone.Status == DroneStatuses.Free)
-                    {
+                        drone.Status = DroneStatuses.Shipping;
                         drone.DroneLocation = findDroneLocation(drone);
-                        drone.ParcelId = 0;
+                        // note : drone.DeliveryId getting value inside isDroneWhileShipping
                         int minBattery = calcMinBatteryRequired(drone);
                         drone.Battery = (double)rand.Next(minBattery, 100) / 100;
                     }
+                    else
+                    {
+                        drone.Status = (DroneStatuses)rand.Next(0, 2);
+                        if (drone.Status == DroneStatuses.Maintenance)
+                        {
+                            DO.Station station = default;
+                            DO.Drone drone1 = default;
+                            int stationId = rand.Next(1, myDal.GetStations().Count());
+                            try
+                            {
+
+                                station = myDal.GetStation(stationId + 1000);
+                            }
+                            catch (DO.InVaildIdException ex)
+                            {
+
+                                throw new BLInVaildIdException("the station doesn't exist", ex);
+                            }
+                            try
+                            {
+                                drone1 = myDal.GetDrone(drone.Id);
+
+                            }
+                            catch (DO.InVaildIdException ex)
+                            {
+
+                                throw new BLInVaildIdException("the drone doesn't exist", ex);
+                            }
+                            try
+                            {
+                                myDal.AnchorDroneStation(station, drone1);
+                            }
+                            catch (DO.InVaildIdException ex)
+                            {
+
+                                throw new BLInVaildIdException($"cannot anchor station{ station.ID }to drone", ex);
+                            }
+
+
+                            drone.DroneLocation = getBaseStationLocation(stationId + 1000);
+                            drone.Battery = (double)rand.Next(0, 20);
+                            drone.ParcelId = 0;
+                        }
+
+                        if (drone.Status == DroneStatuses.Free)
+                        {
+                            drone.DroneLocation = findDroneLocation(drone);
+                            drone.ParcelId = 0;
+                            int minBattery = calcMinBatteryRequired(drone);
+                            drone.Battery = (double)rand.Next(minBattery, 100) / 100;
+                        }
+                    }
                 }
             }
-        }
+ 
         //private void initializeDrones()
         //{
         //    bool flag = false;
