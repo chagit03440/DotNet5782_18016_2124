@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,16 @@ namespace PL
     /// </summary>
     public partial class StationListWindow : Window
     {
+        private IBL myBl;
+
         public StationListWindow()
         {
             InitializeComponent();
+        }
+
+        public StationListWindow(IBL myBl)
+        {
+            this.myBl = myBl;
         }
     }
 }
