@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="StationListView" Height="450" Width="800">
+        Title="StationListview" Height="450" Width="800">
     <Window.Background>
         <ImageBrush ImageSource="/DRON2.jpg"  Opacity="0.4"/>
     </Window.Background>
@@ -30,10 +30,23 @@
             <Button Name="btnAddcustomer" Content="Add customer" HorizontalAlignment="Left" Margin="146,23,0,0" VerticalAlignment="Top" Height="35" Width="124" Click="btnAddDrone_Click" Background="#FF494E7A"/>
             <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="179,32,0,0" VerticalAlignment="Top" Height="36" Width="126" Click="btnClose_Click" Background="#FF494E7A" Grid.Column="1"/>
         </Grid>
-        <ListView x:Name="StationListView" Margin="5,116,5,23" MouseDoubleClick="ListView_MouseDoubleClick" Grid.RowSpan="2" Grid.ColumnSpan="3" SelectionChanged="DronesListView_SelectionChanged">
+        <ListView x:Name="CustomersListView" Margin="5,116,5,23" MouseDoubleClick="ListView_MouseDoubleClick" Grid.RowSpan="2" Grid.ColumnSpan="3" SelectionChanged="DronesListView_SelectionChanged">
             <ListView.Background>
                 <ImageBrush/>
             </ListView.Background>
         </ListView>
     </Grid>
 </Window>
+
+
+        <Grid.Background>
+            <ImageBrush ImageSource="/DRON2.jpg"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="101*"/>
+            <ColumnDefinition Width="21*"/>
+            <ColumnDefinition Width="38*"/>
+        </Grid.ColumnDefinitions>
+
+    </Z
+<
