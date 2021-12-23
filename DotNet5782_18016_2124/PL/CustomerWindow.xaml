@@ -25,10 +25,10 @@
         <Label Name="lblParcelsToTheCustomer" Content="Parcels to The Customer" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="6" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2"/>
 
         <TextBox Name="txtId" HorizontalAlignment="Left" Margin="64,0,0,18" Text="" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" Background="White" Grid.Column="1"/>
-        <TextBox Name="txtModel" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="1" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtName" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="1" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
         <ComboBox Name="comboMaxWeight" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
         <ComboBox Name="comboStatus" HorizontalAlignment="Left" Margin="64,15,0,0" Grid.Row="3" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox Name="txtBattery" HorizontalAlignment="Left" Margin="64,17,0,0" Grid.Row="4" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtLatitude" HorizontalAlignment="Left" Margin="64,17,0,0" Grid.Row="4" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
         <Grid Grid.Row="2" Grid.ColumnSpan="3" Margin="0,60,0,60" Grid.RowSpan="3"/>
         <Grid Name="grdUpdate" Margin="196,0,-393,33" Grid.RowSpan="7" Grid.Column="2">
             <Grid.ColumnDefinitions>
@@ -40,8 +40,8 @@
             <Button x:Name="btnAddDrone" Content="Add" HorizontalAlignment="Left" Margin="40,266,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnAddDrone_Click" Background="#FF494E7A"/>
 
         </Grid>
-        <TextBox Name="txtStatus" HorizontalAlignment="Left" Margin="64,19,0,0" Grid.Row="3" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox Name="txtMaxWeight" HorizontalAlignment="Left" Margin="63,0,0,0" Grid.Row="2" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtLongtitude" HorizontalAlignment="Left" Margin="64,19,0,0" Grid.Row="3" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtPhone" HorizontalAlignment="Left" Margin="63,0,0,0" Grid.Row="2" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
         <ListBox Name="listBoxParcelsFrom" Grid.Column="1" Grid.Row="4" Margin="82,63,0,10" Grid.RowSpan="2"/>
         <ListBox Name="listBoxParcelsTo" Grid.Column="1" Grid.Row="6" Margin="82,0,0,10"/>
         <Grid.RowDefinitions>
