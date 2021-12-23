@@ -5,29 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DroneWindow" Height="431" Width="813">
-    <Window.Background>
-        <ImageBrush ImageSource="/DRON2.jpg" Opacity="0.7"/>
-    </Window.Background>
+        Title="DroneWindow" Height="431" Width="813" Background="Black">
     <Grid Margin="0,0,567,-6">
-        <Grid x:Name="grdDrone" Margin="0,10,574,10" Grid.Row="1"/>
-        <Label Name="lblId" Content="Id" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" FontSize="14" FontWeight="Bold"/>
-        <Label Name="lblModel" Content="Model" HorizontalAlignment="Left" VerticalAlignment="Center" Width="92" Grid.Row="1" Margin="10,0,0,0" Foreground="#FF1D0202" FontWeight="Bold" FontSize="14"/>
-        <Label Name="lblMaxW" Content="Max Weight" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="2" FontSize="14" FontWeight="Bold"/>
-        <Label Name="lblStatus" Content="Status" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="3" FontSize="14" FontWeight="Bold"/>
-        <Label Name="lblBattery" Content="Battery" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="4" FontSize="14" FontWeight="Bold"/>
-        <Label Name="lblLongtitude" Content="Longtitude" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="5" FontWeight="Bold" FontSize="14"/>
-        <Label Name="lblLatitude" Content="Latitude" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="6" FontSize="14" FontWeight="Bold"/>
-        <TextBox Name="txtId" HorizontalAlignment="Left" Margin="100,0,0,18" Text="" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" Background="White"/>
-        <TextBox Name="txtModel" HorizontalAlignment="Left" Margin="100,0,0,0" Grid.Row="1" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
-        <ComboBox Name="comboMaxWeight" HorizontalAlignment="Left" Margin="100,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="120"/>
-        <ComboBox Name="comboStatus" HorizontalAlignment="Left" Margin="100,15,0,0" Grid.Row="3" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="txtBattery" HorizontalAlignment="Left" Margin="100,17,0,0" Grid.Row="4" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="txtLongtitude" HorizontalAlignment="Left" Margin="100,17,0,0" Grid.Row="5" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="txtLatitude" HorizontalAlignment="Left" Margin="100,0,0,0" Grid.Row="6" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
-        <Grid Grid.Row="3"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="36*"/>
+            <ColumnDefinition Width="209*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="grdDrone" Margin="0,10,36,10" Grid.Row="1"/>
+        <Label Name="lblId" Content="Id" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <Label Name="lblModel" Content="Model" HorizontalAlignment="Left" VerticalAlignment="Center" Width="92" Grid.Row="1" Margin="10,0,0,0" Foreground="#FF1D0202" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2"/>
+        <Label Name="lblMaxW" Content="Max Weight" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="2" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <Label Name="lblStatus" Content="Status" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="3" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <Label Name="lblBattery" Content="Battery" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="4" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <Label Name="lblLongtitude" Content="Longtitude" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="5" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2"/>
+        <Label Name="lblLatitude" Content="Latitude" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="6" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <TextBox Name="txtId" HorizontalAlignment="Left" Margin="64,0,0,18" Text="" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" Background="White" Grid.Column="1"/>
+        <TextBox Name="txtModel" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="1" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
+        <ComboBox Name="comboMaxWeight" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
+        <ComboBox Name="comboStatus" HorizontalAlignment="Left" Margin="64,15,0,0" Grid.Row="3" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtBattery" HorizontalAlignment="Left" Margin="64,17,0,0" Grid.Row="4" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtLongtitude" HorizontalAlignment="Left" Margin="64,17,0,0" Grid.Row="5" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtLatitude" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="6" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
+        <Grid Grid.Row="2" Grid.ColumnSpan="3" Margin="0,60,0,60" Grid.RowSpan="3"/>
 
-        <Grid Name="grdAdd" Margin="587,14,-569,23" Grid.RowSpan="6" Grid.Row="2">
+        <Grid Name="grdAdd" Margin="342,14,-569,23" Grid.RowSpan="5" Grid.Row="2" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="304*"/>
                 <RowDefinition Height="81*"/>
@@ -39,7 +41,7 @@
             </Grid.ColumnDefinitions>
             <Button Name="btnAddDrone" Content="Add" HorizontalAlignment="Left" Margin="70,188,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnAddDrone_Click" Grid.ColumnSpan="3" Grid.RowSpan="2" Background="#FF494E7A"/>
         </Grid>
-        <Grid Name="grdUpdate" Margin="251,13,-294,16" Grid.RowSpan="7">
+        <Grid Name="grdUpdate" Margin="6,13,-294,16" Grid.RowSpan="7" Grid.Column="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="246*"/>
                 <ColumnDefinition Width="23*"/>
@@ -52,14 +54,14 @@
             <Button Name="btnPickedup" Content="Picked up parcel" HorizontalAlignment="Left" Margin="73,129,0,0" VerticalAlignment="Top" Click="btnPickedup_Click" Background="#FF494E7A" Width="154"/>
 
         </Grid>
-        <Grid x:Name="grdRelease" Grid.Row="4" Margin="251,17,-251,17" Grid.RowSpan="4">
+        <Grid x:Name="grdRelease" Grid.Row="4" Margin="6,17,-251,17" Grid.RowSpan="3" Grid.Column="2">
             <Label Content="Enter the time (in minute)" HorizontalAlignment="Left" Margin="53,12,0,0" VerticalAlignment="Top"/>
             <Button Name="btnOk" Content="OK" HorizontalAlignment="Left" Margin="92,121,0,0" VerticalAlignment="Top" Width="50" Click="btnOk_Click" Background="#FF494E7A"/>
             <TextBox Name="txtTime" HorizontalAlignment="Left" Margin="65,43,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         </Grid>
-        <TextBox Name="txtStatus" HorizontalAlignment="Left" Margin="100,19,0,0" Grid.Row="3" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox Name="txtMaxWeight" HorizontalAlignment="Left" Margin="99,0,0,0" Grid.Row="2" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"/>
-        <Grid x:Name="grdExit" Margin="569,17,-569,44" Grid.RowSpan="3">
+        <TextBox Name="txtStatus" HorizontalAlignment="Left" Margin="64,19,0,0" Grid.Row="3" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtMaxWeight" HorizontalAlignment="Left" Margin="63,0,0,0" Grid.Row="2" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
+        <Grid x:Name="grdExit" Margin="324,17,-569,44" Grid.RowSpan="3" Grid.Column="2">
             <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="90,20,0,0" VerticalAlignment="Top" Height="40" Width="106" Click="btnExit_Click" Background="#FF494E7A"/>
         </Grid>
         <Grid.RowDefinitions>
