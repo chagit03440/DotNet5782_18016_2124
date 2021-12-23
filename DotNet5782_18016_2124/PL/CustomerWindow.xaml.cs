@@ -59,11 +59,11 @@ namespace PL
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
-        
-      
 
 
-        
+
+
+
         public CustomerWindow(BlApi.IBL myBl, Customer c)
         {
 
@@ -72,35 +72,15 @@ namespace PL
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
             this.myBl = myBl;
-            drone = new Drone();
-            drone = d;
-            grdAdd.Visibility = Visibility.Hidden;
+            customer = new Customer();
+            customer = c;
+            btnAddCustomer.Visibility = Visibility.Hidden;
             comboMaxWeight.Visibility = Visibility.Hidden;
             comboStatus.Visibility = Visibility.Hidden;
-            grdRelease.Visibility = Visibility.Hidden;
-            fillTextbox(drone);
-            if (d.Status == DroneStatuses.Free)
-            {
-                btnCharge.Visibility = Visibility.Visible;
-                btnAssignment.Visibility = Visibility.Visible;
-            }
-
-            if (d.Status == DroneStatuses.Maintenance)
-            {
-                btnRelease.Visibility = Visibility.Visible;
-            }
-
-            if (d.Status == DroneStatuses.Shipping)
-            {
-                btnDelivery.Visibility = Visibility.Visible;
-                btnPickedup.Visibility = Visibility.Visible;
-            }
-            txtStatus.IsEnabled = false;
-            txtMaxWeight.IsEnabled = false;
+            fillTextbox(c);
+          
             txtId.IsEnabled = false;
-            comboStatus.IsEnabled = false;
-            comboMaxWeight.IsEnabled = false;
-            txtBattery.IsEnabled = false;
+            txtPhone.IsEnabled = false;
 
             txtLongtitude.IsEnabled = false;
             txtLatitude.IsEnabled = false;
@@ -109,12 +89,12 @@ namespace PL
         {
             try
             {
-                drone.Model = txtModel.Text;
-                myBl.UpdateDrone(drone);
+                customer.Name = txtName.Text;
+                myBl.UpdateCustomer(customer);
                 MessageBox.Show("the model of the drone was successfully updated");
 
-                DroneForList dr = myBl.GetDroneForList(drone.Id);
-                fillTextbox(dr);
+                Customer cs = myBl.GetCustomer(customer.Id);
+                fillTextbox(cs);
                 Update();
 
             }
@@ -127,50 +107,55 @@ namespace PL
 
 
 
-        private void fillTextbox(DroneForList d)
+        private void fillTextbox(CustomerForList c)
         {
 
-            txtStatus.Text = d.Status.ToString();
-            txtMaxWeight.Text = d.MaxWeight.ToString();
-            txtId.Text = d.Id.ToString();
-            txtModel.Text = d.Model.ToString();
-            txtBattery.Text = d.Battery.ToString() + "%";
+            txtId.Text = c.Id.ToString();
+            txtName.Text = c.Name.ToString();
+            txtPhone.Text = c.Phone.ToString();
 
-            txtLongtitude.Text = d.DroneLocation.Longitude.ToString();
-            txtLatitude.Text = d.DroneLocation.Lattitude.ToString();
+            //txtLongtitude.Text = c.Location.Longitude.ToString();
+            //txtLatitude.Text = c.Location.Lattitude.ToString();
+
+           
         }
-        private void fillTextbox(Drone d)
+        private void fillTextbox(Customer c)
         {
-            if (d != null)
+            if (c != null)
             {
-                txtStatus.Text = d.Status.ToString();
-                txtMaxWeight.Text = d.MaxWeight.ToString();
-                txtId.Text = d.Id.ToString();
-                txtModel.Text = d.Model.ToString();
-                txtBattery.Text = d.Battery.ToString() + "%";
+                txtId.Text = c.Id.ToString();
+                txtName.Text = c.Name.ToString();
+                txtPhone.Text = c.Phone.ToString();
 
-                txtLongtitude.Text = d.Location.Longitude.ToString();
-                txtLatitude.Text = d.Location.Lattitude.ToString();
+                txtLongtitude.Text = c.Location.Longitude.ToString();
+                txtLatitude.Text = c.Location.Lattitude.ToString();
                 return;
             }
 
         }
 
-        private void btnAddDrone_Click(object sender, RoutedEventArgs e)
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
             try
             {
-                StationForList s = (StationForList)comboStatus.SelectedItem;
-                DroneForList dr = new DroneForList()
+
+                Customer cus = new Customer()
                 {
                     Id = Convert.ToInt32(txtId.Text),
-                    MaxWeight = (WeightCategories)comboMaxWeight.SelectedItem,
-                    Model = txtModel.Text,
+                    Name = txtName.Text,
+                    Phone = txtPhone.Text,
+                 
                 };
 
 
-                myBl.AddDrone(dr, Convert.ToInt32(s.Id));
+                myBl.AddCustomer(cus);
                 MessageBox.Show("the drone was successfully added");
                 Update();
 
@@ -198,139 +183,6 @@ namespace PL
             if (flag)
                 this.Close();
         }
-
-
-
-
-
-
-
-
-
-        private void btnOk_Click(object sender, RoutedEventArgs e)
-        {
-
-            myBl.ReleaseDroneFromRecharge(drone.Id, Convert.ToInt32(txtTime.Text));
-            MessageBox.Show("the drone was relase from charge");
-            DroneForList dr = myBl.GetDroneForList(drone.Id);
-            fillTextbox(dr);
-            btnRelease.Visibility = Visibility.Hidden;
-
-            btnCharge.Visibility = Visibility.Visible;
-            btnAssignment.Visibility = Visibility.Visible;
-
-            grdUpdate.Visibility = Visibility.Visible;
-            grdRelease.Visibility = Visibility.Hidden;
-            Update();
-
-        }
-
-        private void btnRelease_Click(object sender, RoutedEventArgs e)
-        {
-            grdUpdate.Visibility = Visibility.Hidden;
-            grdRelease.Visibility = Visibility.Visible;
-        }
-
-        private void btnCharge_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                myBl.SendDroneToRecharge(drone.Id);
-                MessageBox.Show("the drone was sent to charge");
-                DroneForList dr = myBl.GetDroneForList(drone.Id);
-                fillTextbox(dr);
-                btnRelease.Visibility = Visibility.Visible;
-                btnCharge.Visibility = Visibility.Hidden;
-                btnAssignment.Visibility = Visibility.Hidden;
-                Update();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-
-            }
-
-        }
-
-        private void btnAssignment_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                myBl.AssignmentParcelToDrone(drone.Id);
-                MessageBox.Show("the drone belongs to parcel");
-                DroneForList dr = myBl.GetDroneForList(drone.Id);
-                fillTextbox(dr);
-                btnPickedup.Visibility = Visibility.Visible;
-                btnDelivery.Visibility = Visibility.Visible;
-                btnCharge.Visibility = Visibility.Hidden;
-                btnAssignment.Visibility = Visibility.Hidden;
-                Update();
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-
-
-        private void btnDelivery_Click(object sender, RoutedEventArgs e)
-        {
-
-            try
-            {
-
-                myBl.PackageDeliveryByDrone(drone.Id);
-                MessageBox.Show("the parcel was delivered to the customer");
-                Drone dr = myBl.GetDrone(drone.Id);
-                fillTextbox(dr);
-
-                btnPickedup.Visibility = Visibility.Hidden;
-                btnDelivery.Visibility = Visibility.Hidden;
-                btnCharge.Visibility = Visibility.Visible;
-                btnAssignment.Visibility = Visibility.Visible;
-                Update();
-
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message);
-            }
-
-
-        }
-
-        private void btnPickedup_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                myBl.PickedupParcel(drone.Id);
-                DroneForList dr = myBl.GetDroneForList(drone.Id);
-                fillTextbox(dr);
-                MessageBox.Show("the parcel was collected by the parcel");
-                Update();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-
-
-            }
-
-
-        }
-
-        private void btnExit_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void txtMaxWeight_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }
-}
+

@@ -5,16 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="StationListWindow" Height="450" Width="800">
-    <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="/DRON2.jpg"/>
-        </Grid.Background>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="101*"/>
-            <ColumnDefinition Width="21*"/>
-            <ColumnDefinition Width="38*"/>
-        </Grid.ColumnDefinitions>
+        Title="StationListView" Height="450" Width="800">
+    <Window.Background>
+        <ImageBrush ImageSource="/DRON2.jpg"  Opacity="0.4"/>
+    </Window.Background>
 
+    <Grid Name="mainGrid" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="39*"/>
+            <ColumnDefinition Width="119*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="116.007"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" Grid.ColumnSpan="2" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+
+            </Grid.ColumnDefinitions >
+            <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="179,32,0,0" VerticalAlignment="Top" Height="36" Width="126" Click="btnClose_Click" Background="#FF494E7A" Grid.Column="1"/>
+        </Grid>
+        <ListView x:Name="StationListView" Margin="5,116,5,23" MouseDoubleClick="ListView_MouseDoubleClick" Grid.RowSpan="2" Grid.ColumnSpan="3" SelectionChanged="StationListView_SelectionChanged">
+            <ListView.Background>
+                <ImageBrush/>
+            </ListView.Background>
+        </ListView>
     </Grid>
 </Window>
