@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="DroneListWindow" Height="640" Width="800">
     <Window.Background>
-        <ImageBrush ImageSource="/DRON2.jpg" Opacity="0.4" />
+        <ImageBrush Opacity="0.4" ImageSource=" "/>
     </Window.Background>
     <Grid Name="mainGrid">
         <Grid.Background>
