@@ -339,6 +339,11 @@ namespace PL
         {
             this.Close();
         }
+
+        private void txtMaxWeight_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 
 

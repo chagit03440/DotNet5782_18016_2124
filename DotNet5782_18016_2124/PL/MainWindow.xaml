@@ -5,17 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="640" Width="800" Background="#FFCCF3FF">
-    <Grid Name="MainGrid" Margin="0,0,0,489">
+        Title="MainWindow" Height="640" Width="800">
+    <Window.Background>
+        <ImageBrush ImageSource="/DRON2.jpg"/>
+    </Window.Background>
+    <Grid Name="MainGrid" Margin="0,500,0,0">
         <Grid.Background>
             <ImageBrush/>
         </Grid.Background>
-        <Button Name="btnstart" Content="DroneListView" HorizontalAlignment="Center" Margin="0,45,0,0" VerticalAlignment="Top" Height="79" Width="722" Click="Button_Click" Background="#FF2939D6" FontWeight="Bold" FontSize="36"/>
-        <Grid Margin="39,164,39,-439">
-            <Grid.Background>
-                <ImageBrush ImageSource="/DRON.jpg"/>
-            </Grid.Background>
-        </Grid>
+        <Button Name="btnstart" Content="DroneListView" HorizontalAlignment="Left" Margin="445,27,0,0" Width="322" Click="Button_Click" Background="#FF494E7A" FontWeight="Bold" FontSize="36" Height="79" VerticalAlignment="Top"/>
 
 
 

@@ -110,5 +110,10 @@ namespace PL
             collection = new ObservableCollection<BO.DroneForList>(myBl.GetDrones(null));
             DronesListView.ItemsSource = collection;
         }
+
+        private void DronesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
