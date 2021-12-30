@@ -26,9 +26,9 @@ namespace PL
         public CustomersListWindow(BlApi.IBL MyBl)
         {
             myBl = MyBl;
-            DataContext = this;
             InitializeComponent();
-
+            DataContext = this;
+        
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
 
