@@ -1,5 +1,4 @@
-﻿using BlApi;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,31 +19,9 @@ namespace PL
     /// </summary>
     public partial class StationListWindow : Window
     {
-        private IBL myBl;
-
-        public StationListWindow()
+        public StationListWindow(BlApi.IBL myBl)
         {
             InitializeComponent();
-        }
-
-        public StationListWindow(IBL myBl)
-        {
-            this.myBl = myBl;
-        }
-
-        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void StationListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 }
