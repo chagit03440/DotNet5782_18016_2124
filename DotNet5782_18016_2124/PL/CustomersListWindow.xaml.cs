@@ -58,12 +58,12 @@ namespace PL
         {
             if (CustomersListView.SelectedItem == null)
                 return;
-            BO.Drone dr = new BO.Drone();
-            BO.DroneForList drL = CustomersListView.SelectedItem as BO.DroneForList;
+            BO.Customer cs = new BO.Customer();
+            BO.CustomerForList csL = CustomersListView.SelectedItem as BO.CustomerForList;
 
             try
             {
-                dr = myBl.GetDrone(drL.Id);
+                cs = myBl.GetCustomer(csL.Id);
 
             }
             catch (Exception ex)
@@ -71,18 +71,18 @@ namespace PL
                 MessageBox.Show(ex.Message);
 
             }
-            DroneWindow droneWindow = new DroneWindow(myBl, dr);
-            droneWindow.Show();
-            droneWindow.Update += CustomerWindow_Update;
+            CustomerWindow customerWindow = new CustomerWindow(myBl, cs);
+            customerWindow.Show();
+            customerWindow.Update += CustomerWindow_Update;
 
 
         }
 
-        private void btnAddDrone_Click(object sender, RoutedEventArgs e)
+        private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
         {
-            DroneWindow dw = new DroneWindow(myBl);
-            dw.Show();
-            dw.Update += CustomerWindow_Update;
+            CustomerWindow cw = new CustomerWindow(myBl);
+            cw.Show();
+            cw.Update += CustomerWindow_Update;
 
         }
 
@@ -96,9 +96,10 @@ namespace PL
             CustomersListView.ItemsSource = collection;
         }
 
-        private void DronesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+     
+        private void btnClose_Click_1(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
     }
 }

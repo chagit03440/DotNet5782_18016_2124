@@ -15,11 +15,12 @@ namespace Dal
     internal sealed partial class DalObject : IDal
     {
         #region singelton
-        public static readonly Lazy<DalObject> instance = new Lazy<DalObject>(() => new DalObject()); static DalObject() { }// static ctor to ensure instance init is done just before first usage
-            DalObject() { } // default => private
-            public static DalObject Instance { get => instance.Value; }// The public Instance property to use
-            #endregion
-                    
+        public static readonly Lazy<DalObject> instance = new Lazy<DalObject>(() => new DalObject()); 
+        static DalObject() { }// static ctor to ensure instance init is done just before first usage
+        
+        public static IDal Instance { get => instance.Value; }// The public Instance property to use
+        #endregion
+        private DalObject() => DataSource.Initialize();     
     
 
     /// <summary>
