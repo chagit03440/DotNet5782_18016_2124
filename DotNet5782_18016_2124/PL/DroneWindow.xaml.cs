@@ -40,13 +40,6 @@ namespace PL
         private BlApi.IBL myBl;
         private BO.Drone drone ;
         public event Action Update=delegate { };
-        public DroneWindow()
-        {
-
-            InitializeComponent();
-            //to remove close box from window
-            Loaded += ToolWindow_Loaded;
-        }
         
 
         public DroneWindow(BlApi.IBL myBl)
