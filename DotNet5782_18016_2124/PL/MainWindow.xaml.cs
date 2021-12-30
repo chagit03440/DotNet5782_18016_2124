@@ -49,7 +49,7 @@ namespace PL
 
         private void BtnParcel_Click(object sender, RoutedEventArgs e)
         {
-
+            new ParcelsListWindow(myBl).Show();
         }
     }
 }

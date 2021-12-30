@@ -14,7 +14,7 @@ namespace BL
         #region singelton
         public static readonly Lazy<BLObject> instance = new Lazy<BLObject>(() => new BLObject());
         static BLObject() { }// static ctor to ensure instance init is done just before first usage
-        public static BLObject Instance { get => instance.Value; }// The public Instance property to use
+        public static IBL Instance { get => instance.Value; }// The public Instance property to use
         #endregion
 
 
@@ -24,7 +24,7 @@ namespace BL
         /// <summary>
         /// constructor
         /// </summary>
-        public BLObject()
+        private BLObject()
         {
             myDal = DalFactory.GetDal();
             drones = new List<DroneForList>();
