@@ -7,9 +7,27 @@
         mc:Ignorable="d"
         Title="StationListWindow" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="79*"/>
+            <ColumnDefinition Width="81*"/>
+        </Grid.ColumnDefinitions>
         <Grid.Background>
             <ImageBrush ImageSource="/DRON2.jpg"/>
         </Grid.Background>
+        <Grid Grid.ColumnSpan="2">
+            <ListView x:Name="stationListView"   Margin="0,-26,0,105">
+                <ListView.Background>
+                    <ImageBrush/>
+                </ListView.Background>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+        <Button Name="closbtn" Content="Exit" HorizontalAlignment="Left" Margin="209,365,0,7" Width="174" Background="#FF494E7A" FontSize="14" FontWeight="Bold" Click="closbtn_Click" Grid.Column="1"/>
+        <Button Name="addbtn" Content="Add station" HorizontalAlignment="Left" Margin="31,365,0,7" Width="174" Background="#FF494E7A" FontSize="14" FontWeight="Bold" Click="addbtn_Click" Grid.Column="1"/>
 
     </Grid>
 </Window>
