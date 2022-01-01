@@ -30,6 +30,12 @@ namespace PL
             this.myBl = myBl;
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
+            btnDelete.Visibility = Visibility.Hidden;
+            btnDroneWindow.Visibility = Visibility.Hidden;
+            btnSenderWindow.Visibility = Visibility.Hidden;
+            btnTargetWindow.Visibility = Visibility.Hidden;
+            btnUpdateModel.Visibility = Visibility.Hidden;
+           
         }
         //to remove close box from window
         private const int GWL_STYLE = -16;
@@ -53,6 +59,8 @@ namespace PL
             this.pr = pr;
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
+            btnAddParcel.Visibility = Visibility.Hidden;
+
         }
 
         private void btnUpdateModel_Click(object sender, RoutedEventArgs e)
@@ -62,17 +70,25 @@ namespace PL
 
         private void btnDroneWindow_Click(object sender, RoutedEventArgs e)
         {
-
+            
+            Drone d = myBl.GetDrone(pr.DroneP.Id);
+            DroneWindow droneWindow= new DroneWindow(myBl, d);
+            droneWindow.Show();
         }
 
         private void btnTargetWindow_Click(object sender, RoutedEventArgs e)
         {
-
+            
+            Customer c = myBl.GetCustomer(pr.Target.Id);
+            CustomerWindow customerWindow = new CustomerWindow(myBl, c);
+            customerWindow.Show();
         }
 
         private void btnSenderWindow_Click(object sender, RoutedEventArgs e)
         {
-
+            Customer c = myBl.GetCustomer(pr.Sender.Id);
+            CustomerWindow customerWindow = new CustomerWindow(myBl, c);
+            customerWindow.Show();
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -95,10 +111,23 @@ namespace PL
                     Status=(ParcelStatuses)comboStatus.SelectedItem
 
                 };
+                Parcel p = new Parcel()
+                {
+                    Priority = pr.Priority,
+                    DroneP = null,
+                    AssociationTime = 0,
+                    CollectionTime=0,
+                    CreationTime=null,
+                    Id=pr.Id,
+                    Longitude=pr.Longitude,
+                    Sender=new CustomerInParcel() { Id=pr.SenderId,Name=myBl.GetCustomer(pr.SenderId).Name},
+                    SupplyTime=0,
+                    Target=new CustomerInParcel() { Id = pr.TargetId, Name = myBl.GetCustomer(pr.TargetId).Name }
+                    
+                };
 
-
-                myBl.AddParcel(pr);
-                MessageBox.Show("the drone was successfully added");
+                myBl.AddParcel(p);
+                MessageBox.Show("the parcel was successfully added");
                 Update();
 
             }
@@ -121,7 +150,7 @@ namespace PL
                 txtId.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
 
             }
-            new DroneListWindow(myBl);
+            new ParcelsListWindow(myBl);
             if (flag)
                 this.Close();
         }

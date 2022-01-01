@@ -1,6 +1,6 @@
-﻿using BlApi;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,31 +20,64 @@ namespace PL
     /// </summary>
     public partial class StationListWindow : Window
     {
-        private IBL myBl;
-
-        public StationListWindow()
+        private BlApi.IBL myBl { get; }
+        private ObservableCollection<BO.StationForList> collection;
+        public StationListWindow(BlApi.IBL MyBl)
         {
+            myBl = MyBl;
+            DataContext = this;
             InitializeComponent();
+            Loaded += ToolWindow_Loaded;
+            collection = new ObservableCollection<BO.StationForList>(myBl.GetStations());
+            stationListView.ItemsSource = collection;
         }
+        //to remove close box from window
+        private const int GWL_STYLE = -16;
+        private const int WS_SYSMENU = 0x80000;
+        [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-        public StationListWindow(IBL myBl)
+
+        void ToolWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            this.myBl = myBl;
+            // Code to remove close box from window
+            var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
+ 
 
-        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void closbtn_Click(object sender, RoutedEventArgs e)
         {
-
+           
+            Close();
         }
+        //private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (stationListView.SelectedItem == null)
+        //        return;
+        //    BO.Station station = new BO.Station();
+        //    BO.StationForList drL = stationListView.SelectedItem as BO.StationForList;
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
+        //    try
+        //    {
+        //        station = myBl.GetStation(drL.Id);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+
+        //    }
+        //    StationWindow stationWindow = new StationWindow(myBl, station);
+        //    stationWindow.Show();
+            
+        //}
+            private void addbtn_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void StationListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
+            StationWindow s = new StationWindow(myBl);
+            s.Show();
         }
     }
 }

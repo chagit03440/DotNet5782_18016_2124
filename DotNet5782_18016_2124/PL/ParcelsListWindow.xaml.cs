@@ -55,23 +55,9 @@ namespace PL
         private ObservableCollection<BO.ParcelForList> collection;
        
 
-        private void comboStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            BO.CustomerInParcel cus = (BO.CustomerInParcel)comboSenderSelector.SelectedItem;
-            // IBL.BO.WeightCategories weight = (IBL.BO.WeightCategories)comboStatusSelector.SelectedItem;
+       
 
-            this.ParcelsListView.ItemsSource = myBl.GetParcels();
-
-        }
-
-        private void comboMaxWeightSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-            BO.CustomerInParcel weight = (BO.CustomerInParcel)comboTargetSelector.SelectedItem;
-            //  IBL.BO.DroneStatuses status = (IBL.BO.DroneStatuses)comboStatusSelector.SelectedItem;
-            this.ParcelsListView.ItemsSource = myBl.GetParcels();
-        }
-
+       
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (ParcelsListView.SelectedItem == null)
@@ -100,7 +86,7 @@ namespace PL
         {
             DroneWindow dw = new DroneWindow(myBl);
             dw.Show();
-            dw.Update += DroneWindow_Update;
+            dw.Update += ParcelWindow_Update;
 
         }
 
@@ -108,11 +94,24 @@ namespace PL
         {
             this.Close();
         }
-        private void DroneWindow_Update()
+        private void ParcelWindow_Update()
         {
             collection = new ObservableCollection<BO.ParcelForList>(myBl.GetParcels(null));
             ParcelsListView.ItemsSource = collection;
         }
 
+        private void comboSenderSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            BO.CustomerInParcel cus = (BO.CustomerInParcel)comboSenderSelector.SelectedItem;
+            
+            this.ParcelsListView.ItemsSource = myBl.GetParcels(p => p.SenderId==cus.Id);
+        }
+
+        private void comboTargetSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            BO.CustomerInParcel cus = (BO.CustomerInParcel)comboTargetSelector.SelectedItem;
+
+            this.ParcelsListView.ItemsSource = myBl.GetParcels(p => p.TargetId == cus.Id);
+        }
     }
 }

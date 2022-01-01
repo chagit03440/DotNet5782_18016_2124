@@ -31,18 +31,14 @@ namespace PL
             Loaded += ToolWindow_Loaded;
 
             customer = new Customer();
-            comboStatus.ItemsSource = myBl.GetStations();
-            comboMaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
-            grdUpdate.Visibility = Visibility.Hidden;
+            btnUpdateModel.Visibility = Visibility.Hidden;
             this.customer = new Customer();
             this.myBl = myBl;
             DataContext = customer;
-            //comboPackage.Visibility = Visibility.Hidden;
-            txtLongtitude.Visibility = Visibility.Hidden;
-            txtLatitude.Visibility = Visibility.Hidden;
-            //lblPackage.Visibility = Visibility.Hidden;
-            lblLatitude.Visibility = Visibility.Hidden;
-            lblLongtitude.Visibility = Visibility.Hidden;
+            listBoxParcelsTo.Visibility = Visibility.Hidden;
+            listBoxParcelsFrom.Visibility = Visibility.Hidden;
+            lblParcelsFromTheCustomer.Visibility = Visibility.Hidden;
+            lblParcelsToTheCustomer.Visibility = Visibility.Hidden;
         }
         //to remove close box from window
         private const int GWL_STYLE = -16;
@@ -75,8 +71,6 @@ namespace PL
             customer = new Customer();
             customer = c;
             btnAddCustomer.Visibility = Visibility.Hidden;
-            comboMaxWeight.Visibility = Visibility.Hidden;
-            comboStatus.Visibility = Visibility.Hidden;
             fillTextbox(c);
           
             txtId.IsEnabled = false;
@@ -91,7 +85,7 @@ namespace PL
             {
                 customer.Name = txtName.Text;
                 myBl.UpdateCustomer(customer);
-                MessageBox.Show("the model of the drone was successfully updated");
+                MessageBox.Show("the name of the customer was successfully updated");
 
                 Customer cs = myBl.GetCustomer(customer.Id);
                 fillTextbox(cs);
@@ -113,11 +107,12 @@ namespace PL
             txtId.Text = c.Id.ToString();
             txtName.Text = c.Name.ToString();
             txtPhone.Text = c.Phone.ToString();
-
             //txtLongtitude.Text = c.Location.Longitude.ToString();
             //txtLatitude.Text = c.Location.Lattitude.ToString();
+            listBoxParcelsFrom.ItemsSource = myBl.GetParcels(p => p.SenderId == c.Id);
+            listBoxParcelsTo.ItemsSource = myBl.GetParcels(p => p.TargetId == c.Id);
 
-           
+
         }
         private void fillTextbox(Customer c)
         {
@@ -126,9 +121,10 @@ namespace PL
                 txtId.Text = c.Id.ToString();
                 txtName.Text = c.Name.ToString();
                 txtPhone.Text = c.Phone.ToString();
-
                 txtLongtitude.Text = c.Location.Longitude.ToString();
                 txtLatitude.Text = c.Location.Lattitude.ToString();
+                listBoxParcelsFrom.ItemsSource = myBl.GetParcels(p => p.SenderId == c.Id);
+                listBoxParcelsTo.ItemsSource = myBl.GetParcels(p => p.TargetId == c.Id);
                 return;
             }
 
@@ -151,12 +147,18 @@ namespace PL
                     Id = Convert.ToInt32(txtId.Text),
                     Name = txtName.Text,
                     Phone = txtPhone.Text,
-                 
+                    Location = new Location()
+                    {
+                        Longitude = Convert.ToDouble(txtLongtitude.Text),
+                        Lattitude = Convert.ToDouble(txtLatitude.Text)
+                    }
+
                 };
+            
 
 
                 myBl.AddCustomer(cus);
-                MessageBox.Show("the drone was successfully added");
+                MessageBox.Show("the customer was successfully added");
                 Update();
 
             }
