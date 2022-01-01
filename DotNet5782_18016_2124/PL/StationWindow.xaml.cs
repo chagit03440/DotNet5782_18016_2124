@@ -19,12 +19,19 @@ namespace PL
     /// Interaction logic for StationWindow.xaml
     /// </summary>
     public partial class StationWindow : Window
-    {
-        public StationWindow(BlApi.IBL myBl, BO.Station station)
+    { 
+        private BlApi.IBL myBl;
+        private BO.Station s;
+        public event Action Update = delegate { };
+        
+
+
+       
+
+            public StationWindow(BlApi.IBL myBl, BO.Station station)
         {
             InitializeComponent();
             Loaded += ToolWindow_Loaded;
-
         }
 
         public StationWindow(IBL myBl)
@@ -35,7 +42,7 @@ namespace PL
         //to remove close box from window
         private const int GWL_STYLE = -16;
         private const int WS_SYSMENU = 0x80000;
-        private IBL myBl;
+         
 
         [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
         private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
@@ -50,9 +57,16 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
 
+
+
         private void closbtn_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void Add_btn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

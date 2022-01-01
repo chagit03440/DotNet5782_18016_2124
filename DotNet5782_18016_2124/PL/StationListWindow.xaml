@@ -28,6 +28,14 @@
         </Grid>
         <Button Name="closbtn" Content="Exit" HorizontalAlignment="Left" Margin="209,365,0,7" Width="174" Background="#FF494E7A" FontSize="14" FontWeight="Bold" Click="closbtn_Click" Grid.Column="1"/>
         <Button Name="addbtn" Content="Add station" HorizontalAlignment="Left" Margin="31,365,0,7" Width="174" Background="#FF494E7A" FontSize="14" FontWeight="Bold" Click="addbtn_Click" Grid.Column="1"/>
+        <ComboBox HorizontalAlignment="Left" Margin="240,367,0,0" VerticalAlignment="Top" Width="181" Grid.ColumnSpan="2" Height="59">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1">
+                    <GradientStop Color="#FFF0F0F0"/>
+                    <GradientStop Color="#FF3F457E" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
+        </ComboBox>
 
     </Grid>
 </Window>
