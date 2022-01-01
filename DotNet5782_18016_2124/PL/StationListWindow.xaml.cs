@@ -53,28 +53,34 @@ namespace PL
            
             Close();
         }
-        //private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (stationListView.SelectedItem == null)
-        //        return;
-        //    BO.Station station = new BO.Station();
-        //    BO.StationForList drL = stationListView.SelectedItem as BO.StationForList;
+        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (stationListView.SelectedItem == null)
+                return;
+            BO.Station station = new BO.Station();
+            BO.StationForList drL = stationListView.SelectedItem as BO.StationForList;
 
-        //    try
-        //    {
-        //        station = myBl.GetStation(drL.Id);
+            try
+            {
+                station = myBl.GetStation(drL.Id);
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
 
-        //    }
-        //    StationWindow stationWindow = new StationWindow(myBl, station);
-        //    stationWindow.Show();
-            
-        //}
-            private void addbtn_Click(object sender, RoutedEventArgs e)
+            }
+            StationWindow stationWindow = new StationWindow(myBl, station);
+            stationWindow.Show();
+            stationWindow.Update += StationWindow_Update;
+        }
+        private void StationWindow_Update()
+        {
+            collection = new ObservableCollection<BO.StationForList>(myBl.GetStations( ));
+            stationListView.ItemsSource = collection;
+        }
+
+        private void addbtn_Click(object sender, RoutedEventArgs e)
         {
             StationWindow s = new StationWindow(myBl);
             s.Show();
