@@ -7,26 +7,26 @@
         mc:Ignorable="d"
         Title="CustomerWindow" Height="450" Width="800">
     <Window.Background>
-        <ImageBrush ImageSource="/DRON2.jpg" Opacity="0.8"/>
+        <ImageBrush ImageSource="/DRONE3.png" Opacity="0.8"/>
     </Window.Background>
     <Grid Margin="0,10,400,-6">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="36*"/>
-            <ColumnDefinition Width="209*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="77*"/>
+            <ColumnDefinition Width="122*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid x:Name="grdDrone" Margin="0,10,36,10" Grid.Row="1"/>
-        <Label Name="lblId" Content="Id" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <Label Name="lblName" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Width="92" Grid.Row="1" Margin="10,0,0,0" Foreground="#FF1D0202" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2"/>
-        <Label Name="lblPhone" Content="Phone" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="2" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <Label Name="lblLongtitude" Content="Longtitude" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="3" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2"/>
-        <Label Name="lblLatitude" Content="Latitude" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="4" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <Label Name="lblParcelsFromTheCustomer" Content="Parcels From The Customer" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="5" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <Label Name="lblParcelsToTheCustomer" Content="Parcels to The Customer" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="6" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2"/>
+        <Label Name="lblId" Content="Id" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" FontSize="14" FontWeight="Bold" Height="29"/>
+        <Label Name="lblName" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Width="92" Grid.Row="1" Margin="10,0,0,0" Foreground="#FF1D0202" FontWeight="Bold" FontSize="14" Height="28"/>
+        <Label Name="lblPhone" Content="Phone" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="2" FontSize="14" FontWeight="Bold" Height="29"/>
+        <Label Name="lblLongtitude" Content="Longtitude" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="3" FontWeight="Bold" FontSize="14" Height="29"/>
+        <Label Name="lblLatitude" Content="Latitude" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="4" FontSize="14" FontWeight="Bold" Height="28"/>
+        <Label Name="lblParcelsFromTheCustomer" Content="Parcels From The Customer" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="5" FontSize="14" FontWeight="Bold" Height="28"/>
+        <Label Name="lblParcelsToTheCustomer" Content="Parcels to The Customer" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="6" FontSize="14" FontWeight="Bold" Height="29"/>
 
-        <TextBox Name="txtId" HorizontalAlignment="Left" Margin="64,0,0,18" Text="{Binding Id, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" Background="White" Grid.Column="1"/>
-        <TextBox Name="txtName" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="1" Text="{Binding Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
-        <TextBox Name="txtLatitude" HorizontalAlignment="Left" Margin="64,17,0,0" Grid.Row="4" Text="{Binding Latitude, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtId" HorizontalAlignment="Left" Margin="64,0,0,18" Text="{Binding Path=Id, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" Background="White" Grid.Column="1" Height="18"/>
+        <TextBox Name="txtName" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="1" Text="{Binding Name, Mode=OneWay}"  TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1" Height="18"/>
+        <TextBox Name="txtLatitude" HorizontalAlignment="Left" Margin="64,17,0,0" Grid.Row="4" Text="{Binding Location.Latitude, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Height="18"/>
         <Grid Grid.Row="2" Grid.ColumnSpan="3" Margin="0,60,0,60" Grid.RowSpan="3"/>
         <Grid Name="grdUpdate" Margin="196,0,-393,33" Grid.RowSpan="7" Grid.Column="2">
             <Grid.ColumnDefinitions>
@@ -38,10 +38,10 @@
             <Button x:Name="btnAddCustomer" Content="Add" HorizontalAlignment="Left" Margin="40,266,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnAddCustomer_Click" Background="#FF494E7A"/>
 
         </Grid>
-        <TextBox Name="txtLongtitude" HorizontalAlignment="Left" Margin="64,19,0,0" Grid.Row="3" Text="{Binding Longtitude, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox Name="txtPhone" HorizontalAlignment="Left" Margin="63,0,0,0" Grid.Row="2" Text="{Binding Phone, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
-        <ListBox Name="listBoxParcelsFrom" Grid.Column="1" Grid.Row="4" Margin="82,63,0,10" Grid.RowSpan="2"/>
-        <ListBox Name="listBoxParcelsTo" Grid.Column="1" Grid.Row="6" Margin="82,0,0,10"/>
+        <TextBox Name="txtLongtitude" HorizontalAlignment="Left" Margin="64,19,0,0" Grid.Row="3" Text="{Binding  Path=Location.Longtitude, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Height="18"/>
+        <TextBox Name="txtPhone" HorizontalAlignment="Left" Margin="63,0,0,0" Grid.Row="2" Text="{Binding Path=Phone, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1" Height="18"/>
+        <ComboBox Name="comboParcelsFrom" Grid.Column="1" HorizontalAlignment="Left" Margin="67,23,0,0" Grid.Row="5" VerticalAlignment="Top" Width="148" Height="22" SelectionChanged="comboParcelsFrom_SelectionChanged"/>
+        <ComboBox Name="comboParcelsTo" Grid.Column="1" HorizontalAlignment="Left" Margin="67,13,0,0" Grid.Row="6" VerticalAlignment="Top" Width="148" Height="22" SelectionChanged="comboParcelsTo_SelectionChanged"/>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>

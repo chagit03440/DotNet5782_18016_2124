@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,24 +20,43 @@ namespace PL
     /// <summary>
     /// Interaction logic for CustomerWindow.xaml
     /// </summary>
-    public partial class CustomerWindow : Window
+    public partial class CustomerWindow : Window, INotifyPropertyChanged
     {
         private BlApi.IBL myBl;
-        private BO.Customer customer;
+        private Customer selectedCustomer;
         public event Action Update = delegate { };
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        private Customer customerToAdd;
+        private Customer customer;
+
+        public Customer CustomerToAdd
+        {
+            get { return customerToAdd; }
+            set
+            {
+                customerToAdd = value;
+                PropertyChanged(this, new PropertyChangedEventArgs("CustomerToAdd"));
+            }
+        }
+
+        public Customer SelectedCustomer
+        {
+            get { return selectedCustomer; }
+            set { selectedCustomer = value; }
+        }
+
         public CustomerWindow(BlApi.IBL myBl)
         {
             InitializeComponent();
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
 
-            customer = new Customer();
+            customerToAdd = new Customer();
             btnUpdateModel.Visibility = Visibility.Hidden;
-            this.customer = new Customer();
             this.myBl = myBl;
-            DataContext = customer;
-            listBoxParcelsTo.Visibility = Visibility.Hidden;
-            listBoxParcelsFrom.Visibility = Visibility.Hidden;
+            DataContext = this;
+            comboParcelsTo.Visibility = Visibility.Hidden;
+            comboParcelsFrom.Visibility = Visibility.Hidden;
             lblParcelsFromTheCustomer.Visibility = Visibility.Hidden;
             lblParcelsToTheCustomer.Visibility = Visibility.Hidden;
         }
@@ -68,11 +88,12 @@ namespace PL
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
             this.myBl = myBl;
+            DataContext = c;
             customer = new Customer();
-            customer = c;
+            selectedCustomer = c;
             btnAddCustomer.Visibility = Visibility.Hidden;
-            fillTextbox(c);
-          
+            //fillTextbox(c);
+
             txtId.IsEnabled = false;
             txtPhone.IsEnabled = false;
 
@@ -88,7 +109,7 @@ namespace PL
                 MessageBox.Show("the name of the customer was successfully updated");
 
                 Customer cs = myBl.GetCustomer(customer.Id);
-                fillTextbox(cs);
+               // fillTextbox(customer);
                 Update();
 
             }
@@ -109,8 +130,8 @@ namespace PL
             txtPhone.Text = c.Phone.ToString();
             //txtLongtitude.Text = c.Location.Longitude.ToString();
             //txtLatitude.Text = c.Location.Lattitude.ToString();
-            listBoxParcelsFrom.ItemsSource = myBl.GetParcels(p => p.SenderId == c.Id);
-            listBoxParcelsTo.ItemsSource = myBl.GetParcels(p => p.TargetId == c.Id);
+            comboParcelsFrom.ItemsSource = myBl.GetParcels(p => p.SenderId == c.Id);
+            comboParcelsTo.ItemsSource = myBl.GetParcels(p => p.TargetId == c.Id);
 
 
         }
@@ -118,13 +139,16 @@ namespace PL
         {
             if (c != null)
             {
+                DataContext = this;
                 txtId.Text = c.Id.ToString();
                 txtName.Text = c.Name.ToString();
                 txtPhone.Text = c.Phone.ToString();
                 txtLongtitude.Text = c.Location.Longitude.ToString();
                 txtLatitude.Text = c.Location.Lattitude.ToString();
-                listBoxParcelsFrom.ItemsSource = myBl.GetParcels(p => p.SenderId == c.Id);
-                listBoxParcelsTo.ItemsSource = myBl.GetParcels(p => p.TargetId == c.Id);
+                List<int> lFrom = c.ParcelsFromTheCustomer.Select(item => item.Id).ToList();
+                List<int> lTo = c.ParcelsToTheCustomer.Select(item => item.Id).ToList();
+                comboParcelsFrom.ItemsSource = lFrom;
+                comboParcelsTo.ItemsSource = lTo;
                 return;
             }
 
@@ -154,7 +178,7 @@ namespace PL
                     }
 
                 };
-            
+
 
 
                 myBl.AddCustomer(cus);
@@ -184,6 +208,50 @@ namespace PL
             new DroneListWindow(myBl);
             if (flag)
                 this.Close();
+        }
+
+        private void comboParcelsFrom_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboParcelsFrom.SelectedItem == null)
+                return;
+            BO.Customer cs = new BO.Customer();
+            int id = (int)comboParcelsFrom.SelectedItem;
+
+            try
+            {
+                cs = myBl.GetCustomer(id);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+            CustomerWindow customerWindow = new CustomerWindow(myBl, cs);
+            customerWindow.Show();
+
+        }
+
+        private void comboParcelsTo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboParcelsTo.SelectedItem == null)
+                return;
+            BO.Customer cs = new BO.Customer();
+            int id = (int)comboParcelsTo.SelectedItem;
+
+            try
+            {
+                cs = myBl.GetCustomer(id);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+            CustomerWindow customerWindow = new CustomerWindow(myBl, cs);
+            customerWindow.Show();
+
         }
     }
 }

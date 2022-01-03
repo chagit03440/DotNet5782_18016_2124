@@ -6,8 +6,42 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="DroneWindow" Height="431" Width="813">
+    <Window.Resources>
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize"
+              Value="12" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize"
+              Value="14" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize"
+              Value="16" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize"
+              Value="14" />
+            <Setter Property="FontFamily"
+              Value="Gabriola" />
+        </Style>
+        <!--<local:StationModel x:Key="station"/>-->
+    </Window.Resources>
     <Window.Background>
-        <ImageBrush ImageSource="/DRON2.jpg" Opacity="0.8"/>
+        <ImageBrush ImageSource="/DRONE3.png" Opacity="0.8"/>
     </Window.Background>
     <Grid Margin="0,0,567,-6">
         <Grid.ColumnDefinitions>
@@ -43,6 +77,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button Name="btnAddDrone" Content="Add" HorizontalAlignment="Left" Margin="70,188,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnAddDrone_Click" Grid.ColumnSpan="3" Grid.RowSpan="2" Background="#FF494E7A"/>
+            <Button Name="btnShowParcel" Content="Show Parcel" Grid.Column="2" HorizontalAlignment="Left" Margin="70,61,0,0" VerticalAlignment="Top" Height="43" Width="108" Click="btnShowParcel_Click"/>
         </Grid>
         <Grid Name="grdUpdate" Margin="6,13,-294,16" Grid.RowSpan="7" Grid.Column="2">
             <Grid.ColumnDefinitions>

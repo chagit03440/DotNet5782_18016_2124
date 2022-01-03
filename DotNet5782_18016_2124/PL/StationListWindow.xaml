@@ -6,6 +6,40 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="StationListWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize"
+              Value="12" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize"
+              Value="18" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize"
+              Value="16" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize"
+              Value="14" />
+            <Setter Property="FontFamily"
+              Value="Gabriola" />
+        </Style>
+        <!--<local:StationModel x:Key="station"/>-->
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="79*"/>
@@ -15,6 +49,9 @@
             <ImageBrush ImageSource="/DRON2.jpg"/>
         </Grid.Background>
         <Grid Grid.ColumnSpan="2">
+            <Grid.Background>
+                <ImageBrush ImageSource="/DRONE3.png"/>
+            </Grid.Background>
             <ListView x:Name="stationListView"   Margin="0,-26,0,105">
                 <ListView.Background>
                     <ImageBrush/>

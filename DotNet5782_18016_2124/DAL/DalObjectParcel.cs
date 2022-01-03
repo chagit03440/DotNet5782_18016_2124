@@ -85,5 +85,9 @@ namespace Dal
             return -1;
 
         }
+        public void DeleteParcel(Parcel p)
+        {
+            DataSource.parcels.RemoveAll(x => x.ID == p.ID);
+        }
     }
 }

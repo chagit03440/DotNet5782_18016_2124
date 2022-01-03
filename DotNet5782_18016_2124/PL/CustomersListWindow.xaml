@@ -11,6 +11,9 @@
     </Window.Background>
 
     <Grid Name="mainGrid" >
+        <Grid.Background>
+            <ImageBrush ImageSource="/DRONE3.png"/>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="39*"/>

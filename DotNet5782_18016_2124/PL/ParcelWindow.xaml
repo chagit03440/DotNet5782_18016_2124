@@ -6,27 +6,61 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="ParcelWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize"
+              Value="12" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize"
+              Value="14" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize"
+              Value="20" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize"
+              Value="14" />
+            <Setter Property="FontFamily"
+              Value="Gabriola" />
+        </Style>
+        <!--<local:StationModel x:Key="station"/>-->
+    </Window.Resources>
     <Grid Margin="0,-18,0,0">
         <Grid.Background>
-            <ImageBrush ImageSource="/DRON2.jpg"/>
+            <ImageBrush ImageSource="/DRONE3.png"/>
         </Grid.Background>
-        <Grid Margin="0,-6,486,10">
+        <Grid Margin="0,10,486,-6">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="93*"/>
-                <ColumnDefinition Width="305*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="52*"/>
+                <ColumnDefinition Width="104*"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid x:Name="grdDrone" Margin="0,10,36,10" Grid.Row="1"/>
-            <Label Name="lblId" Content="Id" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2" Height="29"/>
-            <Label Name="lblSenderId" Content="Sender Id" HorizontalAlignment="Left" VerticalAlignment="Center" Width="92" Grid.Row="1" Margin="10,0,0,0" Foreground="#FF1D0202" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2" Height="28"/>
-            <Label Name="lblTargetId" Content="Target Id" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="2" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2" Height="29"/>
-            <Label Name="lblWeight" Content="Weight" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="3" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2" Height="29"/>
-            <Label Name="lblPrioriyty" Content="Prioriyty" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="4" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2" Height="28"/>
+            <Label Name="lblId" Content="Id" HorizontalAlignment="Center" VerticalAlignment="Center" Width="92" FontSize="14" FontWeight="Bold" Height="29"/>
+            <Label Name="lblSenderId" Content="Sender Id" HorizontalAlignment="Center" VerticalAlignment="Center" Width="92" Grid.Row="1" Foreground="#FF1D0202" FontWeight="Bold" FontSize="14" Height="28"/>
+            <Label Name="lblTargetId" Content="Target Id" HorizontalAlignment="Center" VerticalAlignment="Center" Width="92" Grid.Row="2" FontSize="14" FontWeight="Bold" Height="29"/>
+            <Label Name="lblWeight" Content="Weight" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="3" FontWeight="Bold" FontSize="14" Height="29"/>
+            <Label Name="lblPrioriyty" Content="Prioriyty" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="4" FontSize="14" FontWeight="Bold" Height="28"/>
 
-            <TextBox Name="txtId"  HorizontalAlignment="Left" Margin="70,0,0,0" Text="{Binding Id, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Background="White" Grid.Column="1" Height="18"/>
-            <TextBox Name="txtSenderId" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="1" Text="{Binding SenderId, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1" Height="18"/>
-            <ComboBox Name="comboWeight" HorizontalAlignment="Left" Text="{Binding Longtitude, Mode=OneWay}" Margin="64,24,0,0" Grid.Row="3" VerticalAlignment="Top" Width="120" Grid.Column="1" Height="22"/>
-            <Grid Name="grdUpdate" Margin="283,-4,-480,-10" Grid.RowSpan="6" Grid.Column="2">
+            <TextBox Name="txtId"  HorizontalAlignment="Left" Margin="66,0,0,0" Text="{Binding Path=Id, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Background="White" Grid.Column="1" Height="18"/>
+            <TextBox Name="txtSenderId" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="1" Text="{Binding Path=SenderId, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1" Height="18"/>
+            <ComboBox Name="comboWeight" HorizontalAlignment="Left" Text="{Binding Path=Longtitude, Mode=OneWay}" Margin="64,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="120" Grid.Column="1" Height="22"/>
+            <Grid Name="grdUpdate" Margin="283,-4,-480,35" Grid.RowSpan="7" Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="244*"/>
                     <RowDefinition Height="171*"/>
@@ -35,20 +69,31 @@
                     <ColumnDefinition Width="246*"/>
                     <ColumnDefinition Width="23*"/>
                 </Grid.ColumnDefinitions>
-                <Button Name="btnUpdateModel" Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="108" Click="btnUpdateModel_Click" FontWeight="Bold" FontSize="18" Background="#FF494E7A" Margin="40,171,0,0"/>
-                <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="40,22,0,0" VerticalAlignment="Top" Height="40" Width="106" Click="btnExit_Click" Background="#FF494E7A"/>
+                <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="40,50,0,0" VerticalAlignment="Top" Height="40" Width="106" Click="btnExit_Click" Background="#FF494E7A"/>
                 <Button x:Name="btnAddParcel" Content="Add" HorizontalAlignment="Left" Margin="40,238,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnAddParcel_Click" Background="#FF494E7A" Grid.RowSpan="2"/>
-                <Button x:Name="btnDelete" Content="Delete Parcel" HorizontalAlignment="Left" Margin="40,96,0,0" VerticalAlignment="Top" Height="40" Width="106" Click="btnDelete_Click" Background="#FF494E7A"/>
+                <Button x:Name="btnDelete" Content="Delete Parcel" HorizontalAlignment="Left" Margin="40,106,0,0" VerticalAlignment="Top" Height="40" Width="106" Click="btnDelete_Click" Background="#FF494E7A"/>
                 <Button x:Name="btnTargetWindow" Content="Open Target Window" HorizontalAlignment="Left" Margin="40,80,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnTargetWindow_Click" Background="#FF494E7A" Grid.Row="1"/>
                 <Button x:Name="btnSenderWindow" Content="Open Sender Window" HorizontalAlignment="Left" Margin="40,18,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnSenderWindow_Click" Background="#FF494E7A" Grid.Row="1"/>
                 <Button x:Name="btnDroneWindow" Content="Open Drone window" HorizontalAlignment="Left" Margin="40,132,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnDroneWindow_Click" Background="#FF494E7A" Grid.Row="1"/>
 
             </Grid>
             <TextBox Name="txtTargetId" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="2" Text="{Binding TargetId, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1" Height="18"/>
-            <Label Name="lblStatus"  Content="Status" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center" Margin="11,0,0,0" Grid.ColumnSpan="2" Height="55" Width="91" FontSize="14" FontWeight="Bold"/>
-            <ComboBox Name="comboStatus" Text="{Binding Status, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="5" VerticalAlignment="Center" Width="120" Height="22"/>
-            <ComboBox Name="comboPriority" Text="{Binding Priority, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="61,0,0,0" Grid.Row="4" VerticalAlignment="Center" Width="120" Height="22"/>
+            <Label Name="lblDrone"  Content="Drone id" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Center" Margin="11,0,0,0" Height="25" Width="62" FontSize="14" FontWeight="Bold"/>
+            <ComboBox Name="comboPriority" Text="{Binding Path=Priority, Mode=OneWay}" Grid.Column="1" HorizontalAlignment="Left" Margin="61,0,0,0" Grid.Row="4" VerticalAlignment="Center" Width="120" Height="22"/>
+            <Label Name="lblCreationTime"  Content="Creation Time" HorizontalAlignment="Center" Grid.Row="6" VerticalAlignment="Top" Margin="0,7,0,0" Height="25" Width="91" FontSize="14" FontWeight="Bold"/>
+            <Label Name="lblAssociationTime"  Content="Association Time" HorizontalAlignment="Center" Grid.Row="7" VerticalAlignment="Top" Height="25" Width="91" FontSize="14" FontWeight="Bold" Margin="0,5,0,0"/>
+            <Label Name="lblCollectionTime"  Content="Collection Time" HorizontalAlignment="Center" Grid.Row="8" VerticalAlignment="Top" Height="25" Width="91" FontSize="14" FontWeight="Bold" Margin="0,6,0,0"/>
+            <Label Name="lblSupplyTime"  Content="Supply Time" HorizontalAlignment="Center" Grid.Row="9" VerticalAlignment="Top" Height="25" Width="91" FontSize="14" FontWeight="Bold" Margin="0,3,0,0"/>
+            <TextBox Name="txtCreationTime"  HorizontalAlignment="Left" Margin="66,0,0,0" Text="{Binding CreationTime, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Background="White" Grid.Column="1" Height="18" Grid.Row="6"/>
+            <TextBox Name="txtAssociationTime"  HorizontalAlignment="Left" Margin="66,0,0,0" Text="{Binding AssociationTime, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Background="White" Grid.Column="1" Height="18" Grid.Row="7"/>
+            <TextBox Name="txtCollectionTime"  HorizontalAlignment="Left" Margin="66,9,0,0" Text="{Binding CollectionTime, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Background="White" Grid.Column="1" Height="18" Grid.Row="8"/>
+            <TextBox Name="txtSupplyTime"  HorizontalAlignment="Left" Margin="66,0,0,0" Text="{Binding SupplyTime, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Background="White" Grid.Column="1" Height="18" Grid.Row="9"/>
+            <ComboBox Name="comboDrone" Grid.Column="1" HorizontalAlignment="Left" Margin="58,14,0,0" Text="{Binding DroneP, Mode=OneWay}" Grid.Row="5" VerticalAlignment="Top" Width="120"/>
             <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -61,7 +106,6 @@
         <Grid Margin="356,25,233,58">
             <Button HorizontalAlignment="Left" Margin="106,63,0,0" VerticalAlignment="Top"/>
             <Button x:Name="btnCollect" Content="collect Parcel" HorizontalAlignment="Left" Margin="40,22,0,0" VerticalAlignment="Top" Height="40" Width="106" Click="btnExit_Click" Background="#FF494E7A"/>
-            <Button x:Name="btnSuplly" Content="Exit" HorizontalAlignment="Left" Margin="40,100,0,0" VerticalAlignment="Top" Height="40" Width="106" Click="btnExit_Click" Background="#FF494E7A"/>
         </Grid>
     </Grid>
 </Window>

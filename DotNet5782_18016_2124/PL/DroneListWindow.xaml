@@ -6,11 +6,48 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="DroneListWindow" Height="640" Width="800">
+    <Window.Resources>
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize"
+              Value="12" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize"
+              Value="26" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize"
+              Value="22" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize"
+              Value="18" />
+            <Setter Property="FontFamily"
+              Value="Gabriola" />
+        </Style>
+        <!--<local:StationModel x:Key="station"/>-->
+    </Window.Resources>
     <Window.Background>
         <ImageBrush ImageSource="/DRON2.jpg"  Opacity="0.99"/>
     </Window.Background>
 
     <Grid Name="mainGrid" >
+        <Grid.Background>
+            <ImageBrush ImageSource="/DRONE3.png"/>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="39*"/>
@@ -50,7 +87,7 @@
             <Button Name="btnAddDrone" Content="Add drone" Grid.Column="2" HorizontalAlignment="Center" Margin="0,0,0,58" Width="124" Click="btnAddDrone_Click" Background="#FF494E7A" Height="35" VerticalAlignment="Bottom"/>
             <Button Name="btnClose" Content="Close" Grid.Column="3" HorizontalAlignment="Left" Margin="40,20,0,0" VerticalAlignment="Top" Height="36" Width="126" Click="btnClose_Click" Background="#FF494E7A"/>
         </Grid>
-        <ListView x:Name="DronesListView" Margin="5,116,5,23"  Grid.RowSpan="2" Grid.ColumnSpan="3" SelectionChanged="DronesListView_SelectionChanged" FontWeight="Bold" FontSize="16">
+        <ListView x:Name="DronesListView" Margin="5,116,5,23"  Grid.RowSpan="2" Grid.ColumnSpan="3" SelectionChanged="DronesListView_SelectionChanged" FontWeight="Bold" FontSize="16" MouseDoubleClick="ListView_MouseDoubleClick">
             <ListView.Background>
                 <ImageBrush/>
             </ListView.Background>

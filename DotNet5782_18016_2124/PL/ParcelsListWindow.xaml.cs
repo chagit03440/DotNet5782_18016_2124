@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BO;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -20,6 +21,10 @@ namespace PL
     /// </summary>
     public partial class ParcelsListWindow : Window
     {
+        private BlApi.IBL myBl { get; }
+        private ObservableCollection<BO.ParcelForList> collection;
+        private List<IGrouping<int, ParcelForList>> GroupingData { get; set; }
+
         public ParcelsListWindow(BlApi.IBL MyBl)
         {
             myBl = MyBl;
@@ -29,11 +34,13 @@ namespace PL
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
 
-            comboSenderSelector.ItemsSource = myBl.GetCustomers();
+            comboStatusSelector.ItemsSource = Enum.GetValues(typeof(BO.ParcelStatuses));
+            comboPrioritySelector.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
+            comboWeightSelector.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
+
             // DronesListView.ItemsSource = myBl.GetDrones();
             collection = new ObservableCollection<BO.ParcelForList>(myBl.GetParcels());
             ParcelsListView.ItemsSource = collection;
-            comboTargetSelector.ItemsSource = myBl.GetCustomers();
         }
 
         //to remove close box from window
@@ -51,8 +58,7 @@ namespace PL
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
-        private BlApi.IBL myBl { get; }
-        private ObservableCollection<BO.ParcelForList> collection;
+       
        
 
        
@@ -67,7 +73,19 @@ namespace PL
 
             try
             {
-                pr = myBl.GetParcel(prL.Id);
+                if (prL.SenderId != 0 && prL.TargetId != 0)
+                    pr = myBl.GetParcel(prL.Id);
+                else
+                    pr = new BO.Parcel()
+                    {
+                        Id = pr.Id,
+                        Longitude = (WeightCategories)pr.Longitude,
+                        Priority = (Priorities)pr.Priority,
+                        AssociationTime = 0,
+                        CollectionTime = 0,
+                        CreationTime = DateTime.MinValue,
+                        SupplyTime = 0
+                    };
 
             }
             catch (Exception ex)
@@ -77,16 +95,16 @@ namespace PL
             }
             ParcelWindow parcelWindow = new ParcelWindow(myBl, pr);
             parcelWindow.Show();
-            //parcelWindow.Update += DroneWindow_Update;
+            parcelWindow.Update += ParcelWindow_Update;
 
 
         }
 
-        private void btnAddDrone_Click(object sender, RoutedEventArgs e)
+        private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
-            DroneWindow dw = new DroneWindow(myBl);
-            dw.Show();
-            dw.Update += ParcelWindow_Update;
+            ParcelWindow pw = new ParcelWindow(myBl);
+            pw.Show();
+            pw.Update += ParcelWindow_Update;
 
         }
 
@@ -100,18 +118,35 @@ namespace PL
             ParcelsListView.ItemsSource = collection;
         }
 
-        private void comboSenderSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void comboPrioritySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BO.CustomerInParcel cus = (BO.CustomerInParcel)comboSenderSelector.SelectedItem;
+            BO.Priorities pr = (BO.Priorities)comboPrioritySelector.SelectedItem;
             
-            this.ParcelsListView.ItemsSource = myBl.GetParcels(p => p.SenderId==cus.Id);
+            this.ParcelsListView.ItemsSource = myBl.GetParcels(p => p.Priority==pr);
         }
 
-        private void comboTargetSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void comboStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            BO.CustomerInParcel cus = (BO.CustomerInParcel)comboTargetSelector.SelectedItem;
+            BO.ParcelStatuses ps = (BO.ParcelStatuses)comboStatusSelector.SelectedItem;
 
-            this.ParcelsListView.ItemsSource = myBl.GetParcels(p => p.TargetId == cus.Id);
+            this.ParcelsListView.ItemsSource = myBl.GetParcels(p => p.Status == ps);
+        }
+
+        private void btnSender_Click(object sender, RoutedEventArgs e)
+        {
+            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ParcelsListView.ItemsSource); //grouping by sender
+            //PropertyGroupDescription groupDescription = new PropertyGroupDescription("SenderId");
+            //view.GroupDescriptions.Add(groupDescription);
+            GroupingData = myBl.GetParcels().GroupBy(x => x.SenderId).ToList();
+            ParcelsListView.ItemsSource = GroupingData;
+
+        }
+
+        private void comboWehigtSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            BO.WeightCategories pw = (BO.WeightCategories)comboWeightSelector.SelectedItem;
+
+            this.ParcelsListView.ItemsSource = myBl.GetParcels(p => p.Longitude == pw);
         }
     }
 }

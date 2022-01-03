@@ -48,15 +48,17 @@ namespace PL
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
 
+            this.myBl = myBl;
             drone = new Drone();
+            DataContext = drone;
+
             comboStatus.ItemsSource = myBl.GetStations();
             comboMaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             grdAdd.Visibility = Visibility.Visible;
             grdRelease.Visibility = Visibility.Hidden;
             grdUpdate.Visibility = Visibility.Hidden;
-            this.drone = new BO.Drone();
-            this.myBl = myBl;
-            DataContext = drone;
+            
+            btnShowParcel.Visibility = Visibility.Hidden;
             txtMaxWeight.Visibility= Visibility.Hidden;
             txtStatus.Visibility= Visibility.Hidden;
             lblStatus.Content = "Station";
@@ -80,6 +82,9 @@ namespace PL
             this.myBl = myBl;
             drone = new Drone();
             drone = d;
+            
+            btnShowParcel.Visibility = Visibility.Hidden;
+
             grdAdd.Visibility = Visibility.Hidden;
             comboMaxWeight.Visibility= Visibility.Hidden;
             comboStatus.Visibility= Visibility.Hidden;
@@ -94,13 +99,23 @@ namespace PL
             if (d.Status == DroneStatuses.Maintenance)
             {
                 btnRelease.Visibility = Visibility.Visible;
+                btnCharge.Visibility = Visibility.Hidden;
+                btnAssignment.Visibility = Visibility.Hidden;
+                btnDelivery.Visibility = Visibility.Hidden;
+                btnPickedup.Visibility = Visibility.Hidden;
+                btnShowParcel.Visibility = Visibility.Hidden;
             }
 
             if (d.Status == DroneStatuses.Shipping)
             {
+                btnCharge.Visibility = Visibility.Hidden;
+                btnAssignment.Visibility = Visibility.Hidden;
                 btnDelivery.Visibility = Visibility.Visible;
                 btnPickedup.Visibility = Visibility.Visible;
+                btnShowParcel.Visibility = Visibility.Visible;
+
             }
+
             txtStatus.IsEnabled = false;
             txtMaxWeight.IsEnabled = false;
             txtId.IsEnabled = false;
@@ -336,6 +351,14 @@ namespace PL
         private void txtMaxWeight_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void btnShowParcel_Click(object sender, RoutedEventArgs e)
+        {
+            Parcel p = myBl.GetParcel(drone.Package.Id);
+            ParcelWindow pw = new ParcelWindow(myBl,p);
+            pw.Show();
+            //pw.Update += ParcelWindow_Update;
         }
     }
 

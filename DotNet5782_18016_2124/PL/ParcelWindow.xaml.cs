@@ -23,19 +23,27 @@ namespace PL
     {
         private IBL myBl;
         private Parcel pr;
+        public event Action Update = delegate { };
 
         public ParcelWindow(IBL myBl)
         {
             InitializeComponent();
             this.myBl = myBl;
+            DataContext = pr;
+
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
+
+            btnCollect.Visibility = Visibility.Hidden;
             btnDelete.Visibility = Visibility.Hidden;
             btnDroneWindow.Visibility = Visibility.Hidden;
             btnSenderWindow.Visibility = Visibility.Hidden;
             btnTargetWindow.Visibility = Visibility.Hidden;
-            btnUpdateModel.Visibility = Visibility.Hidden;
-           
+
+            comboPriority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
+            comboWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
+            comboDrone.ItemsSource = myBl.GetDrones(d=>d.Status==DroneStatuses.Free);
+
         }
         //to remove close box from window
         private const int GWL_STYLE = -16;
@@ -45,7 +53,7 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-        public event Action Update = delegate { };
+        
 
         void ToolWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -55,23 +63,29 @@ namespace PL
         }
         public ParcelWindow(IBL myBl, Parcel pr)
         {
+            InitializeComponent();
+            DataContext = pr;
             this.myBl = myBl;
             this.pr = pr;
+
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
+            comboDrone.ItemsSource = myBl.GetDrones(d => d.Status == DroneStatuses.Free);
+
+
             btnAddParcel.Visibility = Visibility.Hidden;
+            comboPriority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
+            comboWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
 
         }
 
-        private void btnUpdateModel_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
 
         private void btnDroneWindow_Click(object sender, RoutedEventArgs e)
         {
+            Parcel p = myBl.GetParcel(pr.Id);
             
-            Drone d = myBl.GetDrone(pr.DroneP.Id);
+            Drone d = myBl.GetDrone(p.DroneP.Id);
             DroneWindow droneWindow= new DroneWindow(myBl, d);
             droneWindow.Show();
         }
@@ -93,7 +107,8 @@ namespace PL
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            myBl.DeleteParcel(pr);
+            Update();
         }
 
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
@@ -101,28 +116,29 @@ namespace PL
             bool flag = true;
             try
             {
-                ParcelForList pr = new ParcelForList()
-                {
-                    Id = Convert.ToInt32(txtId.Text),
-                    Longitude = (WeightCategories)comboWeight.SelectedItem,
-                    SenderId = Convert.ToInt32(txtSenderId.Text),
-                    TargetId= Convert.ToInt32(txtTargetId.Text),
-                    Priority=(Priorities)comboPriority.SelectedItem,
-                    Status=(ParcelStatuses)comboStatus.SelectedItem
+                //ParcelForList pr = new ParcelForList()
+                //{
+                //    Id = Convert.ToInt32(txtId.Text),
+                //    Longitude = (WeightCategories)comboWeight.SelectedItem,
+                //    SenderId = Convert.ToInt32(txtSenderId.Text),
+                //    TargetId= Convert.ToInt32(txtTargetId.Text),
+                //    Priority=(Priorities)comboPriority.SelectedItem,
 
-                };
+                //};
+                DroneForList d = comboDrone.SelectedItem as DroneForList;
+                DroneInParcel dp = new DroneInParcel() { Id = d.Id, Battery = d.Battery, Location = d.DroneLocation };
                 Parcel p = new Parcel()
                 {
-                    Priority = pr.Priority,
-                    DroneP = null,
-                    AssociationTime = 0,
-                    CollectionTime=0,
-                    CreationTime=null,
-                    Id=pr.Id,
-                    Longitude=pr.Longitude,
-                    Sender=new CustomerInParcel() { Id=pr.SenderId,Name=myBl.GetCustomer(pr.SenderId).Name},
-                    SupplyTime=0,
-                    Target=new CustomerInParcel() { Id = pr.TargetId, Name = myBl.GetCustomer(pr.TargetId).Name }
+                    Priority = (Priorities)comboPriority.SelectedItem,
+                    DroneP = dp,
+                    AssociationTime = Convert.ToInt32(txtAssociationTime.Text),
+                    CollectionTime = Convert.ToInt32(txtCollectionTime.Text),
+                   // CreationTime =(DateTime)Convert.ToInt32(txtCreationTime.Text),
+                    Id = Convert.ToInt32(txtId.Text),
+                    Longitude = (WeightCategories)comboWeight.SelectedItem,
+                    Sender =new CustomerInParcel() { Id= Convert.ToInt32(txtSenderId.Text), Name=myBl.GetCustomer(Convert.ToInt32(txtSenderId.Text)).Name},
+                    SupplyTime= Convert.ToInt32(txtSupplyTime.Text),
+                    Target=new CustomerInParcel() { Id = Convert.ToInt32(txtTargetId.Text), Name = myBl.GetCustomer(Convert.ToInt32(txtTargetId.Text)).Name }
                     
                 };
 
