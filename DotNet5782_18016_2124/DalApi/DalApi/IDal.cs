@@ -99,6 +99,7 @@ namespace DalApi
         /// </summary>
         /// <param name="parcel">the parcel with new data to update</param>
         void UpdateParcel(Parcel parcel);
+        void DeleteParcel(Parcel p);
 
 
         /// <summary>

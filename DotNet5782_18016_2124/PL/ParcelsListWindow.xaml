@@ -6,11 +6,49 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="ParcelsListWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize"
+              Value="12" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize"
+              Value="14" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize"
+              Value="16" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize"
+              Value="14" />
+            <Setter Property="FontFamily"
+              Value="Gabriola" />
+        </Style>
+        <!--<local:StationModel x:Key="station"/>-->
+    </Window.Resources>
+
     <Window.Background>
         <ImageBrush ImageSource="/DRONE3.png"  Opacity="0.4"/>
     </Window.Background>
 
     <Grid Name="mainGrid" >
+        <Grid.Background>
+            <ImageBrush ImageSource="/DRONE3.png"/>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="39*"/>
@@ -26,8 +64,10 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="comboTargetSelector" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.481,0.676" Margin="37,31,40,0" Height="24" SelectionChanged="comboStatusSelector_SelectionChanged">
+            <ComboBox Name="comboPrioritySelector" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.5,0.5" Margin="5,31,7,0" Height="24" SelectionChanged="comboPrioritySelector_SelectionChanged">
                 <ComboBox.Background>
                     <LinearGradientBrush EndPoint="0,1">
                         <GradientStop Color="#FFF0F0F0"/>
@@ -35,7 +75,7 @@
                     </LinearGradientBrush>
                 </ComboBox.Background>
             </ComboBox>
-            <ComboBox Name="comboSenderSelector" Grid.Column="1" Width="120" RenderTransformOrigin="0.481,0.676" Margin="32,28,46,64"  Height="24" SelectionChanged="comboMaxWeightSelector_SelectionChanged">
+            <ComboBox Name="comboStatusSelector" Grid.Column="1" Width="120" RenderTransformOrigin="0.5,0.5" Margin="4,28,7,64"  Height="24" SelectionChanged="comboStatusSelector_SelectionChanged">
                 <ComboBox.Background>
                     <LinearGradientBrush EndPoint="0,1">
                         <GradientStop Color="#FFF0F0F0"/>
@@ -43,20 +83,26 @@
                     </LinearGradientBrush>
                 </ComboBox.Background>
             </ComboBox>
-            <Label Content="Target Selector" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top"/>
-            <Label Content="Sender Selector" Grid.Column="1" HorizontalAlignment="Center" Margin="0,63,0,0" VerticalAlignment="Top"/>
-            <Label Content="Add Parcel" Grid.Column="2" HorizontalAlignment="Center" Margin="0,68,0,0" VerticalAlignment="Top"/>
-            <Label Content="Close" Grid.Column="3" HorizontalAlignment="Center" Margin="0,70,0,-24"/>
-            <Button Name="btnAddParcel" Content="Add parcel" Grid.Column="2" HorizontalAlignment="Center" Margin="0,23,0,0" VerticalAlignment="Top" Height="35" Width="124" Click="btnAddDrone_Click">
+            <Label Content="Priority Selector" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top"/>
+            <Label Content="Status Selector" Grid.Column="1" HorizontalAlignment="Center" Margin="0,63,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiCondensed"/>
+            <Label Content="Add Parcel" Grid.Column="3" HorizontalAlignment="Left" Margin="32,68,0,0" VerticalAlignment="Top"/>
+            <Label Content="Close" Grid.Column="5" HorizontalAlignment="Left" Margin="33,70,0,-24" Width="51"/>
+            <Button Name="btnAddParcel" Content="Add parcel" Grid.Column="3" HorizontalAlignment="Left" Margin="3,23,0,0" VerticalAlignment="Top" Height="35" Width="124" Click="btnAddParcel_Click" OpacityMask="Black">
                 <Button.Background>
                     <ImageBrush/>
                 </Button.Background>
             </Button>
-            <Button Name="btnClose" Content="Close" Grid.Column="3" HorizontalAlignment="Left" Margin="40,20,0,0" VerticalAlignment="Top" Height="36" Width="126" Click="btnClose_Click">
-                <Button.Background>
-                    <ImageBrush/>
-                </Button.Background>
-            </Button>
+            <Button Name="btnClose" Content="Close" Grid.Column="4" HorizontalAlignment="Left" Margin="129,20,0,0" VerticalAlignment="Top" Height="36" Width="126" Click="btnClose_Click" Background="#FF494E7A" Grid.ColumnSpan="2"/>
+            <Button Name="btnSender" Content="Gruop by Sender" Grid.Column="4" HorizontalAlignment="Center" Margin="0,19,0,0" VerticalAlignment="Top" Height="41" Width="113" Click="btnSender_Click"/>
+            <ComboBox x:Name="comboWeightSelector" Grid.Column="2" Width="120" RenderTransformOrigin="0.5,0.5" Margin="2,28,11,64"  Height="24" SelectionChanged="comboWehigtSelector_SelectionChanged">
+                <ComboBox.Background>
+                    <LinearGradientBrush EndPoint="0,1">
+                        <GradientStop Color="#FFF0F0F0"/>
+                        <GradientStop Color="#FF2939D6" Offset="1"/>
+                    </LinearGradientBrush>
+                </ComboBox.Background>
+            </ComboBox>
+            <Label Name="lblWeightSelector" Content="Weight Selector" Grid.Column="2" HorizontalAlignment="Center" Margin="0,62,0,0" VerticalAlignment="Top" Height="43" Width="110"/>
         </Grid>
         <ListView x:Name="ParcelsListView" Margin="5,8,5,131" MouseDoubleClick="ListView_MouseDoubleClick" Grid.RowSpan="2" Grid.ColumnSpan="3" FontWeight="Bold" FontSize="16" >
             <ListView.Background>

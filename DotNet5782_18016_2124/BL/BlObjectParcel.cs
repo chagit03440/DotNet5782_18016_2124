@@ -27,6 +27,7 @@ namespace BL
             {
                 throw new BLInVaildIdException("id didn't exist", ex);
             }
+            
             Parcel parcelBO = new Parcel()
             {
                 Id = parcelDO.ID,
@@ -122,6 +123,11 @@ namespace BL
             p.Scheduled = DateTime.Today;
             myDal.UpdateParcel(p);
 
+        }
+        public void DeleteParcel(Parcel p)
+        {
+            DO.Parcel dp = new DO.Parcel() { ID = p.Id };
+            myDal.DeleteParcel(dp);
         }
     }
 }

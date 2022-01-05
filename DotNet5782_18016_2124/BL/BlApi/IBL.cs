@@ -153,7 +153,7 @@ namespace BlApi
         /// </summary>
         /// <param name="customer">the customer we need to add</param>
         void AddCustomer(Customer customer);
-
+        void DeleteParcel(Parcel p);
     }
 }
 

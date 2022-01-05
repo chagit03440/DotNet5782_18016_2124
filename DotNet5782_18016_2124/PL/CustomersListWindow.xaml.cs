@@ -78,13 +78,6 @@ namespace PL
 
         }
 
-        private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
-        {
-            CustomerWindow cw = new CustomerWindow(myBl);
-            cw.Show();
-            cw.Update += CustomerWindow_Update;
-
-        }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
@@ -96,10 +89,17 @@ namespace PL
             CustomersListView.ItemsSource = collection;
         }
 
-     
+        
         private void btnClose_Click_1(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            CustomerWindow cw = new CustomerWindow(myBl);
+            cw.Show();
+            cw.Update += CustomerWindow_Update;
         }
     }
 }
