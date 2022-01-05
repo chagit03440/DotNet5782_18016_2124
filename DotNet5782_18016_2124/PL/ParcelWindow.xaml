@@ -8,7 +8,7 @@
         Title="ParcelWindow" Height="450" Width="800">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/DRON2.jpg"/>
+            <ImageBrush ImageSource="/DRONE3.png"/>
         </Grid.Background>
 
     </Grid>

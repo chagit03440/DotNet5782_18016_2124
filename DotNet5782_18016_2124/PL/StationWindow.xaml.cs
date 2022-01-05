@@ -1,4 +1,5 @@
 ﻿using BlApi;
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,13 +31,28 @@ namespace PL
 
             public StationWindow(BlApi.IBL myBl, BO.Station station)
         {
+            
             InitializeComponent();
             Loaded += ToolWindow_Loaded;
+            comboDrone.ItemsSource = myBl.GetDrones(d => d.DroneLocation == station.Location);
+            Add_btn.Visibility = Visibility.Hidden;
+            fillTextbox(station);
+            txtId.IsEnabled=false;
+            txtlatitude.IsEnabled=false;
+
+            txtlongenttitude.IsEnabled = false;
+            
+
+            txtCharge.IsEnabled = false;
+
         }
 
         public StationWindow(IBL myBl)
         {
             this.myBl = myBl;
+            InitializeComponent();
+            Loaded += ToolWindow_Loaded;
+            Update_btn.Visibility = Visibility.Hidden;
         }
 
         //to remove close box from window
@@ -66,7 +82,82 @@ namespace PL
 
         private void Add_btn_Click(object sender, RoutedEventArgs e)
         {
+            bool flag = true;
+            try
+            {
+                DroneForList d = (DroneForList)comboDrone.SelectedItem;
+                Station st = new Station
+                {
+                    Id = Convert.ToInt32(txtId.Text),
+                    Name = txtName.Text,
+                    Location = new Location()
+                    {
+                        Longitude = Convert.ToInt32(txtlongenttitude.Text),
+                        Lattitude = Convert.ToInt32(txtlatitude.Text)
+                    },
+                    ChargeSlots= Convert.ToInt32(txtCharge.Text)
+                };
 
+
+                myBl.AddStation(st);
+                MessageBox.Show("the drone was successfully added");
+                Update();
+
+            }
+            catch (BLAlreadyExistExeption ex)
+            {
+                MessageBox.Show("this id already exist");
+                flag = false;
+
+            }
+
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+                flag = false;
+            }
+            if (!flag)
+            {
+                var bc = new BrushConverter();
+                txtId.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
+
+            }
+            new StationWindow(myBl);
+            if (flag)
+                this.Close();
         }
+
+        private void Updat_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                s.Name = txtName.Text;
+                myBl.UpdateStation(s,-1);
+                MessageBox.Show("the name of the station was successfully updated");
+
+                Station dr = myBl.GetStation(s.Id);
+                fillTextbox(s);
+                Update();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+        }
+
+        private void fillTextbox(Station station)
+        {
+            txtId.Text = station.Id.ToString();
+            txtlatitude.Text = station.Location.Lattitude.ToString();
+
+            txtlongenttitude.Text = station.Location.Longitude.ToString();
+            txtName.Text = station.Name.ToString();
+
+            txtCharge.Text = station.ChargeSlots.ToString();
+        }
+    }
     }
 }

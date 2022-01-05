@@ -85,5 +85,10 @@ namespace PL
             StationWindow s = new StationWindow(myBl);
             s.Show();
         }
+
+        private void stationListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

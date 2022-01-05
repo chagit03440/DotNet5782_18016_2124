@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ParcelsListWindow" Height="450" Width="800">
     <Window.Background>
-        <ImageBrush ImageSource="/DRON2.jpg"  Opacity="0.4"/>
+        <ImageBrush ImageSource="/DRONE3.png"  Opacity="0.4"/>
     </Window.Background>
 
     <Grid Name="mainGrid" >
@@ -20,7 +20,7 @@
             <RowDefinition Height="116.007"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" Grid.ColumnSpan="2" Grid.Column="1">
+        <Grid Name="UpGrid" Height="auto" Grid.Row="1" Width="auto" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,199,0,3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -47,10 +47,18 @@
             <Label Content="Sender Selector" Grid.Column="1" HorizontalAlignment="Center" Margin="0,63,0,0" VerticalAlignment="Top"/>
             <Label Content="Add Parcel" Grid.Column="2" HorizontalAlignment="Center" Margin="0,68,0,0" VerticalAlignment="Top"/>
             <Label Content="Close" Grid.Column="3" HorizontalAlignment="Center" Margin="0,70,0,-24"/>
-            <Button Name="btnAddParcel" Content="Add parcel" Grid.Column="2" HorizontalAlignment="Center" Margin="0,23,0,0" VerticalAlignment="Top" Height="35" Width="124" Click="btnAddDrone_Click" Background="#FF494E7A"/>
-            <Button Name="btnClose" Content="Close" Grid.Column="3" HorizontalAlignment="Left" Margin="40,20,0,0" VerticalAlignment="Top" Height="36" Width="126" Click="btnClose_Click" Background="#FF494E7A"/>
+            <Button Name="btnAddParcel" Content="Add parcel" Grid.Column="2" HorizontalAlignment="Center" Margin="0,23,0,0" VerticalAlignment="Top" Height="35" Width="124" Click="btnAddDrone_Click">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
+            <Button Name="btnClose" Content="Close" Grid.Column="3" HorizontalAlignment="Left" Margin="40,20,0,0" VerticalAlignment="Top" Height="36" Width="126" Click="btnClose_Click">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
         </Grid>
-        <ListView x:Name="ParcelsListView" Margin="5,116,5,23" MouseDoubleClick="ListView_MouseDoubleClick" Grid.RowSpan="2" Grid.ColumnSpan="3" FontWeight="Bold" FontSize="16" >
+        <ListView x:Name="ParcelsListView" Margin="5,8,5,131" MouseDoubleClick="ListView_MouseDoubleClick" Grid.RowSpan="2" Grid.ColumnSpan="3" FontWeight="Bold" FontSize="16" >
             <ListView.Background>
                 <ImageBrush/>
             </ListView.Background>

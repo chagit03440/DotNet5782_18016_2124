@@ -12,8 +12,22 @@
         </Grid.Background>
         <Grid Margin="0,0,0,-6">
 
-            <Button Name="closbtn" Content="Exit" HorizontalAlignment="Left" Margin="388,30,0,0" Width="174" Background="#FF5ABDF5" FontSize="14" FontWeight="Bold" Click="closbtn_Click" Height="62" VerticalAlignment="Top" Grid.RowSpan="2" Grid.Row="5"/>
-            <Button Name="Add_btn" Content="Add Station" HorizontalAlignment="Left" Margin="588,30,0,0" Width="174" Background="#FF5ABDF5" FontSize="14" FontWeight="Bold" Click="Add_btn_Click" Height="62" VerticalAlignment="Top" Grid.RowSpan="2" Grid.Row="5"/>
+            <Button Name="closbtn" Content="Exit" HorizontalAlignment="Left" Margin="388,30,0,0" Width="174" FontSize="14" FontWeight="Bold" Click="closbtn_Click" Height="62" VerticalAlignment="Top" Grid.RowSpan="2" Grid.Row="5">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
+            <Button Name="Add_btn" Content="Add Station" HorizontalAlignment="Left" Margin="588,30,0,0" Width="174" FontSize="14" FontWeight="Bold" Click="Add_btn_Click" Height="62" VerticalAlignment="Top" Grid.RowSpan="2" Grid.Row="5">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
+            <Button Name="Update_btn" Content="Updat" HorizontalAlignment="Left" Margin="588,30,0,0" Width="174" FontSize="14" FontWeight="Bold" Click="Updat_Click" Height="62" VerticalAlignment="Top" Grid.RowSpan="2" Grid.Row="5">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
+
             <Grid Margin="0,0,0,63" Grid.RowSpan="2"/>
             <TextBox Name="txtId" HorizontalAlignment="Left" Text="{Binding ID,Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="111,24,0,0" Height="18"/>
             <TextBox Name="txtName" HorizontalAlignment="Left" Text="{Binding Name,Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Margin="111,0,0,0" Height="18" Grid.Row="1"/>
