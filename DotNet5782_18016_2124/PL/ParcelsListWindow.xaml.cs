@@ -73,19 +73,19 @@ namespace PL
 
             try
             {
-                if (prL.SenderId != 0 && prL.TargetId != 0)
+                //if (prL.SenderId != 0 && prL.TargetId != 0)
                     pr = myBl.GetParcel(prL.Id);
-                else
-                    pr = new BO.Parcel()
-                    {
-                        Id = pr.Id,
-                        Longitude = (WeightCategories)pr.Longitude,
-                        Priority = (Priorities)pr.Priority,
-                        AssociationTime = 0,
-                        CollectionTime = 0,
-                        CreationTime = DateTime.MinValue,
-                        SupplyTime = 0
-                    };
+                //else
+                //    pr = new BO.Parcel()
+                //    {
+                //        Id = prL.Id,
+                //        Longitude = (WeightCategories)prL.Longitude,
+                //        Priority = (Priorities)prL.Priority,
+                //        AssociationTime = 0,
+                //        CollectionTime = 0,
+                //        CreationTime = DateTime.MinValue,
+                //        SupplyTime = 0
+                //    };
 
             }
             catch (Exception ex)

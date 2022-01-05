@@ -35,6 +35,7 @@ namespace PL
             InitializeComponent();
             Loaded += ToolWindow_Loaded;
             comboDrone.ItemsSource = myBl.GetDrones(d => d.DroneLocation == station.Location);
+            DataContext = station;
             Add_btn.Visibility = Visibility.Hidden;
             fillTextbox(station);
             txtId.IsEnabled=false;
@@ -150,14 +151,14 @@ namespace PL
 
         private void fillTextbox(Station station)
         {
-            txtId.Text = station.Id.ToString();
-            txtlatitude.Text = station.Location.Lattitude.ToString();
+            //txtId.Text = station.Id.ToString();
+            //txtlatitude.Text = station.Location.Lattitude.ToString();
 
-            txtlongenttitude.Text = station.Location.Longitude.ToString();
-            txtName.Text = station.Name.ToString();
+            //txtlongenttitude.Text = station.Location.Longitude.ToString();
+            //txtName.Text = station.Name.ToString();
 
-            txtCharge.Text = station.ChargeSlots.ToString();
+            //txtCharge.Text = station.ChargeSlots.ToString();
         }
-    }
+    
     }
 }

@@ -49,7 +49,10 @@
             <ImageBrush ImageSource="/DRON2.jpg"/>
         </Grid.Background>
         <Grid Grid.ColumnSpan="2">
-            <ListView x:Name="stationListView"   Margin="0,-26,0,105">
+            <Grid.Background>
+                <ImageBrush ImageSource="/DRONE3.png"/>
+            </Grid.Background>
+            <ListView x:Name="stationListView"   Margin="0,-26,0,105" MouseDoubleClick="ListView_MouseDoubleClick">
                 <ListView.Background>
                     <ImageBrush/>
                 </ListView.Background>

@@ -89,6 +89,7 @@ namespace PL
             Loaded += ToolWindow_Loaded;
             this.myBl = myBl;
             DataContext = c;
+           
             customer = new Customer();
             selectedCustomer = c;
             btnAddCustomer.Visibility = Visibility.Hidden;
