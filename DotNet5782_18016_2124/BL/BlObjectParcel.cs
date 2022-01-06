@@ -17,6 +17,7 @@ namespace BL
         /// <returns>return the parcel with this id</returns>
         public Parcel GetParcel(int requestedId)
         {
+            DroneInParcel d=null;
             DO.Parcel parcelDO;
             try
             {
@@ -27,18 +28,22 @@ namespace BL
             {
                 throw new BLInVaildIdException("id didn't exist", ex);
             }
+            if(parcelDO.Scheduled!=null)
+            {
+                 d = new DroneInParcel() { Battery = GetDrone(parcelDO.DroneId).Battery, Id = parcelDO.DroneId, Location = GetDrone(parcelDO.DroneId).Location };
+            }
             
             Parcel parcelBO = new Parcel()
             {
                 Id = parcelDO.ID,
                 Longitude = (WeightCategories)parcelDO.Longitude,
                 Priority = (Priorities)parcelDO.Priority,
-                Sender =new CustomerInParcel() {Id= parcelDO.SenderId, Name=GetCustomer( parcelDO.SenderId).Name },
+                Sender = new CustomerInParcel() { Id = parcelDO.SenderId, Name = GetCustomer(parcelDO.SenderId).Name },
                 Target = new CustomerInParcel() { Id = parcelDO.TargetId, Name = GetCustomer(parcelDO.TargetId).Name },
-                AssociationTime=0,
-                CollectionTime=0,
-                CreationTime=DateTime.MinValue,
-                DroneP=new DroneInParcel() { Battery=GetDrone(parcelDO.DroneId).Battery,Id=parcelDO.DroneId,Location= GetDrone(parcelDO.DroneId).Location},
+                AssociationTime = 0,
+                CollectionTime = 0,
+                CreationTime = DateTime.MinValue,
+                DroneP = d,
                 SupplyTime=0
              
             };
