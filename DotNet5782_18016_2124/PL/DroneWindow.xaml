@@ -80,27 +80,62 @@
             <Button Name="btnShowParcel" Content="Show Parcel" Grid.Column="2" HorizontalAlignment="Left" Margin="70,61,0,0" VerticalAlignment="Top" Height="43" Width="108" Click="btnShowParcel_Click"/>
         </Grid>
         <Grid Name="grdUpdate" Margin="6,13,-294,16" Grid.RowSpan="7" Grid.Column="2">
+            <Grid.Background>
+                <ImageBrush/>
+            </Grid.Background>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="246*"/>
                 <ColumnDefinition Width="23*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="btnUpdateModel" Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="207" Click="btnUpdateModel_Click" FontWeight="Bold" FontSize="18" Background="#FF494E7A" Margin="45,190,0,0"/>
-            <Button Name="btnRelease" Content="Release drone" HorizontalAlignment="Left" Margin="72,26,0,0" VerticalAlignment="Top" Click="btnRelease_Click" Background="#FF494E7A" Width="155"/>
-            <Button Name="btnCharge"  Content="Send drone to charge" HorizontalAlignment="Left" Margin="73,51,0,0" VerticalAlignment="Top" Click="btnCharge_Click" Background="#FF494E7A" Width="154"/>
-            <Button Name="btnAssignment" Content=" Assignment parcel to drone" HorizontalAlignment="Left" Margin="73,76,0,0" VerticalAlignment="Top" Click="btnAssignment_Click" Background="#FF494E7A"/>
-            <Button Name="btnDelivery" Content="Package delivery by drone" HorizontalAlignment="Left" Margin="72,101,0,0" VerticalAlignment="Top" Click="btnDelivery_Click" Height="21" Width="155" Background="#FF494E7A"/>
-            <Button Name="btnPickedup" Content="Picked up parcel" HorizontalAlignment="Left" Margin="73,129,0,0" VerticalAlignment="Top" Click="btnPickedup_Click" Background="#FF494E7A" Width="154"/>
+            <Button Name="btnUpdateModel" Content="Update" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="207" Click="btnUpdateModel_Click" FontWeight="Bold" FontSize="18" Margin="45,190,0,0">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
+            <Button Name="btnRelease" Content="Release drone" HorizontalAlignment="Left" Margin="72,26,0,0" VerticalAlignment="Top" Click="btnRelease_Click" Width="155">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
+            <Button Name="btnCharge"  Content="Send drone to charge" HorizontalAlignment="Left" Margin="73,51,0,0" VerticalAlignment="Top" Click="btnCharge_Click" Width="154">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
+            <Button Name="btnAssignment" Content=" Assignment parcel to drone" HorizontalAlignment="Left" Margin="73,76,0,0" VerticalAlignment="Top" Click="btnAssignment_Click">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
+            <Button Name="btnDelivery" Content="Package delivery by drone" HorizontalAlignment="Left" Margin="72,101,0,0" VerticalAlignment="Top" Click="btnDelivery_Click" Height="21" Width="155">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
+            <Button Name="btnPickedup" Content="Picked up parcel" HorizontalAlignment="Left" Margin="73,129,0,0" VerticalAlignment="Top" Click="btnPickedup_Click" Width="154">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
 
         </Grid>
         <Grid x:Name="grdRelease" Grid.Row="4" Margin="6,17,-251,17" Grid.RowSpan="3" Grid.Column="2">
             <Label Content="Enter the time (in minute)" HorizontalAlignment="Left" Margin="53,12,0,0" VerticalAlignment="Top"/>
-            <Button Name="btnOk" Content="OK" HorizontalAlignment="Left" Margin="92,121,0,0" VerticalAlignment="Top" Width="50" Click="btnOk_Click" Background="#FF494E7A"/>
+            <Button Name="btnOk" Content="OK" HorizontalAlignment="Left" Margin="92,121,0,0" VerticalAlignment="Top" Width="50" Click="btnOk_Click">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
             <TextBox Name="txtTime" HorizontalAlignment="Left" Margin="65,43,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         </Grid>
         <TextBox Name="txtStatus" HorizontalAlignment="Left" Margin="64,19,0,0" Grid.Row="3" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
         <TextBox Name="txtMaxWeight" HorizontalAlignment="Left" Margin="63,0,0,0" Grid.Row="2" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
         <Grid x:Name="grdExit" Margin="324,17,-569,44" Grid.RowSpan="3" Grid.Column="2">
-            <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="90,20,0,0" VerticalAlignment="Top" Height="40" Width="106" Click="btnExit_Click" Background="#FF494E7A"/>
+            <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="90,20,0,0" VerticalAlignment="Top" Height="40" Width="106" Click="btnExit_Click">
+                <Button.Background>
+                    <ImageBrush/>
+                </Button.Background>
+            </Button>
         </Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

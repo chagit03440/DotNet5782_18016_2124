@@ -52,7 +52,7 @@
             <Grid.Background>
                 <ImageBrush ImageSource="/DRONE3.png"/>
             </Grid.Background>
-            <ListView x:Name="stationListView"   Margin="0,-26,0,105">
+            <ListView x:Name="stationListView"   Margin="0,-26,0,105" MouseDoubleClick="ListView_MouseDoubleClick">
                 <ListView.Background>
                     <ImageBrush/>
                 </ListView.Background>
@@ -63,14 +63,19 @@
                 </ListView.View>
             </ListView>
         </Grid>
-        <Button Name="closbtn" Content="Exit" HorizontalAlignment="Left" Margin="209,365,0,7" Width="174" Background="#FF494E7A" FontSize="14" FontWeight="Bold" Click="closbtn_Click" Grid.Column="1"/>
-        <Button Name="addbtn" Content="Add station" HorizontalAlignment="Left" Margin="31,365,0,7" Width="174" Background="#FF494E7A" FontSize="14" FontWeight="Bold" Click="addbtn_Click" Grid.Column="1"/>
+        <Button Name="closbtn" Content="Exit" HorizontalAlignment="Left" Margin="209,365,0,7" Width="174" FontSize="14" FontWeight="Bold" Click="closbtn_Click" Grid.Column="1">
+            <Button.Background>
+                <ImageBrush Stretch="Fill"/>
+            </Button.Background>
+        </Button>
+        <Button Name="addbtn" Content="Add station" HorizontalAlignment="Left" Margin="31,365,0,7" Width="174" FontSize="14" FontWeight="Bold" Click="addbtn_Click" Grid.Column="1">
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>
         <ComboBox HorizontalAlignment="Left" Margin="240,367,0,0" VerticalAlignment="Top" Width="181" Grid.ColumnSpan="2" Height="59">
             <ComboBox.Background>
-                <LinearGradientBrush EndPoint="0,1">
-                    <GradientStop Color="#FFF0F0F0"/>
-                    <GradientStop Color="#FF3F457E" Offset="1"/>
-                </LinearGradientBrush>
+                <ImageBrush/>
             </ComboBox.Background>
         </ComboBox>
 

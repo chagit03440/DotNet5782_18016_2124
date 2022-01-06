@@ -1,0 +1,66 @@
+﻿<Window x:Class="PL.ManagerMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="ManagerMainWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <Style TargetType="ComboBox">
+            <Setter Property="FontSize"
+              Value="12" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize"
+              Value="14" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize"
+              Value="16" />
+            <Setter Property="FontFamily"
+              Value="Bahnschrift SemiCondensed" />
+            <Setter Property="FontWeight"
+              Value="Bold" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize"
+              Value="14" />
+            <Setter Property="FontFamily"
+              Value="Gabriola" />
+        </Style>
+        <!--<local:StationModel x:Key="station"/>-->
+    </Window.Resources>    <Window.Background>        <ImageBrush ImageSource="/DRONE3.png"/>    </Window.Background>    <Grid Name="MainGrid" Margin="10,32,-10,-4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="151*"/>
+            <ColumnDefinition Width="9*"/>
+        </Grid.ColumnDefinitions>        <Grid.Background>            <ImageBrush/>        </Grid.Background>        <Button Name="btnstart" Content="DroneListView" HorizontalAlignment="Left" Margin="445,299,0,0" Width="322" Click="Button_Click" FontWeight="Bold" FontSize="36" Height="79" VerticalAlignment="Top" Grid.ColumnSpan="2">
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>
+        <Button Name="btnStation" Content="StationListView" HorizontalAlignment="Left" Margin="446,115,0,0" Width="322" Click="BtnStation_Click" FontWeight="Bold" FontSize="36" VerticalAlignment="Top" Height="74" Grid.ColumnSpan="2">
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>        <Button Name="btnCustomer" Content= "CustomerListView" HorizontalAlignment="Left" Margin="446,207,0,0" Width="322" Click="BtnCustomer_Click" FontWeight="Bold" FontSize="36" VerticalAlignment="Top" Height="74" Grid.ColumnSpan="2">
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>        <Button Name="btnParcel" Content="ParcelListView" HorizontalAlignment="Left" Margin="446,23,0,0" Width="322" Click="BtnParcel_Click" FontWeight="Bold" FontSize="36" VerticalAlignment="Top" Height="74" Grid.ColumnSpan="2">
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>    </Grid></Window>
+
+ 

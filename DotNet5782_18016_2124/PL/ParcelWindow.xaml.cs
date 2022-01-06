@@ -66,7 +66,6 @@ namespace PL
             InitializeComponent();
             DataContext = pr;
             this.myBl = myBl;
-            this.pr = pr;
 
             //to remove close box from window
             Loaded += ToolWindow_Loaded;

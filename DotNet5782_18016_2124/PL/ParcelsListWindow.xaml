@@ -42,7 +42,7 @@
     </Window.Resources>
 
     <Window.Background>
-        <ImageBrush ImageSource="/DRON2.jpg"  Opacity="0.4"/>
+        <ImageBrush ImageSource="/DRONE3.png"  Opacity="0.4"/>
     </Window.Background>
 
     <Grid Name="mainGrid" >
@@ -58,7 +58,7 @@
             <RowDefinition Height="116.007"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" Grid.ColumnSpan="2" Grid.Column="1">
+        <Grid Name="UpGrid" Height="auto" Grid.Row="1" Width="auto" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,199,0,3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -104,7 +104,7 @@
             </ComboBox>
             <Label Name="lblWeightSelector" Content="Weight Selector" Grid.Column="2" HorizontalAlignment="Center" Margin="0,62,0,0" VerticalAlignment="Top" Height="43" Width="110"/>
         </Grid>
-        <ListView x:Name="ParcelsListView" Margin="5,116,5,23" MouseDoubleClick="ListView_MouseDoubleClick" Grid.RowSpan="2" Grid.ColumnSpan="3" FontWeight="Bold" FontSize="16" >
+        <ListView x:Name="ParcelsListView" Margin="5,8,5,131" MouseDoubleClick="ListView_MouseDoubleClick" Grid.RowSpan="2" Grid.ColumnSpan="3" FontWeight="Bold" FontSize="16" >
             <ListView.Background>
                 <ImageBrush/>
             </ListView.Background>

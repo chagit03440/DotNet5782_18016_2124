@@ -31,6 +31,7 @@ namespace DAL
             internal static List<Customer> customers = new List<Customer>();
             internal static List<Parcel> parcels = new List<Parcel>();
             internal static List<DroneCharge> incharge = new List<DroneCharge>();
+            internal static List<User> ListUser = new List<User>();
 
             static Random rand = new Random();
 
@@ -40,6 +41,7 @@ namespace DAL
                 creatStation(10);
                 creatCustomer(10);
                 creatParcel(10);
+                createUsers();
             }
             /// <summary>
             /// A function that initialize customers with random data
@@ -61,11 +63,59 @@ namespace DAL
 
                 }
             }
-            /// <summary>
-            /// A function that initialize parcels with random data
-            /// </summary>
-            /// <param name="n">a number of parcels to intilize</param>
-            private static void creatParcel(int n)
+
+
+            private static void createUsers()
+            {
+                ListUser = new List<User>
+            {
+                 new User
+                 {
+                      UserName="David",
+                     Password="aaa",
+                     Worker=true,
+                     IsActive = true,
+                 },
+
+                 new User
+                 {
+                     UserName="Sarah",
+                     Password="bbb",
+                     Worker=true,
+                     IsActive = true,
+                 },
+
+                 new User
+                 {
+                     UserName="Yonhatan",
+                     Password="ccc",
+                     Worker=false,
+                     IsActive = true,
+                 },
+
+                 new User
+                 {
+                     UserName="Noa",
+                     Password="ddd",
+                     Worker=false,
+                     IsActive = true,
+                 },
+
+                 new User
+                 {
+                     UserName="Daniel",
+                     Password="eee",
+                     Worker=false,
+                     IsActive = true,
+                 },
+
+            };
+            }
+/// <summary>
+/// A function that initialize parcels with random data
+/// </summary>
+/// <param name="n">a number of parcels to intilize</param>
+private static void creatParcel(int n)
             {
                 for (int i = 0; i < n; i++)
                 {
