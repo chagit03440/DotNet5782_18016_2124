@@ -134,10 +134,10 @@ namespace Dal
         public void UpdateDrone(Drone droneToUpdate)
         {
             List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
-            Drone drone = listOfAllDrones.Find(x => x.ID == droneToUpdate.ID
- && x.ID == droneToUpdate.ID);
-            if (drone ==null)
-                throw new InVaildIdException("This point doesn't exist in the system");
+            Drone drone = listOfAllDrones.Find(x => x.ID == droneToUpdate.ID);
+
+            if (!listOfAllDrones.Exists(x => x.ID == droneToUpdate.ID))
+                throw new InVaildIdException("This drone doesn't exist in the system");
             drone.Model = droneToUpdate.Model;
             XMLTools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronePath);
         }
@@ -155,36 +155,34 @@ namespace Dal
             List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
 
             Drone drone = listOfAllDrones.Find(x => x.ID == id);
-            if (drone == null)
-                throw new InVaildIdException("The point in path of the line doesn't exist in system");
+            if (!listOfAllDrones.Exists(x => x.ID == id))
+                throw new InVaildIdException("The drone doesn't exist in system");
             listOfAllDrones.Remove(drone);
             XMLTools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronePath);
         }
 
-        public IEnumerable<Drone> GetDrones()
-        {
-            List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
-            return listOfAllDrones;
-        }
+        //public IEnumerable<Drone> GetDrones()
+        //{
+        //    List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
+        //    return listOfAllDrones;
+        //}
 
         public Drone GetDrone(int id)
-        {
-
-
+        { 
             List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
             Drone drone = listOfAllDrones.Find(x => x.ID == id);
-            if (drone != null)
-                return drone;
-            throw new InVaildIdException("The point in path doesn't exist");
+            if (!listOfAllDrones.Exists(x => x.ID == id))
+                throw new InVaildIdException("The drone in path doesn't exist");
+            return drone;
         }
 
-        public IEnumerable<Drone> GetPartOfDrones(Predicate<Drone> predicate)
+        public IEnumerable<Drone> GetDrones(Func<Drone, bool> predicate = null)
         {
             List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
-            var list = from drone in listOfAllDrones
-                       where predicate(drone)
-                       select drone;
-            return list;
+            if (predicate == null)
+                return listOfAllDrones;
+            return listOfAllDrones.Where(predicate);
+
         }
 
         #endregion
@@ -252,7 +250,7 @@ namespace Dal
         {
             var listOfCustomer= XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
             if ((listOfCustomer.Find(x => x.ID == customer.ID))!= null)
-                throw new AlreadyExistExeption("The bus already exist in the system");
+                throw new AlreadyExistExeption("The customer already exist in the system");
             listOfCustomer.Add(customer);
             XMLTools.SaveListToXMLSerializer<Customer>(listOfCustomer, customerPath);
         }
@@ -306,296 +304,109 @@ namespace Dal
 
         #endregion
 
-        #region lines 
-        public void AddBusLine(BusLine busLineToAdd)
+        #region droneCharge 
+
+
+
+        public DroneCharge GetDroneCharge(int id)
         {
-            XElement busLineRoot = XMLTools.LoadListFromXMLElement(linesPath);
-            XElement configurationRoot = XMLTools.LoadListFromXMLElement(configurationPath);
-
-            XElement newLineElem = new XElement("BusLine"
-              , new XElement("BusLineIndentificator", configurationRoot.Element("BusLineID").Value),
-              new XElement("LineNumber", busLineToAdd.LineNumber),
-              new XElement("LineArea", busLineToAdd.LineArea.ToString()),
-              new XElement("FirstLineStation", busLineToAdd.FirstLineStation),
-              new XElement("LastLineStation", busLineToAdd.LastLineStation)
-              );
-
-            busLineRoot.Add(newLineElem);
-            XMLTools.SaveListToXMLElement(busLineRoot, linesPath);
-
-            configurationRoot.Element("BusLineID").Value = (Convert.ToInt32(configurationRoot.Element("BusLineID").Value) + 1).ToString();
-            XMLTools.SaveListToXMLElement(configurationRoot, configurationPath);
-        }
-
-
-        public void DeleteBusLine(int busIndentificatorToDelete)
-        {
-            XElement busLineRoot = XMLTools.LoadListFromXMLElement(linesPath);
-            var lineToDelete = (from line in busLineRoot.Elements()
-                                where (line.Element("BusLineIndentificator").Value == busIndentificatorToDelete.ToString())
-                                select line).FirstOrDefault();
-
-            if (lineToDelete == null)
-                throw new DoesntExistException("The line to delete doesn't exist in system");
-            lineToDelete.Remove();
-            XMLTools.SaveListToXMLElement(busLineRoot, linesPath);
-        }
-
-
-        public BusLine GetABusLine(int busIndetificator)
-        {
-            XElement busLineRoot = XMLTools.LoadListFromXMLElement(linesPath);
-            var lineToDelete = (from line in busLineRoot.Elements()
-                                where (line.Element("BusLineIndentificator").Value == busIndetificator.ToString())
-                                select line).FirstOrDefault();
-            if (lineToDelete != null)
-                return new BusLine
-                {
-                    BusLineIndentificator = Convert.ToInt32(lineToDelete.Element("BusLineIndentificator").Value),
-                    FirstLineStation = Convert.ToInt32(lineToDelete.Element("FirstLineStation").Value),
-                    LastLineStation = Convert.ToInt32(lineToDelete.Element("LastLineStation").Value),
-                    LineNumber = Convert.ToInt32(lineToDelete.Element("LineNumber").Value),
-                    LineArea = lineToDelete.Element("LineArea").Value.ParseToArea()
-                };
-            throw new DoesntExistException("The line doesn't exist in system");
-        }
-
-        public IEnumerable<BusLine> GetAllBusLines()
-        {
-            XElement busLineRoot = XMLTools.LoadListFromXMLElement(linesPath);
-            var listOfAllLines = from line in busLineRoot.Elements()
-                                 select new BusLine
-                                 {
-                                     BusLineIndentificator = Convert.ToInt32(line.Element("BusLineIndentificator").Value),
-                                     FirstLineStation = Convert.ToInt32(line.Element("FirstLineStation").Value),
-                                     LastLineStation = Convert.ToInt32(line.Element("LastLineStation").Value),
-                                     LineNumber = Convert.ToInt32(line.Element("LineNumber").Value),
-                                     LineArea = line.Element("LineArea").Value.ParseToArea()
-                                 };
-            return listOfAllLines;
+            List<DroneCharge> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);
+            DroneCharge droneC = listOfAllDrones.Find(x => x.DroneId == id);
+            if (!listOfAllDrones.Exists(x => x.DroneId == id))
+                throw new InVaildIdException("The droneCharge in path doesn't exist");
+            return droneC;
 
         }
 
-        public IEnumerable<BusLine> GetPartOfBuseLines(Predicate<BusLine> BusLineCondition)
+        //public IEnumerable<DroneCharge> GetDronesInCharge()
+        //{
+        //    XElement DroneChargeRoot = XMLTools.LoadListFromXMLElement(droneChargePath);
+        //    var listOfAllDrones = from drone in DroneChargeRoot.Elements()
+        //                         select new DroneCharge
+        //                         {
+        //                             DroneId = Convert.ToInt32(drone.Element("DroneId").Value),
+        //                             StationId = Convert.ToInt32(drone.Element("StationId").Value),
+        //                         };
+        //    return listOfAllDrones;
+
+        //}
+
+        public IEnumerable<DroneCharge> GetDronesInCharge(Func<DroneCharge, bool> predicate = null)
         {
-            XElement busLineRoot = XMLTools.LoadListFromXMLElement(linesPath);
-            var listOfLines = from line in busLineRoot.Elements()
-                              let busLineDO = new BusLine
-                              {
-                                  BusLineIndentificator = Convert.ToInt32(line.Element("BusLineIndentificator").Value),
-                                  FirstLineStation = Convert.ToInt32(line.Element("FirstLineStation").Value),
-                                  LastLineStation = Convert.ToInt32(line.Element("LastLineStation").Value),
-                                  LineNumber = Convert.ToInt32(line.Element("LineNumber").Value),
-                                  LineArea = line.Element("LineArea").Value.ParseToArea()
-                              }
-                              where BusLineCondition(busLineDO)
-                              select busLineDO;
-            return listOfLines;
+            List<DroneCharge> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);
+            if (predicate==null)
+                 return listOfAllDrones;
+            return listOfAllDrones.Where(predicate);
+
         }
 
-        public void UpdateBusLine(BusLine busLineToUpdate)
-        {
-            XElement busLineRoot = XMLTools.LoadListFromXMLElement(linesPath);
-            var myLine = (from line in busLineRoot.Elements()
-                          where (line.Element("BusLineIndentificator").Value == busLineToUpdate.BusLineIndentificator.ToString())
-                          select line).FirstOrDefault();
-
-            if (myLine == null)
-                throw new DoesntExistException("This bus line doesn't exist in the system");
-
-            myLine.Element("FirstLineStation").Value = busLineToUpdate.FirstLineStation.ToString();
-            myLine.Element("LastLineStation").Value = busLineToUpdate.LastLineStation.ToString();
-            myLine.Element("LineArea").Value = busLineToUpdate.LineArea.ToString();
-            myLine.Element("LineNumber").Value = busLineToUpdate.LineNumber.ToString();
-
-            XMLTools.SaveListToXMLElement(busLineRoot, linesPath);
-        }
 
         #endregion
 
-        #region tripLines
-        public void AddLineTrip(LineTrip lineTripToAdd)
+        #region parcel
+        public void AddParcel(Parcel parcelToAdd)
         {
-            XElement linesTripRoot = XMLTools.LoadListFromXMLElement(linesTripPath);
-
-            if (lineTripToAdd.TimeFirstLineExit >= new TimeSpan(24, 0, 0) || lineTripToAdd.TimeLastLineExit >= new TimeSpan(24, 0, 0))
-                throw new InvalidInputException("the hour is invalid");
-
-            var lineTripList = GetAllLinesTimes();// all the list of the lines trip..
-
-            LineTrip lineTimes = lineTripToAdd;
-            //check if there is a bus exit that collision with the new times:
-            foreach (var r in lineTripList)
-            {
-                if (lineTimes.BusLineIndentificator == r.BusLineIndentificator)
-                {
-                    //must be collision.. both drive in 00:00:00..
-                    if (lineTimes.TimeFirstLineExit > lineTimes.TimeLastLineExit && r.TimeFirstLineExit > r.TimeLastLineExit)
-                        throw new AlreadyExistException("The times of the line that has chose already have defination");
-                    //both drive in time 00:00:00- 23:59:59
-                    if (lineTimes.TimeFirstLineExit < lineTimes.TimeLastLineExit && r.TimeFirstLineExit < r.TimeLastLineExit)
-                    {
-                        if (lineTimes.TimeFirstLineExit >= r.TimeFirstLineExit && lineTimes.TimeFirstLineExit < r.TimeLastLineExit)
-                            throw new AlreadyExistException("The times of the line that has chose already have defination");
-                        if (lineTimes.TimeLastLineExit > r.TimeFirstLineExit && lineTimes.TimeLastLineExit < r.TimeLastLineExit)
-                            throw new AlreadyExistException("The times of the line that has chose already have defination");
-                        if (lineTimes.TimeFirstLineExit < r.TimeFirstLineExit && lineTimes.TimeLastLineExit > r.TimeLastLineExit)
-                            throw new AlreadyExistException("The times of the line that has chose already have defination");
-                    }
-                    //r drive from "day" to other "day" and lineTimes in one day..
-                    else if (r.TimeFirstLineExit > r.TimeLastLineExit && lineTimes.TimeFirstLineExit < lineTimes.TimeLastLineExit)
-                    {
-                        if (r.TimeLastLineExit > lineTimes.TimeFirstLineExit)
-                            throw new AlreadyExistException("The times of the line that has chose already have defination");
-                        if (r.TimeFirstLineExit < lineTimes.TimeLastLineExit)
-                            throw new AlreadyExistException("The times of the line that has chose already have defination");
-
-                        //if (r.TimeFirstLineExit < lineTriptoUpdate.TimeFirstLineExit || r.TimeLastLineExit > lineTriptoUpdate.TimeLastLineExit)
-                        //    throw new AlreadyExistException("The times of the line that has chose already have defination");
-                    }
-                    // lineTimes drive from "day" to other "day" and r in one day..
-                    else if (r.TimeFirstLineExit < r.TimeLastLineExit && lineTimes.TimeFirstLineExit > lineTimes.TimeLastLineExit)
-                    {
-                        if (r.TimeLastLineExit < lineTimes.TimeFirstLineExit)
-                            throw new AlreadyExistException("The times of the line that has chose already have defination");
-                        if (r.TimeFirstLineExit > lineTimes.TimeLastLineExit)
-                            throw new AlreadyExistException("The times of the line that has chose already have defination");
-                    }
-
-                }
-            }
-
-            XElement newLineElem = new XElement("LineTrip"
-            , new XElement("BusLineIndentificator", lineTripToAdd.BusLineIndentificator),
-            new XElement("TimeFirstLineExit", lineTripToAdd.TimeFirstLineExit.ToString()),
-            new XElement("Frequency", lineTripToAdd.Frequency.ToString()),
-            new XElement("TimeLastLineExit", lineTripToAdd.TimeLastLineExit.ToString())
-            );
-            linesTripRoot.Add(newLineElem);
-            XMLTools.SaveListToXMLElement(linesTripRoot, linesTripPath);
+            List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
+            if (!listOfAllParcels.Exists(x => x.ID == parcelToAdd.ID))
+                throw new AlreadyExistExeption("The parcel already axist in the path");
+            listOfAllParcels.Add(parcelToAdd);
+            XMLTools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelPath);
         }
 
-        public void DeleteLineTrip(int lineIdentificator, TimeSpan firstLineExit)
-        {
-            XElement linesTripRoot = XMLTools.LoadListFromXMLElement(linesTripPath);
 
-            XElement myLineTimes = (from lineTripElem in linesTripRoot.Elements()
-                                    where (lineTripElem.Element("BusLineIndentificator").Value == lineIdentificator.ToString()
-                                    && lineTripElem.Element("TimeFirstLineExit").Value == firstLineExit.ToString())
-                                    select lineTripElem).FirstOrDefault();
-            if (myLineTimes == null)
-                throw new DoesntExistException("the data about line doesn't exist in system");
-            myLineTimes.Remove();
-            XMLTools.SaveListToXMLElement(linesTripRoot, linesTripPath);
+        public void DeleteParcel(int id)
+        {
+            XElement parcelRoot = XMLTools.LoadListFromXMLElement(parcelPath);
+
+            XElement parcel = (from p in parcelRoot.Elements()
+                                    where (p.Element("ID").Value == id.ToString())
+                                    select p).FirstOrDefault();
+            if (parcel == null)
+                throw new InVaildIdException("the data about parcel doesn't exist in system");
+            parcel.Remove();
+            XMLTools.SaveListToXMLElement(parcelRoot, parcelPath);
         }
 
-        public LineTrip GetALineTimes(int lineIdentificator, TimeSpan firstLineExit)
+        public Parcel GetParcel(int id)
         {
-            XElement linesTripRoot = XMLTools.LoadListFromXMLElement(linesTripPath);
-
-            XElement myLineTimes = (from lineTripElem in linesTripRoot.Elements()
-                                    where (lineTripElem.Element("BusLineIndentificator").Value == lineIdentificator.ToString()
-                                    && lineTripElem.Element("TimeFirstLineExit").Value == firstLineExit.ToString())
-                                    select lineTripElem).FirstOrDefault();
-            if (myLineTimes != null)
-                return new LineTrip
-                {
-                    BusLineIndentificator = Convert.ToInt32(myLineTimes.Element("BusLineIndentificator").Value),
-                    Frequency = TimeSpan.Parse(myLineTimes.Element("Frequency").Value),
-                    TimeFirstLineExit = TimeSpan.Parse(myLineTimes.Element("TimeFirstLineExit").Value),
-                    TimeLastLineExit = TimeSpan.Parse(myLineTimes.Element("TimeLastLineExit").Value)
-                };
-
-            throw new DoesntExistException("the data about line doesn't exists in system");
+            List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
+            Parcel parcel = listOfAllParcels.Find(x => x.ID == id);
+            if (!listOfAllParcels.Exists(x => x.ID ==id))
+                throw new InVaildIdException("The parcel in path doesn't exist");
+            return parcel;
         }
-        public IEnumerable<LineTrip> GetAllLinesTimes()
-        {
-            XElement linesTripRoot = XMLTools.LoadListFromXMLElement(linesTripPath);
-            return from lineTrip in linesTripRoot.Elements()
-                   select new LineTrip
-                   {
-                       BusLineIndentificator = Convert.ToInt32(lineTrip.Element("BusLineIndentificator").Value),
-                       Frequency = TimeSpan.Parse(lineTrip.Element("Frequency").Value),
-                       TimeFirstLineExit = TimeSpan.Parse(lineTrip.Element("TimeFirstLineExit").Value),
-                       TimeLastLineExit = TimeSpan.Parse(lineTrip.Element("TimeLastLineExit").Value)
-                   };
-        }
+        //public IEnumerable<Parcel> GetParcels()
+        //{
+        //    List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
+        //    return listOfAllParcels;
+        //}
 
-        public IEnumerable<LineTrip> GetPartOfLinesTimes(Predicate<LineTrip> lineTimesCondition)
+        public IEnumerable<Parcel> GetParcels(Func<Parcel, bool> predicate = null)
         {
-            XElement linesTripRoot = XMLTools.LoadListFromXMLElement(linesTripPath);
-            return from lineTrip in linesTripRoot.Elements()
-                   let lineTripDO = new LineTrip
-                   {
-                       BusLineIndentificator = Convert.ToInt32(lineTrip.Element("BusLineIndentificator").Value),
-                       Frequency = TimeSpan.Parse(lineTrip.Element("Frequency").Value),
-                       TimeFirstLineExit = TimeSpan.Parse(lineTrip.Element("TimeFirstLineExit").Value),
-                       TimeLastLineExit = TimeSpan.Parse(lineTrip.Element("TimeLastLineExit").Value)
-                   }
-                   where lineTimesCondition(lineTripDO)
-                   select lineTripDO;
+            List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
+            if (predicate == null)
+                return listOfAllParcels;
+            return listOfAllParcels.Where(predicate);
 
         }
 
 
-        public void UpdateLineTrip(LineTrip lineTriptoUpdate, TimeSpan OldFirstExit)
+        public void UpdateParcel(Parcel parceltoUpdate, TimeSpan OldFirstExit)
         {
-            XElement linesTripRoot = XMLTools.LoadListFromXMLElement(linesTripPath);
-            var mylineTimes = (from lineTripElem in linesTripRoot.Elements()
-                               where (lineTripElem.Element("BusLineIndentificator").Value == lineTriptoUpdate.BusLineIndentificator.ToString()
-                               && lineTripElem.Element("TimeFirstLineExit").Value == OldFirstExit.ToString())
-                               select lineTripElem).FirstOrDefault();
-
-            if (mylineTimes == null)
-                throw new DoesntExistException("This line doesn't exist in the system");
-
-            var listOfOutherTimesOfLine = from x in GetAllLinesTimes()
-                                          where x.BusLineIndentificator == lineTriptoUpdate.BusLineIndentificator
-                                          && x.TimeFirstLineExit != OldFirstExit
-                                          select x;
-
-            //check if there is a bus exit that collision with the new times:
-            foreach (var r in listOfOutherTimesOfLine)
-            {
-                //must be collision.. both drive in 00:00:00..
-                if (lineTriptoUpdate.TimeFirstLineExit > lineTriptoUpdate.TimeLastLineExit && r.TimeFirstLineExit > r.TimeLastLineExit)
-                    throw new AlreadyExistException("The times of the line that has chose already have defination");
-                //both drive in time 00:00:00- 23:59:59
-                if (lineTriptoUpdate.TimeFirstLineExit < lineTriptoUpdate.TimeLastLineExit && r.TimeFirstLineExit < r.TimeLastLineExit)
-                {
-                    if (lineTriptoUpdate.TimeFirstLineExit >= r.TimeFirstLineExit && lineTriptoUpdate.TimeFirstLineExit < r.TimeLastLineExit)
-                        throw new AlreadyExistException("The times of the line that has chose already have defination");
-                    if (lineTriptoUpdate.TimeLastLineExit > r.TimeFirstLineExit && lineTriptoUpdate.TimeLastLineExit < r.TimeLastLineExit)
-                        throw new AlreadyExistException("The times of the line that has chose already have defination");
-                    if (lineTriptoUpdate.TimeFirstLineExit < r.TimeFirstLineExit && lineTriptoUpdate.TimeLastLineExit > r.TimeLastLineExit)
-                        throw new AlreadyExistException("The times of the line that has chose already have defination");
-                }
-                //r drive from "day" to other "day" and lineTimes in one day..
-                else if (r.TimeFirstLineExit > r.TimeLastLineExit && lineTriptoUpdate.TimeFirstLineExit < lineTriptoUpdate.TimeLastLineExit)
-                {
-                    if (r.TimeLastLineExit > lineTriptoUpdate.TimeFirstLineExit)
-                        throw new AlreadyExistException("The times of the line that has chose already have defination");
-                    if (r.TimeFirstLineExit < lineTriptoUpdate.TimeLastLineExit)
-                        throw new AlreadyExistException("The times of the line that has chose already have defination");
-
-                    //if (r.TimeFirstLineExit < lineTriptoUpdate.TimeFirstLineExit || r.TimeLastLineExit > lineTriptoUpdate.TimeLastLineExit)
-                    //    throw new AlreadyExistException("The times of the line that has chose already have defination");
-                }
-                // lineTimes drive from "day" to other "day" and r in one day..
-                else if (r.TimeFirstLineExit < r.TimeLastLineExit && lineTriptoUpdate.TimeFirstLineExit > lineTriptoUpdate.TimeLastLineExit)
-                {
-                    if (r.TimeLastLineExit < lineTriptoUpdate.TimeFirstLineExit)
-                        throw new AlreadyExistException("The times of the line that has chose already have defination");
-                    if (r.TimeFirstLineExit > lineTriptoUpdate.TimeLastLineExit)
-                        throw new AlreadyExistException("The times of the line that has chose already have defination");
-                }
-            }
-
-
-            mylineTimes.Element("TimeFirstLineExit").Value = lineTriptoUpdate.TimeFirstLineExit.ToString();
-            mylineTimes.Element("TimeLastLineExit").Value = lineTriptoUpdate.TimeLastLineExit.ToString();
-            mylineTimes.Element("Frequency").Value = lineTriptoUpdate.Frequency.ToString();
-            XMLTools.SaveListToXMLElement(linesTripRoot, linesTripPath);
+            List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
+            Parcel parcel = listOfAllParcels.Find(x => x.ID == parceltoUpdate.ID);
+            if (!listOfAllParcels.Exists(x => x.ID == parceltoUpdate.ID))
+                throw new InVaildIdException("This parcel doesn't exist in the system");
+            parcel.Delivered = parceltoUpdate.Delivered;
+            parcel.DroneId = parceltoUpdate.DroneId;
+            parcel.Longitude = parceltoUpdate.Longitude;
+            parcel.PickedUp = parceltoUpdate.PickedUp;
+            parcel.Priority = parceltoUpdate.Priority;
+            parcel.Requested = parceltoUpdate.Requested;
+            parcel.Scheduled = parceltoUpdate.Scheduled;
+            parcel.SenderId = parceltoUpdate.SenderId;
+            parcel.TargetId = parceltoUpdate.TargetId;
+            XMLTools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelPath);
         }
         #endregion
 
@@ -706,11 +517,7 @@ namespace Dal
         }
         #endregion
 
-        public int GetTheLastBusIdentificator()
-        {
-            XElement configurationRoot = XMLTools.LoadListFromXMLElement(configurationPath);
-            return (Convert.ToInt32(configurationRoot.Element("BusLineID").Value) - 1);
-        }
+        
  
     }
 }
