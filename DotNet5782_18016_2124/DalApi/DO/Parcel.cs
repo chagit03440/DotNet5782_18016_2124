@@ -16,21 +16,21 @@ using System.Text;
             public DateTime? Scheduled { get; set; }
             public DateTime? PickedUp { get; set; }
             public DateTime? Delivered { get; set; }
-            public override String ToString()
-            {
-                String result = "";
-                result += $"Id is {ID},\n";
-                result += $"SenderId is {SenderId},\n";
-                result += $"TargetId is {TargetId},\n";
-                result += $"Longitude is {Longitude},\n";
-                result += $"Priority is {Priority},\n";
-                result += $"Requested is {Requested},\n";
-                result += $"DroneId is {DroneId},\n";
-                result += $"Scheduled is {Scheduled},\n";
-                result += $"PickedUp is {PickedUp},\n";
-                result += $"Delivered is {Delivered},\n";
-                return result;
-            }
+        public override String ToString()
+        {
+            String result = "";
+            result += $"Id is {ID},\n";
+            result += $"SenderId is {SenderId},\n";
+            result += $"TargetId is {TargetId},\n";
+            result += $"Longitude is {Longitude},\n";
+            result += $"Priority is {Priority},\n";
+            result += $"Requested is {Requested},\n";
+            result += $"DroneId is {DroneId},\n";
+            result += $"Scheduled is {Scheduled},\n";
+            result += $"PickedUp is {PickedUp},\n";
+            result += $"Delivered is {Delivered},\n";
+            return result;
         }
+}
     }
 
