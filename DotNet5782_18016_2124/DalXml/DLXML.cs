@@ -40,20 +40,20 @@ namespace Dal
                                   select stations).FirstOrDefault();
             if (stationElem != null)
                 throw new InVaildIdException("The two following stations already exist in the system");
-            XElement newStation = new XElement("TwoFollowingStations"
+            XElement newStation = new XElement("Station"
                 , new XElement("ID", station.ID),
                 new XElement("Name", station.Name),
                 new XElement("Longitude", station.Longitude.ToString()),
                 new XElement("Lattitude", station.Lattitude.ToString()),
                 new XElement("ChargeSlots", station.ChargeSlots.ToString()));
-                stationsRoot.Add(newtStation);
+                stationsRoot.Add(newStation);
             XMLTools.SaveListToXMLElement(stationsRoot, stationPath);
         }
 
 
-        public void DeleteTwoFollowingStations(int firstCodeStation, int secondCodeStation)
+        public void DeleteStation(int firstCodeStation, int secondCodeStation)
         {
-            XElement twoStationsRoot = XMLTools.LoadListFromXMLElement(twoStationsPath);
+            XElement twoStationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
             var twoStationElem = (from twoStations in twoStationsRoot.Elements()
                                   where (twoStations.Element("FirstStationCode").Value == firstCodeStation.ToString()
                                   && twoStations.Element("SecondStationCode").Value == secondCodeStation.ToString())
