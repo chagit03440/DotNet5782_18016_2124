@@ -65,20 +65,7 @@ namespace Dal
             XMLTools.SaveListToXMLElement(stationsRoot, stationPath);
         }
 
-        //public IEnumerable<Station> GetAllStations()
-        //{
-        //    XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
-        //    var allStations = from stations in stationsRoot.Elements()
-        //                               select new Station
-        //                               {
-        //                                   Name = (stations.Element("Name").Value).ToString(),
-        //                                   ID = Convert.ToInt32(stations.Element("ID").Value),
-        //                                   ChargeSlots = Convert.ToInt32(stations.Element("ChargeSlots").Value),
-        //                                   Longitude = Convert.ToDouble(stations.Element("Longitude").Value),
-        //                                   Lattitude = Convert.ToDouble(stations.Element("Lattitude").Value)
-        //                               };
-        //    return allStations;
-        //}
+         
 
         public IEnumerable<Station> GetStations(Func<Station, bool> predicate = null)
         {
@@ -89,22 +76,7 @@ namespace Dal
 
 
         }
-
-        //    XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
-        //    var partOfStations = from stations in stationsRoot.Elements()
-        //                                  let sts = new Station
-        //                                  {
-        //                                      Name =  (stations.Element("Name").Value).ToString(),
-        //                                      ID = Convert.ToInt32(stations.Element("ID").Value),
-        //                                      ChargeSlots = Convert.ToInt32(stations.Element("ChargeSlots").Value),
-        //                                      Longitude = Convert.ToDouble(stations.Element("Longitude").Value),
-        //                                      Lattitude = Convert.ToDouble(stations.Element("Lattitude").Value)
-        //                                  }
-        //                                  where predicate(sts)
-        //                                  select sts;
-
-        //    return partOfStations;
-        //}
+ 
 
         public Station GetStation(int stationID )
         {
