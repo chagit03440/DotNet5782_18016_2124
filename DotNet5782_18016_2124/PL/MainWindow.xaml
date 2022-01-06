@@ -31,25 +31,4 @@
               Value="Gabriola" />
         </Style>
         <!--<local:StationModel x:Key="station"/>-->
-    </Window.Resources>    <Window.Background>        <ImageBrush ImageSource="/DRONE3.png"/>    </Window.Background>    <Grid Name="MainGrid" Margin="0,200,0,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="151*"/>
-            <ColumnDefinition Width="9*"/>
-        </Grid.ColumnDefinitions>        <Grid.Background>            <ImageBrush/>        </Grid.Background>        <Button Name="btnstart" Content="DroneListView" HorizontalAlignment="Left" Margin="445,299,0,0" Width="322" Click="Button_Click" FontWeight="Bold" FontSize="36" Height="79" VerticalAlignment="Top" Grid.ColumnSpan="2">
-            <Button.Background>
-                <ImageBrush/>
-            </Button.Background>
-        </Button>
-        <Button Name="btnStation" Content="StationListView" HorizontalAlignment="Left" Margin="446,115,0,0" Width="322" Click="BtnStation_Click" FontWeight="Bold" FontSize="36" VerticalAlignment="Top" Height="74" Grid.ColumnSpan="2">
-            <Button.Background>
-                <ImageBrush/>
-            </Button.Background>
-        </Button>        <Button Name="btnCustomer" Content= "CustomerListView" HorizontalAlignment="Left" Margin="446,207,0,0" Width="322" Click="BtnCustomer_Click" FontWeight="Bold" FontSize="36" VerticalAlignment="Top" Height="74" Grid.ColumnSpan="2">
-            <Button.Background>
-                <ImageBrush/>
-            </Button.Background>
-        </Button>        <Button Name="btnParcel" Content="ParcelListView" HorizontalAlignment="Left" Margin="446,23,0,0" Width="322" Click="BtnParcel_Click" FontWeight="Bold" FontSize="36" VerticalAlignment="Top" Height="74" Grid.ColumnSpan="2">
-            <Button.Background>
-                <ImageBrush/>
-            </Button.Background>
-        </Button>    </Grid></Window>
+    </Window.Resources>    <Window.Background>        <ImageBrush ImageSource="/DRONE3.png"/>    </Window.Background>       </Window>

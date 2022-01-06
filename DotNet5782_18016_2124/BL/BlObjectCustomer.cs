@@ -83,7 +83,7 @@ namespace BL
             {
                 throw new BLInVaildIdException("id didn't exist", ex);
             }
-            BO.Customer customerBO = new Customer();
+            Customer customerBO = new Customer();
             customerBO.Id = customerDO.ID;
             customerBO.Name = customerDO.Name;
             customerBO.Phone = customerDO.Phone;
