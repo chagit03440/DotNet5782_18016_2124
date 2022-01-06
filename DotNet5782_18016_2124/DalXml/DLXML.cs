@@ -130,62 +130,60 @@ namespace Dal
 
         #endregion
 
-        #region pointsInPath
-        public void UpdatePointInPathLine(PointInPathLine pointToUpdate)
+        #region drone
+        public void UpdateDrone(Drone droneToUpdate)
         {
-            List<PointInPathLine> listOfAllPoints = XMLTools.LoadListFromXMLSerializer<PointInPathLine>(pointsInPathLinePath);
-            PointInPathLine point = listOfAllPoints.Find(x => x.PointInPathLineNumber == pointToUpdate.PointInPathLineNumber
- && x.NumberInPath == pointToUpdate.NumberInPath);
-            if (point == null)
-                throw new DoesntExistException("This point doesn't exist in the system");
-            point.StationCode = pointToUpdate.StationCode;
-            XMLTools.SaveListToXMLSerializer<PointInPathLine>(listOfAllPoints, pointsInPathLinePath);
+            List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
+            Drone drone = listOfAllDrones.Find(x => x.ID == droneToUpdate.ID
+ && x.ID == droneToUpdate.ID);
+            if (drone ==null)
+                throw new InVaildIdException("This point doesn't exist in the system");
+            drone.Model = droneToUpdate.Model;
+            XMLTools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronePath);
         }
-        public void AddPointInPathLine(PointInPathLine pointToAdd)
+        public void AddDrone(Drone droneToAdd)
         {
-            List<PointInPathLine> listOfAllPoints = XMLTools.LoadListFromXMLSerializer<PointInPathLine>(pointsInPathLinePath);
-            if (listOfAllPoints.Find(x => x.PointInPathLineNumber == pointToAdd.PointInPathLineNumber
-  && x.NumberInPath == pointToAdd.NumberInPath) != null)
-                throw new AlreadyExistException("The point already axist in the path");
-            listOfAllPoints.Add(pointToAdd);
-            XMLTools.SaveListToXMLSerializer<PointInPathLine>(listOfAllPoints, pointsInPathLinePath);
-        }
-
-        public void DeletePointInPath(int pointNumber, int numberInPath)
-        {
-            List<PointInPathLine> listOfAllPoints = XMLTools.LoadListFromXMLSerializer<PointInPathLine>(pointsInPathLinePath);
-
-            PointInPathLine point = listOfAllPoints.Find(x => x.PointInPathLineNumber == pointNumber && x.NumberInPath == numberInPath);
-            if (point == null)
-                throw new DoesntExistException("The point in path of the line doesn't exist in system");
-            listOfAllPoints.Remove(point);
-            XMLTools.SaveListToXMLSerializer<PointInPathLine>(listOfAllPoints, pointsInPathLinePath);
+            List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
+            if (listOfAllDrones.Find(x => x.ID == droneToAdd.ID) != null)
+                throw new AlreadyExistExeption("The point already axist in the path");
+            listOfAllDrones.Add(droneToAdd);
+            XMLTools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronePath);
         }
 
-        public IEnumerable<PointInPathLine> GetAllThePointInPathLine()
+        public void DeleteDrone(int id)
         {
-            List<PointInPathLine> listOfAllPoints = XMLTools.LoadListFromXMLSerializer<PointInPathLine>(pointsInPathLinePath);
-            return listOfAllPoints;
+            List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
+
+            Drone drone = listOfAllDrones.Find(x => x.ID == id);
+            if (drone == null)
+                throw new InVaildIdException("The point in path of the line doesn't exist in system");
+            listOfAllDrones.Remove(drone);
+            XMLTools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronePath);
         }
 
-        public PointInPathLine GetAPoint(int numberInPathLine, int pointInPathNumber)
+        public IEnumerable<Drone> GetDrones()
         {
-
-
-            List<PointInPathLine> listOfAllPoints = XMLTools.LoadListFromXMLSerializer<PointInPathLine>(pointsInPathLinePath);
-            PointInPathLine point = listOfAllPoints.Find(x => x.PointInPathLineNumber == numberInPathLine
-            && x.NumberInPath == pointInPathNumber);
-            if (point != null)
-                return point;
-            throw new DoesntExistException("The point in path doesn't exist");
+            List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
+            return listOfAllDrones;
         }
 
-        public IEnumerable<PointInPathLine> GetPartOfPointInPathLine(Predicate<PointInPathLine> PointInPathLineCondition)
+        public Drone GetDrone(int id)
         {
-            List<PointInPathLine> listOfAllPoints = XMLTools.LoadListFromXMLSerializer<PointInPathLine>(pointsInPathLinePath);
-            var list = from pointInPath in listOfAllPoints
-                       where PointInPathLineCondition(pointInPath)
-                       select pointInPath;
+
+
+            List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
+            Drone drone = listOfAllDrones.Find(x => x.ID == id);
+            if (drone != null)
+                return drone;
+            throw new InVaildIdException("The point in path doesn't exist");
+        }
+
+        public IEnumerable<Drone> GetPartOfDrones(Predicate<Drone> predicate)
+        {
+            List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
+            var list = from drone in listOfAllDrones
+                       where predicate(drone)
+                       select drone;
             return list;
         }
 
