@@ -31,25 +31,25 @@ namespace Dal
 
 
 
-        #region twoFollowingStations
-        public void AddTwoFollowingStations(TwoFollowingStations twoStationsToAdd)
+        #region station
+        public void AddStations(Station station)
         {
-            XElement twoStationsRoot = XMLTools.LoadListFromXMLElement(twoStationsPath);
-            var twoStationElem = (from twoStations in twoStationsRoot.Elements()
-                                  where (twoStations.Element("FirstStationCode").Value == twoStationsToAdd.ToString()
-                                  && twoStations.Element("SecondStationCode").Value == twoStationsToAdd.ToString())
-                                  select twoStations).FirstOrDefault();
-            if (twoStationElem != null)
-                throw new AlreadyExistException("The two following stations already exist in the system");
-            XElement newtwoStationElem = new XElement("TwoFollowingStations"
-                , new XElement("FirstStationCode", twoStationsToAdd.FirstStationCode),
-                new XElement("SecondStationCode", twoStationsToAdd.SecondStationCode),
-                new XElement("DistanceBetweenStations", twoStationsToAdd.DistanceBetweenStations.ToString()),
-                new XElement("AverageTimeBetweenStations", twoStationsToAdd.AverageTimeBetweenStations.ToString())
-                );
-            twoStationsRoot.Add(newtwoStationElem);
-            XMLTools.SaveListToXMLElement(twoStationsRoot, twoStationsPath);
+            XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
+            var stationElem = (from stations in stationsRoot.Elements()
+                                  where (stations.Element("ID").Value == station.ToString()) 
+                                  select stations).FirstOrDefault();
+            if (stationElem != null)
+                throw new InVaildIdException("The two following stations already exist in the system");
+            XElement newStation = new XElement("TwoFollowingStations"
+                , new XElement("ID", station.ID),
+                new XElement("Name", station.Name),
+                new XElement("Longitude", station.Longitude.ToString()),
+                new XElement("Lattitude", station.Lattitude.ToString()),
+                new XElement("ChargeSlots", station.ChargeSlots.ToString()));
+                stationsRoot.Add(newtStation);
+            XMLTools.SaveListToXMLElement(stationsRoot, stationPath);
         }
+
 
         public void DeleteTwoFollowingStations(int firstCodeStation, int secondCodeStation)
         {
@@ -194,7 +194,7 @@ namespace Dal
         {
             List<User> listOfAllUsers = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
             if (listOfAllUsers.Find(x => x.UserName == userToAdd.UserName) != null)
-                throw new AlreadyExistException("This user already exist");
+                throw new AlreadyExistExeption("This user already exist");
             listOfAllUsers.Add(userToAdd);
             XMLTools.SaveListToXMLSerializer<User>(listOfAllUsers, usersPath);
         }
@@ -213,7 +213,7 @@ namespace Dal
             List<User> listOfAllUsers = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
             User user = listOfAllUsers.Find(x => x.UserName == userName);
             if (user == null)
-                throw new DoesntExistException("the user dosn't exist in system");
+                throw new InVaildIdException("the user dosn't exist in system");
             listOfAllUsers.Remove(user);
             XMLTools.SaveListToXMLSerializer<User>(listOfAllUsers, usersPath);
         }
@@ -229,7 +229,7 @@ namespace Dal
             User myUser = listOfAllUsers.Find(x => x.UserName == userName);
             if (myUser != null)
                 return myUser;
-            throw new DoesntExistException("the user doesn't exists in system");
+            throw new InVaildIdException("the user doesn't exists in system");
         }
 
         public void UpdateUser(User usertoUpdate)
@@ -237,22 +237,24 @@ namespace Dal
             List<User> listOfAllUsers = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
             User myUser = listOfAllUsers.Find(x => x.UserName == usertoUpdate.UserName);
             if (myUser == null)
-                throw new DoesntExistException("This user doesn't exist in the system");
-            myUser.UserAccessManagement = usertoUpdate.UserAccessManagement;
-            myUser.UserPassword = usertoUpdate.UserPassword;
+                throw new InVaildIdException("This user doesn't exist in the system");
+            myUser.Password = usertoUpdate.Password;
+            myUser.Worker = usertoUpdate.Worker;
+            myUser.IsActive = usertoUpdate.IsActive;
+            myUser.UserName = usertoUpdate.UserName;
             XMLTools.SaveListToXMLSerializer<User>(listOfAllUsers, usersPath);
         }
 
         #endregion
 
-        #region buses
-        public void AddBus(Bus busToAdd)
+        #region customer
+        public void AddCustomer(Customer customer)
         {
-            var listOfBuses = XMLTools.LoadListFromXMLSerializer<Bus>(busesPath);
-            if (listOfBuses.Find(x => x.LicenseNumber == busToAdd.LicenseNumber) != null)
-                throw new AlreadyExistException("The bus already exist in the system");
-            listOfBuses.Add(busToAdd);
-            XMLTools.SaveListToXMLSerializer<Bus>(listOfBuses, busesPath);
+            var listOfCustomer= XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
+            if ((listOfCustomer.Find(x => x.ID == customer.ID))!= null)
+                throw new AlreadyExistExeption("The bus already exist in the system");
+            listOfCustomer.Add(customer);
+            XMLTools.SaveListToXMLSerializer<Customer>(listOfCustomer, customerPath);
         }
 
         public void DeleteBus(string licenseNumberToDelete)
@@ -605,7 +607,7 @@ namespace Dal
                                   where Convert.ToInt32(p.Element("StationCode").Value) == stationToAdd.StationCode
                                   select p).FirstOrDefault();
             if (stationElement != null)
-                throw new AlreadyExistException("The station already exist in the system");
+                throw new AlreadyExistExeption("The station already exist in the system");
 
             XElement stationElem = new XElement("Station", new XElement("StationCode", stationToAdd.StationCode),
                                    new XElement("LocationLatitude", stationToAdd.LocationLatitude),
