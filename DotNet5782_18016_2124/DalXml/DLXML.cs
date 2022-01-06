@@ -51,81 +51,84 @@ namespace Dal
         }
 
 
-        public void DeleteStation(int firstCodeStation, int secondCodeStation)
+        public void DeleteStation(int stationID )
         {
-            XElement twoStationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
-            var twoStationElem = (from twoStations in twoStationsRoot.Elements()
-                                  where (twoStations.Element("FirstStationCode").Value == firstCodeStation.ToString()
-                                  && twoStations.Element("SecondStationCode").Value == secondCodeStation.ToString())
-                                  select twoStations).FirstOrDefault();
-            if (twoStationElem == null)
-                throw new InfoTwoStationsMissException(firstCodeStation, secondCodeStation, "miss information beteen to stations");
+            XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
+            var stationElem = (from stations in stationsRoot.Elements()
+                                  where (stations.Element("ID").Value == stationID.ToString())
+                                  
+                                  select stations).FirstOrDefault();
+            if (stationElem == null)
+                throw new InVaildIdException("the station dosn't exists");
 
-            twoStationElem.Remove();
-            XMLTools.SaveListToXMLElement(twoStationsRoot, twoStationsPath);
+            stationElem.Remove();
+            XMLTools.SaveListToXMLElement(stationsRoot, stationPath);
         }
 
-        public IEnumerable<TwoFollowingStations> GetAllFollowingStations()
+        //public IEnumerable<Station> GetAllStations()
+        //{
+        //    XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
+        //    var allStations = from stations in stationsRoot.Elements()
+        //                               select new Station
+        //                               {
+        //                                   Name = (stations.Element("Name").Value).ToString(),
+        //                                   ID = Convert.ToInt32(stations.Element("ID").Value),
+        //                                   ChargeSlots = Convert.ToInt32(stations.Element("ChargeSlots").Value),
+        //                                   Longitude = Convert.ToDouble(stations.Element("Longitude").Value),
+        //                                   Lattitude = Convert.ToDouble(stations.Element("Lattitude").Value)
+        //                               };
+        //    return allStations;
+        //}
+
+        public IEnumerable<Station> GetStations(Func<Station, bool> predicate = null)
         {
-            XElement twoStationsRoot = XMLTools.LoadListFromXMLElement(twoStationsPath);
-            var allFollowingStations = from twoStations in twoStationsRoot.Elements()
-                                       select new TwoFollowingStations
-                                       {
-                                           AverageTimeBetweenStations = TimeSpan.Parse(twoStations.Element("AverageTimeBetweenStations").Value),
-                                           FirstStationCode = Convert.ToInt32(twoStations.Element("FirstStationCode").Value),
-                                           SecondStationCode = Convert.ToInt32(twoStations.Element("SecondStationCode").Value),
-                                           DistanceBetweenStations = Convert.ToDouble(twoStations.Element("DistanceBetweenStations").Value)
-                                       };
-            return allFollowingStations;
+            List<Station> listOfAllStations = XMLTools.LoadListFromXMLSerializer<Station>(stationPath);
+            if (predicate == null)
+                return listOfAllStations;
+            return listOfAllStations.Where(predicate);
+
+
         }
 
-        public IEnumerable<TwoFollowingStations> GetPartOfTwoFollowingStations(Predicate<TwoFollowingStations> TwoFollowingStationsCondition)
-        {
-            XElement twoStationsRoot = XMLTools.LoadListFromXMLElement(twoStationsPath);
-            var partOfFollowingStations = from twoStations in twoStationsRoot.Elements()
-                                          let stations = new TwoFollowingStations
-                                          {
-                                              AverageTimeBetweenStations = TimeSpan.Parse(twoStations.Element("AverageTimeBetweenStations").Value),
-                                              FirstStationCode = Convert.ToInt32(twoStations.Element("FirstStationCode").Value),
-                                              SecondStationCode = Convert.ToInt32(twoStations.Element("SecondStationCode").Value),
-                                              DistanceBetweenStations = Convert.ToDouble(twoStations.Element("DistanceBetweenStations").Value)
-                                          }
-                                          where TwoFollowingStationsCondition(stations)
-                                          select stations;
+        //    XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
+        //    var partOfStations = from stations in stationsRoot.Elements()
+        //                                  let sts = new Station
+        //                                  {
+        //                                      Name =  (stations.Element("Name").Value).ToString(),
+        //                                      ID = Convert.ToInt32(stations.Element("ID").Value),
+        //                                      ChargeSlots = Convert.ToInt32(stations.Element("ChargeSlots").Value),
+        //                                      Longitude = Convert.ToDouble(stations.Element("Longitude").Value),
+        //                                      Lattitude = Convert.ToDouble(stations.Element("Lattitude").Value)
+        //                                  }
+        //                                  where predicate(sts)
+        //                                  select sts;
 
-            return partOfFollowingStations;
+        //    return partOfStations;
+        //}
+
+        public Station GetStation(int stationID )
+        {
+            var listOfStation = XMLTools.LoadListFromXMLSerializer<Station>(stationPath);
+            Station station = listOfStation.Find(x => x.ID == stationID);
+            if (!listOfStation.Exists(x => x.ID == station.ID))
+
+                throw new InVaildIdException("The customer doesn't exist in system");
+            return station;
+
         }
 
-        public TwoFollowingStations GetTwoStations(int firstCodeStation, int secondCodeStation)
+        public void UpdateStations(Station station)
         {
-            XElement twoStationsRoot = XMLTools.LoadListFromXMLElement(twoStationsPath);
-            var twoStations = (from twoStationsElem in twoStationsRoot.Elements()
-                               where (twoStationsElem.Element("FirstStationCode").Value == firstCodeStation.ToString()
-                               && twoStationsElem.Element("SecondStationCode").Value == secondCodeStation.ToString())
-                               select twoStationsElem).FirstOrDefault();
-            if (twoStations == null)
-                throw new InfoTwoStationsMissException(firstCodeStation, secondCodeStation, "miss information beteen to stations");
-            return new TwoFollowingStations
-            {
-                AverageTimeBetweenStations = TimeSpan.Parse(twoStations.Element("AverageTimeBetweenStations").Value),
-                FirstStationCode = Convert.ToInt32(twoStations.Element("FirstStationCode").Value),
-                SecondStationCode = Convert.ToInt32(twoStations.Element("SecondStationCode").Value),
-                DistanceBetweenStations = Convert.ToDouble(twoStations.Element("DistanceBetweenStations").Value)
-            };
-        }
-
-        public void UpdateTwoFollowingStations(TwoFollowingStations twoStationToUpdate)
-        {
-            XElement twoStationsRoot = XMLTools.LoadListFromXMLElement(twoStationsPath);
-            var twoStations = (from twoStationsElem in twoStationsRoot.Elements()
-                               where (twoStationsElem.Element("FirstStationCode").Value == twoStationToUpdate.FirstStationCode.ToString()
-                               && twoStationsElem.Element("SecondStationCode").Value == twoStationToUpdate.SecondStationCode.ToString())
-                               select twoStationsElem).FirstOrDefault();
-            if (twoStations == null)
-                throw new InfoTwoStationsMissException(twoStationToUpdate.FirstStationCode, twoStationToUpdate.SecondStationCode,
-     "miss information beteen to stations");
-            twoStations.Element("AverageTimeBetweenStations").Value = twoStationToUpdate.AverageTimeBetweenStations.ToString();
-            twoStations.Element("DistanceBetweenStations").Value = twoStationToUpdate.DistanceBetweenStations.ToString();
+            XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
+            var stations = (from stationElem in stationsRoot.Elements()
+                               where (stationElem.Element("ID").Value == station.ID.ToString())
+                              
+                               select stationElem).FirstOrDefault();
+            if (stations == null)
+                throw new InVaildIdException("the station dosn't exists");
+     
+            stations.Element("Name").Value = station.Name.ToString();
+            stations.Element("ChargeSlots").Value = station.ChargeSlots.ToString();
         }
 
         #endregion
@@ -144,7 +147,7 @@ namespace Dal
         public void AddDrone(Drone droneToAdd)
         {
             List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
-            if (listOfAllDrones.Find(x => x.ID == droneToAdd.ID) != null)
+            if (listOfAllDrones.Exists(x => x.ID == droneToAdd.ID))
                 throw new AlreadyExistExeption("The point already axist in the path");
             listOfAllDrones.Add(droneToAdd);
             XMLTools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronePath);
@@ -249,57 +252,60 @@ namespace Dal
         public void AddCustomer(Customer customer)
         {
             var listOfCustomer= XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
-            if ((listOfCustomer.Find(x => x.ID == customer.ID))!= null)
-                throw new AlreadyExistExeption("The customer already exist in the system");
+            if (listOfCustomer.Exists(x => x.ID == customer.ID))
+                throw new AlreadyExistExeption("The bus already exist in the system");
             listOfCustomer.Add(customer);
             XMLTools.SaveListToXMLSerializer<Customer>(listOfCustomer, customerPath);
         }
 
-        public void DeleteBus(string licenseNumberToDelete)
+        public void DeleteCustomer(int customerID)
         {
-            var listOfBuses = XMLTools.LoadListFromXMLSerializer<Bus>(busesPath);
-            Bus bus = listOfBuses.Find(x => x.LicenseNumber == licenseNumberToDelete);
-            if (bus == null || bus.Deleted)
-                throw new DoesntExistException("The bus doesn't exist in system");
-            listOfBuses.Remove(bus);
-            XMLTools.SaveListToXMLSerializer<Bus>(listOfBuses, busesPath);
+            var listOfCustomer = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
+            Customer customer = listOfCustomer.Find(x => x.ID == customerID);
+            if (!listOfCustomer.Exists(x => x.ID == customer.ID))
+                throw new InVaildIdException("The customer doesn't exist in system");
+            listOfCustomer.Remove(customer);
+            XMLTools.SaveListToXMLSerializer<Customer>(listOfCustomer, customerPath);
 
         }
 
-        public Bus GetABus(string licenseNumber)
+        public Customer GetCustomer(int customerID)
         {
-            var listOfBuses = XMLTools.LoadListFromXMLSerializer<Bus>(busesPath);
-            Bus bus = listOfBuses.Find(x => x.LicenseNumber == licenseNumber);
-            if (bus != null)
-                return bus;
-            throw new DoesntExistException("The bus doesn't exist in system");
+            var listOfCustomer = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
+            Customer customer = listOfCustomer.Find(x => x.ID == customerID);
+            if (!listOfCustomer.Exists(x => x.ID == customer.ID))
+                
+            throw new InVaildIdException("The customer doesn't exist in system");
+            return customer;
         }
 
-        public IEnumerable<Bus> GetAllBuses()
+        public IEnumerable<Customer> GetAllCustomer()
         {
-            return XMLTools.LoadListFromXMLSerializer<Bus>(busesPath);
+            return XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
         }
 
-        public IEnumerable<Bus> GetPartOfBuses(Predicate<Bus> BusCondition)
+        public IEnumerable<Customer> GetCustomers(Func<Customer,bool> func=null)
         {
-            var listOfBuses = XMLTools.LoadListFromXMLSerializer<Bus>(busesPath);
-            var list = from bus in listOfBuses
-                       where (BusCondition(bus))
-                       select bus;
+            var listOfCustomer = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
+            var list = from customer in listOfCustomer
+                       where (func(customer))
+                       select customer;
             return list;
         }
 
-        public void UpdateBus(Bus busToUpdate)
+        public void UpdateCustomer(Customer customer)
         {
-            var listOfBuses = XMLTools.LoadListFromXMLSerializer<Bus>(busesPath);
-            Bus myBus = listOfBuses.Find(x => x.LicenseNumber == busToUpdate.LicenseNumber);
-            if (myBus == null)
-                throw new DoesntExistException("This bus doesn't exist in the system");
-            myBus.Mileage = busToUpdate.Mileage;
-            myBus.InCity = busToUpdate.InCity;
-            myBus.SelfPayment = busToUpdate.SelfPayment;
-            myBus.Status = busToUpdate.Status;
-            XMLTools.SaveListToXMLSerializer<Bus>(listOfBuses, busesPath);
+            var listOfCustomer = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
+            Customer myCustomer = listOfCustomer.Find(x => x.ID == customer.ID);
+            if (!listOfCustomer.Exists(x => x.ID == customer.ID))
+
+                throw new InVaildIdException("This customer doesn't exist in the system");
+            myCustomer.ID = customer.ID;
+            myCustomer.Name = customer.Name;
+            myCustomer.Phone = customer.Phone;
+            myCustomer.Lattitude = customer.Lattitude;
+            myCustomer.Longitude = customer.Longitude;
+            XMLTools.SaveListToXMLSerializer<Customer>(listOfCustomer, customerPath);
         }
 
         #endregion
