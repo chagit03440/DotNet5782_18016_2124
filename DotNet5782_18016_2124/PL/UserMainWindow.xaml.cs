@@ -19,8 +19,11 @@ namespace PL
     /// </summary>
     public partial class UserMainWindow : Window
     {
-        public UserMainWindow()
+        BlApi.IBL myBl;
+        public UserMainWindow(BlApi.IBL MyBl)
         {
+            myBl = MyBl;
+
             InitializeComponent();
         }
     }

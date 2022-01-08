@@ -190,6 +190,8 @@ namespace DalApi
         int ParcelsCustomerSendAndNotDelivered(int iD);
         int ParcelsInTheWayToCustomer(int iD);
         int GetStatusOfParcel(int iD);
+        bool LogInVerify(User userDO);
+        bool isWorker(User userDO);
     }
 }
 

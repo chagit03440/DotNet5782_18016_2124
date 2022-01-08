@@ -24,9 +24,9 @@ namespace PL
     public partial class ManagerMainWindow : Window
     {
         BlApi.IBL myBl;
-        public ManagerMainWindow()
+        public ManagerMainWindow(BlApi.IBL MyBl)
         {
-            myBl = BlFactory.GetBl();
+            myBl = MyBl;
             InitializeComponent();
         }
 

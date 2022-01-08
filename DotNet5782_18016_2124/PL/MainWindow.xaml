@@ -31,4 +31,25 @@
               Value="Gabriola" />
         </Style>
         <!--<local:StationModel x:Key="station"/>-->
-    </Window.Resources>    <Window.Background>        <ImageBrush ImageSource="/DRONE3.png"/>    </Window.Background>       </Window>
+    </Window.Resources>    <Window.Background>        <ImageBrush ImageSource="/DRONE3.png"/>    </Window.Background>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="163*"/>
+            <RowDefinition Height="45*"/>
+        </Grid.RowDefinitions>
+        <Label Name="lblPassword" Content="Password" HorizontalAlignment="Left" Margin="115,329,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="36"/>        <Label Name="lblUsername" Content="Username" HorizontalAlignment="Left" Margin="115,128,0,0" VerticalAlignment="Top" FontSize="36" FontWeight="Normal"/>
+        <Button Name="btnGuest" Content="Log in as a guest" HorizontalAlignment="Left" Margin="64,29,0,0" VerticalAlignment="Top" Height="55" Width="213" FontSize="20" FontWeight="Normal" Grid.Row="1" Click="btnGuest_Click">
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>        <Button Name="btnLogin" Content="Log in" HorizontalAlignment="Left" Margin="325,29,0,0" VerticalAlignment="Top" Height="55" Width="193" FontSize="20" FontWeight="Normal" Grid.Row="1" Click="btnLogin_Click">
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>
+        <Label Content="Welcome!" HorizontalAlignment="Left" Margin="309,32,0,0" VerticalAlignment="Top" Height="49" Width="284" FontSize="36"/>
+        <TextBox Name="txtUserName" HorizontalAlignment="Left" Margin="115,186,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="427" Height="59"/>
+        <TextBox x:Name="txtPassword" HorizontalAlignment="Left" Margin="115,383,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="427" Height="59"/>
+        <Button Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="572,29,0,0" VerticalAlignment="Top" Height="46" Width="162" Background="{x:Null}" Grid.Row="1" Click="btnClose_Click"/>
+    </Grid>
+</Window>

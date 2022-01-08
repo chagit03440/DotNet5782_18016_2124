@@ -24,32 +24,67 @@ namespace PL
     public partial class MainWindow : Window
     {
         BlApi.IBL myBl;
+        BO.User curUser = new User();
+
         public MainWindow()
         {
             myBl = BlFactory.GetBl();
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+       
 
+        private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-             
-            new DroneListWindow(myBl).Show();
+            this.Close();
         }
 
-        private void BtnStation_Click(object sender, RoutedEventArgs e)
+        private void btnGuest_Click(object sender, RoutedEventArgs e)
         {
-            new StationListWindow(myBl).Show();
+            ManagerMainWindow managementWin = new ManagerMainWindow(myBl);
+            this.Close();
+            managementWin.ShowDialog();
         }
 
-        private void BtnCustomer_Click(object sender, RoutedEventArgs e)
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            new CustomersListWindow(myBl).Show();
-        }
+            curUser.UserName = txtUserName.Text;
+            curUser.Password = (string)txtPassword.Text;
 
-        private void BtnParcel_Click(object sender, RoutedEventArgs e)
-        {
-            new ParcelsListWindow(myBl).Show();
+            bool verify;
+
+
+            try
+            {
+                verify = myBl.LogInVerify(curUser);
+
+                if (verify == true)
+                {
+                    verify = myBl.isWorker(curUser);
+                    if (verify == true)
+                    {
+                        UserMainWindow userMainWin = new UserMainWindow(myBl);
+                        this.Close();
+                        userMainWin.ShowDialog();
+
+                    }
+                    else
+                    {
+                        ManagerMainWindow managementWin = new ManagerMainWindow(myBl);
+                        this.Close();
+                        managementWin.ShowDialog();
+
+
+                    }
+
+                    
+                }
+            }
+            catch (BO.BLInVaildIdException ex)
+            {
+                MessageBox.Show(ex.Message, "Operation Failure", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            }
         }
     }
 }

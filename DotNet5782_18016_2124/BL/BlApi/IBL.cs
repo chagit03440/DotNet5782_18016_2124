@@ -26,6 +26,9 @@ namespace BlApi
         /// </summary>
         /// <param name="droneId">the number of drone that need to send to recharge</param>
         void SendDroneToRecharge(int droneId);
+        bool LogInVerify(User curUser);
+        bool isWorker(User curUser);
+
         /// <summary>
         ///   The function provides a package by a drone if the package can be delivered updates the required data, if no appropriate exception is sent
         /// </summary>

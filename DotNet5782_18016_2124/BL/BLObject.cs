@@ -678,6 +678,44 @@ namespace BL
                 }
             }
         }
+         public bool LogInVerify(User curUser)
+        {
+            DO.User userDO = new DO.User()
+            {
+                IsActive = curUser.IsActive,
+                Password = curUser.Password,
+                UserName = curUser.UserName,
+                Worker = curUser.Worker,
+
+            };
+            try
+            {
+                myDal.LogInVerify(userDO);
+
+            }
+            catch (DO.InVaildIdException ex)
+            {
+
+                throw new BO.BLInVaildIdException("Wrong User or Password", ex);
+
+            }
+            return true;
+
+        }
+        public bool isWorker(User curUser)
+        {
+            bool check;
+            DO.User userDO = new DO.User()
+            {
+                IsActive = curUser.IsActive,
+                Password = curUser.Password,
+                UserName = curUser.UserName,
+                Worker = curUser.Worker,
+
+            };
+            check = myDal.isWorker(userDO);
+            return check;
+        }
 
     }
 }

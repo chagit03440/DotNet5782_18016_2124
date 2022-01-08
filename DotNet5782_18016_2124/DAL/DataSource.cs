@@ -71,9 +71,9 @@ namespace DAL
             {
                  new User
                  {
-                      UserName="David",
-                     Password="aaa",
-                     Worker=true,
+                      UserName="Chagit",
+                     Password="3440",
+                     Worker=false,
                      IsActive = true,
                  },
 
