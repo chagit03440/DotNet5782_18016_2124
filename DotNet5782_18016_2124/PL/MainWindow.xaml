@@ -31,4 +31,21 @@
               Value="Gabriola" />
         </Style>
         <!--<local:StationModel x:Key="station"/>-->
-    </Window.Resources>    <Window.Background>        <ImageBrush ImageSource="/DRONE3.png"/>    </Window.Background>       </Window>
+    </Window.Resources>    <Window.Background>        <ImageBrush ImageSource="/DRONE3.png"/>    </Window.Background>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="163*"/>
+            <RowDefinition Height="45*"/>
+        </Grid.RowDefinitions>
+        <Label Name="lblPassword" Content="Password" HorizontalAlignment="Left" Margin="115,177,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="36"/>        <Label Name="lblUsername" Content="Username" HorizontalAlignment="Left" Margin="115,261,0,0" VerticalAlignment="Top" FontSize="36" FontWeight="Normal"/>
+        <Button Name="btnGuest" Content="Log in as a guest" HorizontalAlignment="Left" Margin="151,29,0,0" VerticalAlignment="Top" Height="55" Width="213" FontSize="20" FontWeight="Normal" Grid.Row="1">
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>        <Button Name="btnLogin" Content="Log in" HorizontalAlignment="Left" Margin="445,29,0,0" VerticalAlignment="Top" Height="55" Width="193" FontSize="20" FontWeight="Normal" Grid.Row="1">
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>
+    </Grid>
+</Window>

@@ -159,6 +159,10 @@ namespace PL
 
             //txtCharge.Text = station.ChargeSlots.ToString();
         }
-    
+
+        private void deletbtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
