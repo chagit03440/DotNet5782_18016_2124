@@ -433,8 +433,27 @@ namespace Dal
             return droneC;
 
         }
+        public void AddDroneCharge(DroneCharge droneCharge)
+        {
+            List<DroneCharge> listOfAllDroneCharge = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);
+            if (!listOfAllDroneCharge.Exists(x => x.DroneId == droneCharge.DroneId))
+                throw new AlreadyExistExeption("The DronCharge already axist in the path");
+            listOfAllDroneCharge.Add(droneCharge);
+            XMLTools.SaveListToXMLSerializer<DroneCharge>(listOfAllDroneCharge, droneChargePath);
+        }
 
-      
+        private void deleteDroneCharge(DroneCharge dCharge)
+        {
+            XElement droneRoot = XMLTools.LoadListFromXMLElement(droneChargePath);
+
+            XElement droneX = (from p in droneRoot.Elements()
+                               where (p.Element("DroneId").Value == dCharge.DroneId.ToString() && p.Element("StationId").Value == dCharge.StationId.ToString())
+                               select p).FirstOrDefault();
+            if (droneX == null)
+                throw new InVaildIdException("the data about parcel doesn't exist in system");
+            droneX.Remove();
+            XMLTools.SaveListToXMLElement(droneRoot, droneChargePath);
+        }
 
         public IEnumerable<DroneCharge> GetDronesInCharge(Func<DroneCharge, bool> predicate = null)
         {
@@ -444,18 +463,7 @@ namespace Dal
             return listOfAllDrones.Where(predicate);
 
         }
-        private void deleteDroneCharge(DroneCharge dCharge)
-        {
-            XElement droneRoot = XMLTools.LoadListFromXMLElement(droneChargePath);
 
-            XElement droneX = (from p in droneRoot.Elements()
-                                where (p.Element("DroneId").Value == dCharge.DroneId.ToString()&& p.Element("StationId").Value == dCharge.StationId.ToString())
-                                select p).FirstOrDefault();
-            if (droneX == null)
-                throw new InVaildIdException("the data about parcel doesn't exist in system");
-            droneX.Remove();
-            XMLTools.SaveListToXMLElement(droneRoot, droneChargePath);
-        }
 
         #endregion
 
@@ -567,10 +575,35 @@ namespace Dal
 
         public void AnchorDroneStation(Station station, Drone drone)
         {
-            throw new NotImplementedException();
+ 
+            try
+            {
+                GetStation(station.ID);
+            }
+            catch (InVaildIdException p)
+            {
+                throw new InVaildIdException($"cannot anchor station{station.ID}to drone",p);
+
+            }
+            try
+            {
+                GetDrone(drone.ID);
+            }
+            catch (InVaildIdException p)
+            {
+                throw new InVaildIdException($"cannot anchor drone{drone.ID}to station",p);
+            }
+            station.ChargeSlots--;
+            DroneCharge dCharge = new DroneCharge()
+            {
+                DroneId = drone.ID,
+                StationId = station.ID
+            };
+            AddDroneCharge(dCharge);
+            UpdateStation(station);
         }
 
-        
+
         public void BelongingParcel(Parcel parcel, Drone drone)
         {
             try
@@ -633,12 +666,55 @@ namespace Dal
 
         public void SupplyParcel(Parcel parcel, Customer customer)
         {
-            throw new NotImplementedException();
+            try
+            {
+                GetParcel(parcel.ID);
+            }
+            catch (InVaildIdException p)
+            {
+                throw new InVaildIdException($"cannot supllay parcel{ parcel.ID}to customer", p);
+            }
+            try
+            {
+                GetCustomer(customer.ID);
+            }
+            catch (InVaildIdException p)
+            {
+                throw new InVaildIdException($"cannot supllay parcel{ parcel.ID}to customer", p);
+            }
+
+
+            parcel.Scheduled = DateTime.Today;
+            DeleteCustomer(customer.ID);
+            UpdateParcel(parcel);
         }
 
         public string DecimalToSexagesimal(double coord, char latOrLot)
         {
-            throw new NotImplementedException();
+            char direction;
+            if (latOrLot == 't')// if latitude
+                if (coord >= 0)//determines how many minutse norht or south 0 is the equator larger then 0 is north smaller is south
+                    direction = 'N';
+                else
+                {
+                    direction = 'S';
+                    coord = coord * -1;
+                }
+            else//if longitude
+                if (coord >= 0) //determines how many minutse east or west, 0 is Grinwich larger then 0 is east smaller is west
+                direction = 'E';
+            else
+            {
+                direction = 'W';
+                coord = coord * -1;
+            }
+            //determines the various sexagesimal factors
+            int deg = (int)(coord / 1);
+            int min = (int)((coord % 1) * 60) / 1;
+            double sec = (((coord % 1) * 60) % 1) * 60;
+            const string quote = "\"";
+            string toReturn = deg + "° " + min + $"' " + sec + quote + direction;
+            return toReturn;
         }
 
         public double Hav(double radian)
@@ -689,12 +765,25 @@ namespace Dal
 
         public double Distance(int ID, double lonP, double latP)
         {
-            throw new NotImplementedException();
+            if (ID > 9999)//if its a customer
+                foreach (Customer cus in DataSource.customers) { if (cus.ID == ID) return Haversine(lonP, latP, cus.Longitude, cus.Lattitude); }
+
+            // DataSource.customerList.ForEach(c => { if (int.Parse(c.ID) == ID) { return Haversine(lonP, latP, c.longitude, c.latitude); });//returns in a string the distnace between the customer and given point                   
+            else//its a station
+                //DataSource.stationsList.ForEach(s => { if (s.ID == ID) { return Haversine(lonP, latP, s.longitude, s.latitude); });//returns in a string the distnace between the station and given point                   
+                foreach (Station Kingsx in DataSource.stations) { if (Kingsx.ID == ID) return Haversine(lonP, latP, Kingsx.Longitude, Kingsx.Lattitude); }
+            return 0.0;// default return
         }
 
         public double[] PowerRequest()
         {
-            throw new NotImplementedException();
+            double[] arr = new double[5];
+            arr[0] = DataSource.Config.available;
+            arr[1] = DataSource.Config.lightWeight;
+            arr[2] = DataSource.Config.mediumWeight;
+            arr[3] = DataSource.Config.heavyWeight;
+            arr[4] = DataSource.Config.chargingRate;
+            return arr;
         }
 
         public int ParcelsCustomerSendAndNotDelivered(int iD)
@@ -702,16 +791,18 @@ namespace Dal
             return GetParcels(h => h.SenderId == iD && h.Delivered == null).Count();
         }
 
-        public int ParcelsInTheWayToCustomer(int iD)
+       
+
+        public int ParcelsInTheWayToCustomer(int customerId)
         {
-            throw new NotImplementedException();
-        }
+            return GetParcels(h => h.TargetId == customerId && h.PickedUp != null).Count();
+
+         }
 
         public void UpdateStations(Station st)
         {
             throw new NotImplementedException();
         }
-
 
 
         #endregion
