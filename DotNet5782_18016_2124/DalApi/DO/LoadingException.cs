@@ -8,6 +8,7 @@ using System.Threading.Tasks;
  
 namespace DalApi
 {
+    [Serializable]
     public class LoadingException : Exception
     {
         string filePath;
@@ -19,5 +20,4 @@ namespace DalApi
         protected LoadingException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
     }
-
 }

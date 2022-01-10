@@ -4,8 +4,13 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\bin</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\DalApi\DalApi.csproj" />
+    <ProjectReference Include="..\DalXml\DalXml.csproj" />
     <ProjectReference Include="..\DAL\DalObject.csproj" />
   </ItemGroup>
 

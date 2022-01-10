@@ -12,27 +12,170 @@ using System.Security.Cryptography;
 
 namespace Dal
 {
-    class DLXML
+    class DalXml:IDal
     {
         #region singelton
 
-        static readonly DLXML instance = new DLXML();
-        static DLXML() { }
-        DLXML() { }
-        public static DLXML Instance => instance;
+        static readonly DalXml instance = new DalXml();
+        static DalXml() { }
+        DalXml() { Initialize(); }
+        public static DalXml Instance { get => instance; }
         #endregion
-        string parcelPath = @"ParcelsXml.xml";//XMLSerializer
-        string stationPath = @"StationsXml.xml";  //XElement
-        string customerPath = @"CustomersXml.xml";//XMLSerializer
-        string dronePath = @"DronesXml.xml";//XMLSerializer
-        string usersPath = @"UsersXml.xml";//XMLSerializer
-        string droneChargePath = @"DroneChargeXml.xml";
+        static string parcelPath = @"data\ParcelsXml.xml";//XMLSerializer
+        static string stationPath = @"data\StationsXml.xml";  //XElement
+        static string customerPath = @"data\CustomersXml.xml";//XMLSerializer
+        static string dronePath = @"data\DronesXml.xml";//XMLSerializer
+        static string usersPath = @"data\UsersXml.xml";//XMLSerializer
+        static string droneChargePath = @"data\DroneChargeXml.xml";
 
+        static Random rand= new Random();
+
+        internal  void Initialize()
+        {
+            rand = new Random();
+            creatDrone(10);
+            //creatStation(10);
+            //creatCustomer(10);
+            //creatParcel(10);
+            //createUsers();
+            //XMLTools.SaveListToXMLSerializer(stations, @"StationsXml.xml");
+            //XMLTools.SaveListToXMLSerializer(customers, @"CustomersXml.xml");
+            //XMLTools.SaveListToXMLSerializer(parcels, @"ParcelsXml.xml");
+            //XMLTools.SaveListToXMLSerializer(ListUser, @"UsersXml.xml");
+            //XMLTools.SaveListToXMLSerializer(incharge, @"DroneChargeXml.xml");
+        }
+        /// <summary>
+        /// A function that initialize customers with random data
+        /// </summary>
+        /// <param name="n">a number of customers to intilize</param>
+        private  void creatCustomer(int n)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                Customer newCustomer = new Customer();
+
+                newCustomer.ID = i + 1000;
+                newCustomer.Name = $"Customer {i}";
+                newCustomer.Phone = $"0{rand.Next(50, 58)}-{rand.Next(1000000, 10000000)}";
+                //newCustomer.Lattitude = getRandomCoordinate(31.7);
+                //newCustomer.Longitude = getRandomCoordinate(35.1);
+                DataSource.customers.Add(newCustomer);
+
+
+            }
+        }
+
+
+        //private static void createUsers()
+        //{
+        //    ListUser = new List<User>
+        //    {
+        //         new User
+        //         {
+        //              UserName="Chagit",
+        //             Password="3440",
+        //             Worker=false,
+        //             IsActive = true,
+        //         },
+
+        //         new User
+        //         {
+        //             UserName="Sarah",
+        //             Password="bbb",
+        //             Worker=true,
+        //             IsActive = true,
+        //         },
+
+        //         new User
+        //         {
+        //             UserName="Yonhatan",
+        //             Password="ccc",
+        //             Worker=false,
+        //             IsActive = true,
+        //         },
+
+        //         new User
+        //         {
+        //             UserName="Noa",
+        //             Password="ddd",
+        //             Worker=false,
+        //             IsActive = true,
+        //         },
+
+        //         new User
+        //         {
+        //             UserName="Daniel",
+        //             Password="eee",
+        //             Worker=false,
+        //             IsActive = true,
+        //         },
+
+        //    };
+        //}
+        /// <summary>
+        /// A function that initialize parcels with random data
+        /// </summary>
+        /// <param name="n">a number of parcels to intilize</param>
+        private  void creatParcel(int n)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                Parcel newParcel = new Parcel();
+                newParcel.ID = i + 1000;
+                newParcel.SenderId = rand.Next(i + 1000, i + 1000 + n);
+                newParcel.TargetId = rand.Next(i + 1000, i + 1000 + n);
+                newParcel.Longitude = (WeightCategories)rand.Next(3);
+                newParcel.DroneId = rand.Next(1000, 9999);
+                newParcel.Priority = (Priorities)rand.Next(1, 3);
+                newParcel.Requested = null;
+                newParcel.Scheduled = null;
+                newParcel.PickedUp = null;
+                newParcel.Delivered = null;
+                //parcels.Add(newParcel);
+
+            }
+        }
+        private  void creatDrone(int n)
+        {
+            WeightCategories[] values = WeightCategories.GetValues<WeightCategories>();
+            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
+            for (int i = 0; i < n; i++)
+            {
+                Drone newDrone = new Drone();
+                newDrone.ID = i + 1000;
+                //newDrone.Battery = 1;
+                newDrone.MaxWeight = values[rand.Next(values.Length)];
+                newDrone.Model = "iFly" + i;
+                //  newDrone.Status = DroneStatuses.maintenance;
+                drones.Add(newDrone);
+
+            }
+            XMLTools.SaveListToXMLSerializer(drones, dronePath);
+
+        }
+        /// <summary>
+        /// A function that initialize stations with random data
+        /// </summary>
+        /// <param name="n">a number of stations to intilize</param>
+        private static void creatStation(int n)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                Station newStation = new Station();
+                newStation.ID = i + 1000;
+                newStation.Name = $"Station{i}";
+                newStation.ChargeSlots = 10 + i;
+                newStation.Lattitude = 31.785664 + i;
+                newStation.Longitude = 35.189938 + i;
+                //stations.Add(newStation);
+
+            }
+        }
 
 
 
         #region station
-        public void AddStations(Station station)
+        public void AddStation(Station station)
         {
             XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
             var stationElem = (from stations in stationsRoot.Elements()
@@ -106,7 +249,7 @@ namespace Dal
         #endregion
 
         #region drone
-        public void UpdateDrone(Drone droneToUpdate)
+        public void UpdateDrones(Drone droneToUpdate)
         {
             List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
             Drone drone = listOfAllDrones.Find(x => x.ID == droneToUpdate.ID);
@@ -251,16 +394,16 @@ namespace Dal
             return customer;
         }
 
-        public IEnumerable<Customer> GetAllCustomer()
-        {
-            return XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
-        }
+        //public IEnumerable<Customer> GetAllCustomer()
+        //{
+        //    return XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
+        //}
 
-        public IEnumerable<Customer> GetCustomers(Func<Customer, bool> func = null)
+        public IEnumerable<Customer> Getcustomers(Func<Customer, bool> predicate = null)
         {
             var listOfCustomer = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
             var list = from customer in listOfCustomer
-                       where (func(customer))
+                       where (predicate(customer))
                        select customer;
             return list;
         }
@@ -332,16 +475,16 @@ namespace Dal
         }
 
 
-        public void DeleteParcel(int id)
+        public void DeleteParcel(Parcel parcel)
         {
             XElement parcelRoot = XMLTools.LoadListFromXMLElement(parcelPath);
 
-            XElement parcel = (from p in parcelRoot.Elements()
-                               where (p.Element("ID").Value == id.ToString())
+            XElement parcelX = (from p in parcelRoot.Elements()
+                               where (p.Element("ID").Value == parcel.ID.ToString())
                                select p).FirstOrDefault();
-            if (parcel == null)
+            if (parcelX == null)
                 throw new InVaildIdException("the data about parcel doesn't exist in system");
-            parcel.Remove();
+            parcelX.Remove();
             XMLTools.SaveListToXMLElement(parcelRoot, parcelPath);
         }
 
@@ -369,7 +512,7 @@ namespace Dal
         }
 
 
-        public void UpdateParcel(Parcel parceltoUpdate, TimeSpan OldFirstExit)
+        public void UpdateParcel(Parcel parceltoUpdate)
         {
             List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
             Parcel parcel = listOfAllParcels.Find(x => x.ID == parceltoUpdate.ID);
@@ -386,9 +529,113 @@ namespace Dal
             parcel.TargetId = parceltoUpdate.TargetId;
             XMLTools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelPath);
         }
-        #endregion
+
+
+        public int GetStatusOfParcel(int iD)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool LogInVerify(User userDO)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool isWorker(User userDO)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AnchorDroneStation(Station station, Drone drone)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+        public void BelongingParcel(Parcel parcel, Drone drone)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReleasDrone(Drone drone, Station st)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SupplyParcel(Parcel parcel, Customer customer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string DecimalToSexagesimal(double coord, char latOrLot)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double Hav(double radian)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double Radians(double degree)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double Haversine(double lon1, double lat1, double lon2, double lat2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int AvailableChargingPorts(int baseStationId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int ParcelsCustomerGot(int customerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int ParcelsCustomerSendAndDelivered(int customerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateParcels(Parcel parcel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateCustomers(Customer customer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double Distance(int ID, double lonP, double latP)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double[] PowerRequest()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int ParcelsCustomerSendAndNotDelivered(int iD)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int ParcelsInTheWayToCustomer(int iD)
+        {
+            throw new NotImplementedException();
+        }
 
        
+        #endregion
+
+
 
     }
 }

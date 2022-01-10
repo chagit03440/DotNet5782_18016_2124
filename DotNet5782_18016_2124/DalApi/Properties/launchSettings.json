@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DalApi": {
+      "commandName": "Project",
+      "workingDirectory": "$(SolutionDir)"
+    }
+  }
+}

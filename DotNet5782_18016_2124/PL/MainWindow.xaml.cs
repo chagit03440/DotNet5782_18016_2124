@@ -61,9 +61,9 @@ namespace PL
                 if (verify == true)
                 {
                     verify = myBl.isWorker(curUser);
-                    if (verify == true)
+                    if (verify == false)
                     {
-                        UserMainWindow userMainWin = new UserMainWindow(myBl);
+                        UserMainWindow userMainWin = new UserMainWindow(myBl,curUser);
                         this.Close();
                         userMainWin.ShowDialog();
 

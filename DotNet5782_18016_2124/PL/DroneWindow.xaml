@@ -57,13 +57,13 @@
         <Label Name="lblBattery" Content="Battery" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="92" Grid.Row="4" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2"/>
         <Label Name="lblLongtitude" Content="Longtitude" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="5" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2"/>
         <Label Name="lblLatitude" Content="Latitude" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92" Grid.Row="6" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="2"/>
-        <TextBox Name="txtId" HorizontalAlignment="Left" Margin="64,0,0,18" Text="" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" Background="White" Grid.Column="1"/>
-        <TextBox Name="txtModel" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="1" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtId" HorizontalAlignment="Left" Margin="64,0,0,18" Text="{Binding Path=Id, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" Background="White" Grid.Column="1"/>
+        <TextBox Name="txtModel" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="1" Text="{Binding Path=Model, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
         <ComboBox Name="comboMaxWeight" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="2" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
         <ComboBox Name="comboStatus" HorizontalAlignment="Left" Margin="64,15,0,0" Grid.Row="3" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox Name="txtBattery" HorizontalAlignment="Left" Margin="64,17,0,0" Grid.Row="4" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox Name="txtLongtitude" HorizontalAlignment="Left" Margin="64,17,0,0" Grid.Row="5" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox Name="txtLatitude" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="6" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtBattery" HorizontalAlignment="Left" Margin="64,17,0,0" Grid.Row="4" Text="{Binding Path=Battery, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtLongtitude" HorizontalAlignment="Left" Margin="64,17,0,0" Grid.Row="5" Text="{Binding Path=Location.Longitude, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtLatitude" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="6" Text="{Binding Path=Location.Lattitude, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
         <Grid Grid.Row="2" Grid.ColumnSpan="3" Margin="0,60,0,60" Grid.RowSpan="3"/>
 
         <Grid Name="grdAdd" Margin="342,14,-569,23" Grid.RowSpan="5" Grid.Row="2" Grid.Column="2">
@@ -128,8 +128,8 @@
             </Button>
             <TextBox Name="txtTime" HorizontalAlignment="Left" Margin="65,43,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         </Grid>
-        <TextBox Name="txtStatus" HorizontalAlignment="Left" Margin="64,19,0,0" Grid.Row="3" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox Name="txtMaxWeight" HorizontalAlignment="Left" Margin="63,0,0,0" Grid.Row="2" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtStatus" HorizontalAlignment="Left" Margin="64,0,0,0" Grid.Row="3" Text="{Binding Path=Status, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
+        <TextBox Name="txtMaxWeight" HorizontalAlignment="Left" Margin="63,0,0,0" Grid.Row="2" Text="{Binding Path=MaxWeight, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Grid.Column="1"/>
         <Grid x:Name="grdExit" Margin="324,17,-569,44" Grid.RowSpan="3" Grid.Column="2">
             <Button x:Name="btnExit" Content="Exit" HorizontalAlignment="Left" Margin="90,20,0,0" VerticalAlignment="Top" Height="40" Width="106" Click="btnExit_Click">
                 <Button.Background>

@@ -33,7 +33,9 @@ namespace PL
         {
             
             InitializeComponent();
+
             Loaded += ToolWindow_Loaded;
+
             comboDrone.ItemsSource = myBl.GetDrones(d => d.DroneLocation == station.Location);
             DataContext = station;
             Add_btn.Visibility = Visibility.Hidden;

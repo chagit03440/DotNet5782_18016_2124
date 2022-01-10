@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using DO;
-namespace DAL
-{
-    namespace DalObject
+
+
+    namespace Dal
     {
         internal class DataSource
         {
@@ -42,7 +42,12 @@ namespace DAL
                 creatCustomer(10);
                 creatParcel(10);
                 createUsers();
-               
+                XMLTools.SaveListToXMLSerializer(drones, @"DronesXml.xml");
+                XMLTools.SaveListToXMLSerializer(stations, @"StationsXml.xml");
+                XMLTools.SaveListToXMLSerializer(customers, @"CustomersXml.xml");
+                XMLTools.SaveListToXMLSerializer(parcels, @"ParcelsXml.xml");
+                XMLTools.SaveListToXMLSerializer(ListUser, @"UsersXml.xml");
+                XMLTools.SaveListToXMLSerializer(incharge, @"DroneChargeXml.xml");
             }
             /// <summary>
             /// A function that initialize customers with random data
@@ -111,17 +116,6 @@ namespace DAL
                  },
 
             };
-                for (int i = 0; i < 10; i++)
-                {
-                    User newCustomer = new User();
-
-                    newCustomer.Password = "a"+i;
-                    newCustomer.UserName = $"Customer {i}";
-                    newCustomer.Worker = false;
-                    ListUser.Add(newCustomer);
-
-
-                }
             }
 /// <summary>
 /// A function that initialize parcels with random data
@@ -193,4 +187,4 @@ private static void creatParcel(int n)
             }
         }
     }
-}
+

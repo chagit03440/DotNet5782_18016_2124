@@ -10,6 +10,17 @@
         <Grid.Background>
             <ImageBrush ImageSource="/DRONE3.png"/>
         </Grid.Background>
+        <ListView Name="ListViewParcels" Margin="0,88,441,0" Background="{x:Null}" MouseDoubleClick="ListViewParcels_MouseDoubleClick">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Name="btnAddParcel" Content="Send New Parcel" HorizontalAlignment="Left" Margin="537,131,0,0" VerticalAlignment="Top" Height="49" Width="123" Click="btnAddParcel_Click"/>
+        <TextBox Name="txtName" HorizontalAlignment="Left" Margin="401,29,0,0" Text="{Binding Path=UserName, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Customer:" HorizontalAlignment="Left" Margin="329,25,0,0" VerticalAlignment="Top"/>
+        <Button Name="btnClose" Content="Exit" HorizontalAlignment="Left" Margin="628,349,0,0" VerticalAlignment="Top" Height="35" Width="90" Click="btnClose_Click"/>
 
     </Grid>
 </Window>
