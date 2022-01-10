@@ -716,10 +716,11 @@ namespace Dal
             throw new NotImplementedException();
         }
 
-        public int ParcelsInTheWayToCustomer(int iD)
+        public int ParcelsInTheWayToCustomer(int customerId)
         {
-            throw new NotImplementedException();
-        }
+            return GetParcels(h => h.TargetId == customerId && h.PickedUp != null).Count();
+
+         }
 
        
 
