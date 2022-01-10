@@ -109,6 +109,13 @@ namespace DAL
                      Worker=false,
                      IsActive = true,
                  },
+                  new User
+                 {
+                     UserName="Avital",
+                     Password="aaa",
+                     Worker=false,
+                     IsActive = true,
+                 },
 
             };
                 for (int i = 0; i < 10; i++)

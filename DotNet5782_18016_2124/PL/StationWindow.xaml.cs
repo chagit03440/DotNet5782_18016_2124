@@ -165,6 +165,8 @@ namespace PL
         private void deletbtn_Click(object sender, RoutedEventArgs e)
         {
 
+            myBl.DeleteStation(s);
+            Update();
         }
     }
 }
