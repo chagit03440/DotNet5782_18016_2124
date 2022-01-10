@@ -52,7 +52,7 @@
             <Grid.Background>
                 <ImageBrush ImageSource="/DRONE3.png"/>
             </Grid.Background>
-            <ListView x:Name="stationListView"   Margin="0,-26,0,105" MouseDoubleClick="ListView_MouseDoubleClick">
+            <ListView x:Name="stationListView"   Margin="0,-26,0,105" MouseDoubleClick="ListView_MouseDoubleClick" SelectionChanged="stationListView_SelectionChanged_2">
                 <ListView.Background>
                     <ImageBrush/>
                 </ListView.Background>
