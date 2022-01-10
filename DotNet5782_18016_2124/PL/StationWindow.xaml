@@ -67,7 +67,11 @@
                 </Button.Background>
             </Button>
 
-            <Grid Margin="0,0,0,63" Grid.RowSpan="2"/>
+            <Grid Margin="0,0,0,63" Grid.RowSpan="2">
+                <Grid.Background>
+                    <ImageBrush/>
+                </Grid.Background>
+            </Grid>
             <TextBox Name="txtId" HorizontalAlignment="Left" Text="{Binding Id,Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="111,24,0,0" Height="18"/>
             <TextBox Name="txtName" HorizontalAlignment="Left" Text="{Binding Name,Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" Margin="111,0,0,0" Height="18" Grid.Row="1"/>
             <TextBox Name="txtlongenttitude" HorizontalAlignment="Left" Text="{Binding Location.Longitude,Mode=OneWay}" TextWrapping="Wrap" Width="120" Margin="111,20,0,0" Grid.Row="3" Height="18" VerticalAlignment="Top"/>

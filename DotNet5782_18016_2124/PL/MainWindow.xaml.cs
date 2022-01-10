@@ -39,12 +39,12 @@ namespace PL
             this.Close();
         }
 
-        private void btnGuest_Click(object sender, RoutedEventArgs e)
-        {
-            ManagerMainWindow managementWin = new ManagerMainWindow(myBl);
-            this.Close();
-            managementWin.ShowDialog();
-        }
+        //private void btnGuest_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ManagerMainWindow managementWin = new ManagerMainWindow(myBl);
+        //    this.Close();
+        //    managementWin.ShowDialog();
+        //}
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {

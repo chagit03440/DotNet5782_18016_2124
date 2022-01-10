@@ -54,5 +54,9 @@ namespace Dal
                 throw new InVaildIdException("Station didn't exist", ex);
             }
         }
+        public void DeleteStation(Station s)
+        {
+            DataSource.parcels.RemoveAll(x => x.ID == s.ID);
+        }
     }
 }

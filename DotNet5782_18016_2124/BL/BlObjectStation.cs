@@ -72,6 +72,11 @@ namespace BL
 
 
         }
+        public void DeleteStation(Station s)
+        {
+            DO.Station dp = new DO.Station() { ID = s.Id };
+            myDal.DeleteStation(dp);
+        }
         /// <summary>
         /// add Base excestationption to dal
         /// </summary>

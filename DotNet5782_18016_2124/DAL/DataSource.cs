@@ -108,6 +108,13 @@ namespace DAL
                      Worker=false,
                      IsActive = true,
                  },
+                  new User
+                 {
+                     UserName="Avital",
+                     Password="aaa",
+                     Worker=false,
+                     IsActive = true,
+                 },
 
             };
             }

@@ -100,8 +100,11 @@ namespace DalApi
         /// <param name="parcel">the parcel with new data to update</param>
         void UpdateParcel(Parcel parcel);
         void DeleteParcel(Parcel p);
-
-
+        /// <summary>
+        /// A function that recieve a station and delete the station whith the same id in the stations list
+        /// </summary>
+        /// <param name="s"></param>
+        void DeleteStation(Station s);
         /// <summary>
         /// A function that recieve a station and a drone and create a new dronecharge with both id`s and update the station accordingly
         /// </summary>
