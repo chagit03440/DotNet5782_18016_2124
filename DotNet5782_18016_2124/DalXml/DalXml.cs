@@ -194,11 +194,11 @@ namespace Dal
         }
 
 
-        public void DeleteStation(int stationID)
+        public void DeleteStation(Station stationID)
         {
             XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
             var stationElem = (from stations in stationsRoot.Elements()
-                               where (stations.Element("ID").Value == stationID.ToString())
+                               where (stations.Element("ID").Value == stationID.ID.ToString())
 
                                select stations).FirstOrDefault();
             if (stationElem == null)
@@ -232,7 +232,7 @@ namespace Dal
 
         }
 
-        public void UpdateStations(Station station)
+        public void UpdateStation(Station station)
         {
             XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
             var stations = (from stationElem in stationsRoot.Elements()
@@ -279,11 +279,6 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronePath);
         }
 
-        //public IEnumerable<Drone> GetDrones()
-        //{
-        //    List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
-        //    return listOfAllDrones;
-        //}
 
         public Drone GetDrone(int id)
         {
@@ -339,7 +334,7 @@ namespace Dal
             List<User> listOfAllUsers = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
             return listOfAllUsers;
         }
-        public User GetAUser(string userName)
+        public User GetUser(string userName)
         {
             List<User> listOfAllUsers = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
             User myUser = listOfAllUsers.Find(x => x.UserName == userName);
@@ -439,18 +434,7 @@ namespace Dal
 
         }
 
-        //public IEnumerable<DroneCharge> GetDronesInCharge()
-        //{
-        //    XElement DroneChargeRoot = XMLTools.LoadListFromXMLElement(droneChargePath);
-        //    var listOfAllDrones = from drone in DroneChargeRoot.Elements()
-        //                         select new DroneCharge
-        //                         {
-        //                             DroneId = Convert.ToInt32(drone.Element("DroneId").Value),
-        //                             StationId = Convert.ToInt32(drone.Element("StationId").Value),
-        //                         };
-        //    return listOfAllDrones;
-
-        //}
+      
 
         public IEnumerable<DroneCharge> GetDronesInCharge(Func<DroneCharge, bool> predicate = null)
         {
@@ -460,7 +444,18 @@ namespace Dal
             return listOfAllDrones.Where(predicate);
 
         }
+        private void deleteDroneCharge(DroneCharge dCharge)
+        {
+            XElement droneRoot = XMLTools.LoadListFromXMLElement(droneChargePath);
 
+            XElement droneX = (from p in droneRoot.Elements()
+                                where (p.Element("DroneId").Value == dCharge.DroneId.ToString()&& p.Element("StationId").Value == dCharge.StationId.ToString())
+                                select p).FirstOrDefault();
+            if (droneX == null)
+                throw new InVaildIdException("the data about parcel doesn't exist in system");
+            droneX.Remove();
+            XMLTools.SaveListToXMLElement(droneRoot, droneChargePath);
+        }
 
         #endregion
 
@@ -496,11 +491,7 @@ namespace Dal
                 throw new InVaildIdException("The parcel in path doesn't exist");
             return parcel;
         }
-        //public IEnumerable<Parcel> GetParcels()
-        //{
-        //    List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
-        //    return listOfAllParcels;
-        //}
+      
 
         public IEnumerable<Parcel> GetParcels(Func<Parcel, bool> predicate = null)
         {
@@ -510,7 +501,6 @@ namespace Dal
             return listOfAllParcels.Where(predicate);
 
         }
-
 
         public void UpdateParcel(Parcel parceltoUpdate)
         {
@@ -533,18 +523,47 @@ namespace Dal
 
         public int GetStatusOfParcel(int iD)
         {
-            throw new NotImplementedException();
+            Parcel parcel = GetParcel(iD);
+            if (parcel.Requested != null)
+                return 0;
+            if (parcel.Scheduled != null)
+                return 1;
+            if (parcel.PickedUp != null)
+                return 2;
+            if (parcel.Delivered != null)
+                return 3;
+            return -1;
         }
 
-        public bool LogInVerify(User userDO)
+        public bool LogInVerify(User user)
         {
-            throw new NotImplementedException();
-        }
+            List<User> users= XMLTools.LoadListFromXMLSerializer<User>(usersPath);
 
-        public bool isWorker(User userDO)
-        {
-            throw new NotImplementedException();
+            DO.User us =users.Find(u => u.UserName == user.UserName);
+            if (us != null)
+            {
+                if (us.Password == user.Password)
+                {
+
+                    return true;
+                }
+                else
+                    throw new DO.InVaildIdException($"wrong password:{user.UserName}");
+            }
+            else
+                throw new DO.InVaildIdException($"bad user id: {user.UserName}");
         }
+        public bool isWorker(User user)
+        {
+            bool worker;
+            DO.User us = GetUser(user.UserName);
+
+            worker = us.Worker;
+            return worker;
+        }
+    
+
+   
 
         public void AnchorDroneStation(Station station, Drone drone)
         {
@@ -554,13 +573,63 @@ namespace Dal
         
         public void BelongingParcel(Parcel parcel, Drone drone)
         {
-            throw new NotImplementedException();
+            try
+            {
+                GetParcel(parcel.ID);
+            }
+            catch (InVaildIdException p)
+            {
+                throw new InVaildIdException($"cannot belonging parcel{parcel.ID}to station", p);
+            }
+            try
+            {
+                GetDrone(drone.ID);
+            }
+            catch (InVaildIdException p)
+            {
+                throw new InVaildIdException($"cannot belonging parcel{drone.ID}to station", p);
+            }
+
+            parcel.DroneId = drone.ID;
+            parcel.Scheduled = DateTime.Today;
+            //drone.Status = DroneStatuses.shipping;
+
+            //updating drones
+            UpdateDrones(drone);
+
+            //updating parcels
+            UpdateParcels(parcel);
         }
 
         public void ReleasDrone(Drone drone, Station st)
         {
-            throw new NotImplementedException();
+            try
+            {
+                GetStation(st.ID);
+            }
+            catch (InVaildIdException p)
+            {
+                throw new InVaildIdException($"cannot releas drone{ st.ID}from station", p);
+            }
+            try
+            {
+                GetDrone(drone.ID);
+            }
+            catch (InVaildIdException p)
+            {
+                throw new InVaildIdException($"cannot releas drone{drone.ID}from station", p);
+            }
+            DroneCharge dCharge = new DroneCharge()
+            {
+                DroneId = drone.ID,
+                StationId = st.ID
+            };
+            deleteDroneCharge(dCharge);
+            st.ChargeSlots++;
+            UpdateStation(st);
         }
+
+       
 
         public void SupplyParcel(Parcel parcel, Customer customer)
         {
@@ -574,17 +643,23 @@ namespace Dal
 
         public double Hav(double radian)
         {
-            throw new NotImplementedException();
+            return Math.Sin(radian / 2) * Math.Sin(radian / 2);
         }
 
         public double Radians(double degree)
         {
-            throw new NotImplementedException();
+            return degree * Math.PI / 180;
         }
 
         public double Haversine(double lon1, double lat1, double lon2, double lat2)
         {
-            throw new NotImplementedException();
+            const int RADIUS = 6371;//earths radius in KM
+
+            double radLon = Radians(lon2 - lon1);//converts differance btween the points to radians
+            double radLat = Radians(lat2 - lat1);
+            double havd = Hav(radLat) + (Math.Cos(Radians(lat2)) * Math.Cos(Radians(lat1)) * Hav(radLon));//haversine formula determines the spherical distance between the two points using given versine
+            double distance = 2 * RADIUS * Math.Asin(havd);
+            return distance;
         }
 
         public int AvailableChargingPorts(int baseStationId)
@@ -594,12 +669,12 @@ namespace Dal
 
         public int ParcelsCustomerGot(int customerId)
         {
-            throw new NotImplementedException();
+            return GetParcels(h => h.TargetId == customerId).Count();
         }
 
         public int ParcelsCustomerSendAndDelivered(int customerId)
         {
-            throw new NotImplementedException();
+            return GetParcels(h => h.SenderId == customerId && h.Delivered != null).Count();
         }
 
         public void UpdateParcels(Parcel parcel)
@@ -624,7 +699,7 @@ namespace Dal
 
         public int ParcelsCustomerSendAndNotDelivered(int iD)
         {
-            throw new NotImplementedException();
+            return GetParcels(h => h.SenderId == iD && h.Delivered == null).Count();
         }
 
         public int ParcelsInTheWayToCustomer(int iD)
@@ -632,7 +707,13 @@ namespace Dal
             throw new NotImplementedException();
         }
 
-       
+        public void UpdateStations(Station st)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
         #endregion
 
 
