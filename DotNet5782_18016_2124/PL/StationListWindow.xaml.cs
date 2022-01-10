@@ -73,6 +73,7 @@ namespace PL
             StationWindow stationWindow = new StationWindow(myBl, station);
             stationWindow.Show();
             stationWindow.Update += StationWindow_Update;
+           
         }
         private void StationWindow_Update()
         {
@@ -86,12 +87,7 @@ namespace PL
             s.Show();
         }
 
-        private void stationListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void stationListView_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        private void stationListView_SelectionChanged_2(object sender, SelectionChangedEventArgs e)
         {
 
         }

@@ -37,7 +37,10 @@ namespace PL
             Loaded += ToolWindow_Loaded;
 
             comboDrone.ItemsSource = myBl.GetDrones(d => d.DroneLocation == station.Location);
+            this.myBl = myBl;
+           
             DataContext = station;
+            s = station;
             Add_btn.Visibility = Visibility.Hidden;
             fillTextbox(station);
             txtId.IsEnabled=false;
@@ -167,6 +170,7 @@ namespace PL
 
             myBl.DeleteStation(s);
             Update();
+            Close();
         }
     }
 }
