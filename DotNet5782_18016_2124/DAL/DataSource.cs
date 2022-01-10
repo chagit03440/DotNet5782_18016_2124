@@ -113,7 +113,7 @@ namespace DAL
                  {
                      UserName="Avital",
                      Password="aaa",
-                     Worker=false,
+                     Worker=true,
                      IsActive = true,
                  },
 

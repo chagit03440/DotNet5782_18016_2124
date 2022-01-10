@@ -114,6 +114,13 @@ using DO;
                      Worker=false,
                      IsActive = true,
                  },
+                  new User
+                 {
+                     UserName="Avital",
+                     Password="aaa",
+                     Worker=true,
+                     IsActive = true,
+                 },
 
             };
             }
