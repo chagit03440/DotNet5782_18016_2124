@@ -17,47 +17,50 @@ namespace BL
              /// <returns>the minimum battery required</returns>
         private int calcMinBatteryRequired(DroneForList drone)
         {
-            if (drone.Status == DroneStatuses.Free)
+            lock (myDal)
             {
-                Location location = findClosetBaseStationLocation(drone.DroneLocation);
-                return (int)(myDal.PowerRequest()[(int)BatteryUsage.Available] * calcDistance(drone.DroneLocation, location));
-            }
-
-            if (drone.Status == DroneStatuses.Shipping)
-            {
-                DO.Parcel parcel = myDal.GetParcel(drone.ParcelId);
-                if (parcel.PickedUp is null)
+                if (drone.Status == DroneStatuses.Free)
                 {
-                    int minValue;
-                    Customer sender = GetCustomer(parcel.SenderId);
-                    Customer target = GetCustomer(parcel.TargetId);
-                    double droneToSender = calcDistance(drone.DroneLocation, sender.Location);
-                    minValue = (int)(myDal.PowerRequest()[(int)BatteryUsage.Available] * droneToSender);
-                    double senderToTarget = calcDistance(sender.Location, target.Location);
-                    BatteryUsage batteryUsage =
-                        (BatteryUsage)Enum.Parse(typeof(BatteryUsage), parcel.Longitude.ToString());
-                    minValue += (int)(myDal.PowerRequest()[(int)batteryUsage] * senderToTarget);
-                    Location baseStationLocation = findClosetBaseStationLocation(target.Location);
-                    double targetToCharge = calcDistance(target.Location, baseStationLocation);
-                    minValue += (int)(myDal.PowerRequest()[(int)DroneStatuses.Free] * targetToCharge);
-                    return minValue;
+                    Location location = findClosetBaseStationLocation(drone.DroneLocation);
+                    return (int)(myDal.PowerRequest()[(int)BatteryUsage.Available] * calcDistance(drone.DroneLocation, location));
                 }
 
-                if (parcel.Delivered is null)
+                if (drone.Status == DroneStatuses.Shipping)
                 {
-                    int minValue;
-                    Customer sender = GetCustomer(parcel.SenderId);
-                    Customer target = GetCustomer(parcel.TargetId);
-                    double senderToTarget = calcDistance(sender.Location, target.Location);
-                    BatteryUsage batteryUsage = (BatteryUsage)Enum.Parse(typeof(BatteryUsage), parcel.Longitude.ToString());
-                    minValue = (int)(myDal.PowerRequest()[(int)batteryUsage] * senderToTarget);
-                    Location baseStationLocation = findClosetBaseStationLocation(target.Location);
-                    double targetToCharge = calcDistance(target.Location, baseStationLocation);
-                    minValue += (int)(myDal.PowerRequest()[(int)BatteryUsage.Available] * targetToCharge);
-                    return minValue;
+                    DO.Parcel parcel = myDal.GetParcel(drone.ParcelId);
+                    if (parcel.PickedUp is null)
+                    {
+                        int minValue;
+                        Customer sender = GetCustomer(parcel.SenderId);
+                        Customer target = GetCustomer(parcel.TargetId);
+                        double droneToSender = calcDistance(drone.DroneLocation, sender.Location);
+                        minValue = (int)(myDal.PowerRequest()[(int)BatteryUsage.Available] * droneToSender);
+                        double senderToTarget = calcDistance(sender.Location, target.Location);
+                        BatteryUsage batteryUsage =
+                            (BatteryUsage)Enum.Parse(typeof(BatteryUsage), parcel.Longitude.ToString());
+                        minValue += (int)(myDal.PowerRequest()[(int)batteryUsage] * senderToTarget);
+                        Location baseStationLocation = findClosetBaseStationLocation(target.Location);
+                        double targetToCharge = calcDistance(target.Location, baseStationLocation);
+                        minValue += (int)(myDal.PowerRequest()[(int)DroneStatuses.Free] * targetToCharge);
+                        return minValue;
+                    }
+
+                    if (parcel.Delivered is null)
+                    {
+                        int minValue;
+                        Customer sender = GetCustomer(parcel.SenderId);
+                        Customer target = GetCustomer(parcel.TargetId);
+                        double senderToTarget = calcDistance(sender.Location, target.Location);
+                        BatteryUsage batteryUsage = (BatteryUsage)Enum.Parse(typeof(BatteryUsage), parcel.Longitude.ToString());
+                        minValue = (int)(myDal.PowerRequest()[(int)batteryUsage] * senderToTarget);
+                        Location baseStationLocation = findClosetBaseStationLocation(target.Location);
+                        double targetToCharge = calcDistance(target.Location, baseStationLocation);
+                        minValue += (int)(myDal.PowerRequest()[(int)BatteryUsage.Available] * targetToCharge);
+                        return minValue;
+                    }
                 }
+                return 90;
             }
-            return 90;
         }
         /// <summary>
         /// note: There is a side effect, if True drone.DeliveryId getting value
@@ -87,38 +90,41 @@ namespace BL
         /// <returns>return location of this drone</returns>
         private Location findDroneLocation(DroneForList drone)
         {
-            if (drone.Status == DroneStatuses.Shipping)
+            lock (myDal)
             {
-                DO.Parcel parcel = myDal.GetParcel(drone.ParcelId);
-                if (parcel.PickedUp == null)
+                if (drone.Status == DroneStatuses.Shipping)
                 {
-                    Customer customer = GetCustomer(parcel.SenderId);
-                    return findClosetBaseStationLocation(customer.Location);
+                    DO.Parcel parcel = myDal.GetParcel(drone.ParcelId);
+                    if (parcel.PickedUp == null)
+                    {
+                        Customer customer = GetCustomer(parcel.SenderId);
+                        return findClosetBaseStationLocation(customer.Location);
+                    }
+                    if (parcel.Delivered == null)
+                    {
+                        return GetCustomer(parcel.SenderId).Location;
+                    }
                 }
-                if (parcel.Delivered == null)
+                if (drone.Status == DroneStatuses.Free)
                 {
-                    return GetCustomer(parcel.SenderId).Location;
-                }
-            }
-            if (drone.Status == DroneStatuses.Free)
-            {
-                var targetsIds = myDal.GetParcels()
-                    .Where(parcel => parcel.DroneId == drone.Id)
-                    .Select(parcel => parcel.TargetId).ToList();
+                    var targetsIds = myDal.GetParcels()
+                        .Where(parcel => parcel.DroneId == drone.Id)
+                        .Select(parcel => parcel.TargetId).ToList();
 
-                if (targetsIds.Count == 0)
-                {
+                    if (targetsIds.Count == 0)
+                    {
 
-                    DO.Station station = new DO.Station();
-                    station.ID = rand.Next(0, myDal.GetStations().Count())+1000;
-                    DO.Drone tdrone = myDal.GetDrone(drone.Id);
-                    myDal.AnchorDroneStation(station, tdrone);
-                    return getBaseStationLocation(station.ID);
+                        DO.Station station = new DO.Station();
+                        station.ID = rand.Next(0, myDal.GetStations().Count()) + 1000;
+                        DO.Drone tdrone = myDal.GetDrone(drone.Id);
+                        myDal.AnchorDroneStation(station, tdrone);
+                        return getBaseStationLocation(station.ID);
+                    }
+                    //TODO: get last customer location
+                    return GetCustomer(targetsIds[rand.Next(targetsIds.Count)]).Location;
                 }
-                //TODO: get last customer location
-                return GetCustomer(targetsIds[rand.Next(targetsIds.Count)]).Location;
+                return new Location() { Longitude = 0, Lattitude = 0 };
             }
-            return new Location() { Longitude=0,Lattitude=0};
         }
         /// <summary>
         /// A function that recieve a drones id and return him buttery
@@ -137,46 +143,48 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int requestedId)
         {
-
-            DroneForList df = drones.FirstOrDefault(x => x.Id == requestedId);
-            //Parcel p = GetParcel(df.ParcelId);
-            //PackageInTransfer Pack = new PackageInTransfer()
-            //{
-            //    Id = df.ParcelId,
-            //    Longitude = p.Longitude,
-            //    Collection = GetCustomer(p.Sender.Id).DroneLocation,
-            //    DeliveryDestination = GetCustomer(p.Target.Id).DroneLocation,
-            //    Priority = p.Priority,
-            //    Sender = p.Sender,
-            //    Target = p.Target,
-            //    Status = (ParcelStatuses)getParcelStatus(myDal.GetParcel(p.Id)),
-            //    TransportDistance = calcDistance(GetCustomer(p.Sender.Id).DroneLocation, GetCustomer(p.Target.Id).DroneLocation)
-            //};
-            Drone droneBO = new Drone()
+            lock (myDal)
             {
-                Id = df.Id,
-                Model = df.Model,
-                MaxWeight = df.MaxWeight,
-                Location = df.DroneLocation,
-                Battery = df.Battery,
-                Status = df.Status,
-                //Package = Pack
+                DroneForList df = drones.FirstOrDefault(x => x.Id == requestedId);
+                //Parcel p = GetParcel(df.ParcelId);
+                //PackageInTransfer Pack = new PackageInTransfer()
+                //{
+                //    Id = df.ParcelId,
+                //    Longitude = p.Longitude,
+                //    Collection = GetCustomer(p.Sender.Id).DroneLocation,
+                //    DeliveryDestination = GetCustomer(p.Target.Id).DroneLocation,
+                //    Priority = p.Priority,
+                //    Sender = p.Sender,
+                //    Target = p.Target,
+                //    Status = (ParcelStatuses)getParcelStatus(myDal.GetParcel(p.Id)),
+                //    TransportDistance = calcDistance(GetCustomer(p.Sender.Id).DroneLocation, GetCustomer(p.Target.Id).DroneLocation)
+                //};
+                Drone droneBO = new Drone()
+                {
+                    Id = df.Id,
+                    Model = df.Model,
+                    MaxWeight = df.MaxWeight,
+                    Location = df.DroneLocation,
+                    Battery = df.Battery,
+                    Status = df.Status,
+                    //Package = Pack
 
-            };
-        
-        
-            if (df.Id != 0)
+                };
+
+
+                if (df.Id != 0)
+                    return droneBO;
+                DO.Drone droneDO = myDal.GetDrone(requestedId);
+                DroneForList drone = drones.Find(d => d.Id == requestedId);
+                droneBO.Id = droneDO.ID;
+                droneBO.Model = droneDO.Model;
+                droneBO.MaxWeight = (WeightCategories)droneDO.MaxWeight;
+                droneBO.Location = drone.DroneLocation;
+                droneBO.Battery = drone.Battery;
+                droneBO.Status = drone.Status;
+                // droneBO.Package=Pack;
                 return droneBO;
-            DO.Drone droneDO = myDal.GetDrone(requestedId);
-            DroneForList drone = drones.Find(d => d.Id == requestedId);
-            droneBO.Id = droneDO.ID;
-            droneBO.Model = droneDO.Model;
-            droneBO.MaxWeight = (WeightCategories)droneDO.MaxWeight;
-            droneBO.Location = drone.DroneLocation;
-            droneBO.Battery = drone.Battery;
-            droneBO.Status = drone.Status;
-           // droneBO.Package=Pack;
-            return droneBO;
+            }
         }
         /// <summary>
         ///  A function that recieve a drone and number of station and add it to the lists of the drones
@@ -186,54 +194,58 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(DroneForList drone, int stationId)
         {
-            drone.Battery = (double)rand.Next(20, 40);
-
-            //IDAL.DO.Drone tdrone = myDal.GetDrones(drone.Id);
-            DO.Drone tdrone = new DO.Drone() { ID = drone.Id, MaxWeight = (DO.WeightCategories)drone.MaxWeight, Model = drone.Model };
-            DO.Station tstation = myDal.GetStation(stationId);
-            drone.Status = DroneStatuses.Maintenance;
-            drone.DroneLocation = getBaseStationLocation(stationId);
-            drone.ParcelId = 0;
-            drones.Add(drone);
-            DO.Drone droneDO = new DO.Drone();
-            droneDO.ID = drone.Id; 
-            droneDO.MaxWeight =(DO.WeightCategories) drone.MaxWeight;
-            droneDO.Model = drone.Model;
-
-            try
+            lock (myDal)
             {
-                myDal.AddDrone(droneDO);
-            }
-            catch (Exception exp)
-            {
+                drone.Battery = (double)rand.Next(20, 40);
 
-                throw new BLAlreadyExistExeption("", exp);
-            }
-            myDal.AnchorDroneStation(tstation, tdrone);
-            
+                //IDAL.DO.Drone tdrone = myDal.GetDrones(drone.Id);
+                DO.Drone tdrone = new DO.Drone() { ID = drone.Id, MaxWeight = (DO.WeightCategories)drone.MaxWeight, Model = drone.Model };
+                DO.Station tstation = myDal.GetStation(stationId);
+                drone.Status = DroneStatuses.Maintenance;
+                drone.DroneLocation = getBaseStationLocation(stationId);
+                drone.ParcelId = 0;
+                drones.Add(drone);
+                DO.Drone droneDO = new DO.Drone();
+                droneDO.ID = drone.Id;
+                droneDO.MaxWeight = (DO.WeightCategories)drone.MaxWeight;
+                droneDO.Model = drone.Model;
 
+                try
+                {
+                    myDal.AddDrone(droneDO);
+                }
+                catch (Exception exp)
+                {
+
+                    throw new BLAlreadyExistExeption("", exp);
+                }
+                myDal.AnchorDroneStation(tstation, tdrone);
+
+            }
             
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneForList GetDroneForList(int requestedId)
         {
+            lock(myDal)
+            {
 
-            DroneForList df = drones.FirstOrDefault(x => x.Id == requestedId);
-            if (df.Id != 0)
-                return df;
-            DroneForList droneBO = new DroneForList();
-            DO.Drone droneDO = myDal.GetDrone(requestedId);
-            DroneForList drone = drones.Find(d => d.Id == requestedId);
-            droneBO.Id = droneDO.ID;
-            droneBO.Model = droneDO.Model;
-            droneBO.MaxWeight = (WeightCategories)droneDO.MaxWeight;
-            droneBO.DroneLocation = drone.DroneLocation;
-            droneBO.Battery = drone.Battery;
-            droneBO.Status = drone.Status;
-            droneBO.ParcelId = drone.ParcelId;
-            return droneBO;
+                DroneForList df = drones.FirstOrDefault(x => x.Id == requestedId);
+                if (df.Id != 0)
+                    return df;
+                DroneForList droneBO = new DroneForList();
+                DO.Drone droneDO = myDal.GetDrone(requestedId);
+                DroneForList drone = drones.Find(d => d.Id == requestedId);
+                droneBO.Id = droneDO.ID;
+                droneBO.Model = droneDO.Model;
+                droneBO.MaxWeight = (WeightCategories)droneDO.MaxWeight;
+                droneBO.DroneLocation = drone.DroneLocation;
+                droneBO.Battery = drone.Battery;
+                droneBO.Status = drone.Status;
+                droneBO.ParcelId = drone.ParcelId;
+                return droneBO;
+            }
         }
-
         /// 
         /// <summary>
         ///  A function that recieve a drone and update the drone whith the same id in the drones list
@@ -268,24 +280,27 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone)
         {
-            DO.Drone dDO;
-            try
+            lock (myDal)
             {
-                dDO=myDal.GetDrone(drone.Id);
-            }
-            catch (Exception ex)
-            {
+                DO.Drone dDO;
+                try
+                {
+                    dDO = myDal.GetDrone(drone.Id);
+                }
+                catch (Exception ex)
+                {
 
-                throw new BLAlreadyExistExeption("The drone not exsit", ex);
-            }
-            DroneForList dr = drones.Find(x => x.Id == drone.Id);
+                    throw new BLAlreadyExistExeption("The drone not exsit", ex);
+                }
+                DroneForList dr = drones.Find(x => x.Id == drone.Id);
 
-            int index = drones.FindIndex(x => x.Id == dr.Id);
-            dr.Model = drone.Model;
-            dDO.Model = drone.Model;
-            myDal.UpdateDrones(dDO);
-            drones.RemoveAt(index);
-            drones.Insert(index, dr);
+                int index = drones.FindIndex(x => x.Id == dr.Id);
+                dr.Model = drone.Model;
+                dDO.Model = drone.Model;
+                myDal.UpdateDrones(dDO);
+                drones.RemoveAt(index);
+                drones.Insert(index, dr);
+            }
         }
     }
 }
