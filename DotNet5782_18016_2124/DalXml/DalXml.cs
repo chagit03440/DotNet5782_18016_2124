@@ -13,7 +13,7 @@ using System.Security.Cryptography;
 
 namespace Dal
 {
-    class DalXml:IDal
+    class DalXml : IDal
     {
         #region singelton
 
@@ -31,9 +31,9 @@ namespace Dal
         internal static double chargingRate = 10.26;
         static readonly DalXml instance = new DalXml();
         static DalXml() { }
-        
+
         public static DalXml Instance { get => instance; }
-       // DalXml() {  }
+        // DalXml() {  }
         private DalXml() //private  
         {
             List<DroneCharge> droneCharge = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);
@@ -48,7 +48,7 @@ namespace Dal
 
 
         #region station
-        
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station station)
         {
@@ -65,7 +65,7 @@ namespace Dal
                 new XElement("Lattitude", station.Lattitude.ToString()),
                 new XElement("ChargeSlots", station.ChargeSlots.ToString()));
             stationsRoot.Add(newStation);
-            
+
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -127,7 +127,7 @@ namespace Dal
             Station s = GetStation(stationId);
             s.ChargeSlots++;
             UpdateStation(s);
-           
+
         }
         #endregion
 
@@ -195,7 +195,7 @@ namespace Dal
         public void AddUser(User userToAdd)
         {
             List<User> listOfAllUsers = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
-            if (listOfAllUsers.Exists(x => x.UserName == userToAdd.UserName) )
+            if (listOfAllUsers.Exists(x => x.UserName == userToAdd.UserName))
                 throw new AlreadyExistExeption("This user already exist");
             listOfAllUsers.Add(userToAdd);
             XMLTools.SaveListToXMLSerializer<User>(listOfAllUsers, usersPath);
@@ -324,7 +324,7 @@ namespace Dal
             if (predicate == null)
                 return listOfCustomer;
             return listOfCustomer.Where(predicate);
-            
+
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer customer)
@@ -349,7 +349,7 @@ namespace Dal
 
         #endregion
 
-        #region droneCharge 
+        #region droneCharge
 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -415,8 +415,8 @@ namespace Dal
             XElement parcelRoot = XMLTools.LoadListFromXMLElement(parcelPath);
 
             XElement parcelX = (from p in parcelRoot.Elements()
-                               where (p.Element("ID").Value == parcel.ID.ToString())
-                               select p).FirstOrDefault();
+                                where (p.Element("ID").Value == parcel.ID.ToString())
+                                select p).FirstOrDefault();
             if (parcelX == null)
                 throw new InVaildIdException("the data about parcel doesn't exist in system");
             parcelX.Remove();
@@ -486,14 +486,14 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AnchorDroneStation(Station station, Drone drone)
         {
- 
+
             try
             {
                 GetStation(station.ID);
             }
             catch (InVaildIdException p)
             {
-                throw new InVaildIdException($"cannot anchor station{station.ID}to drone",p);
+                throw new InVaildIdException($"cannot anchor station{station.ID}to drone", p);
 
             }
             try
@@ -502,7 +502,7 @@ namespace Dal
             }
             catch (InVaildIdException p)
             {
-                throw new InVaildIdException($"cannot anchor drone{drone.ID}to station",p);
+                throw new InVaildIdException($"cannot anchor drone{drone.ID}to station", p);
             }
             station.ChargeSlots--;
             DroneCharge dCharge = new DroneCharge()
@@ -687,13 +687,13 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double Distance(int ID, double lonP, double latP)
         {
-            
+
             if (ID > 9999)//if its a customer
                 foreach (Customer cus in Getcustomers()) { if (cus.ID == ID) return Haversine(lonP, latP, cus.Longitude, cus.Lattitude); }
 
-            // DataSource.customerList.ForEach(c => { if (int.Parse(c.ID) == ID) { return Haversine(lonP, latP, c.longitude, c.latitude); });//returns in a string the distnace between the customer and given point                   
+            // DataSource.customerList.ForEach(c => { if (int.Parse(c.ID) == ID) { return Haversine(lonP, latP, c.longitude, c.latitude); });//returns in a string the distnace between the customer and given point                  
             else//its a station
-                //DataSource.stationsList.ForEach(s => { if (s.ID == ID) { return Haversine(lonP, latP, s.longitude, s.latitude); });//returns in a string the distnace between the station and given point                   
+                //DataSource.stationsList.ForEach(s => { if (s.ID == ID) { return Haversine(lonP, latP, s.longitude, s.latitude); });//returns in a string the distnace between the station and given point                  
                 foreach (Station Kingsx in GetStations()) { if (Kingsx.ID == ID) return Haversine(lonP, latP, Kingsx.Longitude, Kingsx.Lattitude); }
             return 0.0;// default return
         }

@@ -1,4 +1,5 @@
-﻿using BO;
+﻿using System.Runtime.CompilerServices;
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -133,6 +134,7 @@ namespace BL
         /// </summary>
         /// <param name="requestedId">drone id</param>
         /// <returns>return the drone with this id</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int requestedId)
         {
 
@@ -181,6 +183,7 @@ namespace BL
         /// </summary>
         /// <param name="drone">the drone we need to add</param>
         /// <param name="stationId">station  id</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(DroneForList drone, int stationId)
         {
             drone.Battery = (double)rand.Next(20, 40);
@@ -211,6 +214,7 @@ namespace BL
 
             
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneForList GetDroneForList(int requestedId)
         {
 
@@ -235,6 +239,7 @@ namespace BL
         ///  A function that recieve a drone and update the drone whith the same id in the drones list
         /// </summary>
         /// <param name="d">the drone we need to update</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void updateDroneForList(DroneForList d)
         {
             DroneForList drone = new DroneForList
@@ -260,6 +265,7 @@ namespace BL
 
         /// </summary>
         /// <param name="drone">the drone we need to update</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone)
         {
             DO.Drone dDO;

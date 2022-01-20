@@ -1,4 +1,5 @@
-﻿using BO;
+﻿using System.Runtime.CompilerServices;
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,29 +39,32 @@ namespace BL
         /// <returns>the closest base station location</returns>
         private Location findClosetBaseStationLocation(Location fromLocatable)
         {
-            List<Station> locations = new List<Station>();
-            foreach (var baseStation in myDal.GetStations())
+            lock (myDal)
             {
-                locations.Add(new Station
+                List<Station> locations = new List<Station>();
+                foreach (var baseStation in myDal.GetStations())
                 {
-                    Location = new Location
+                    locations.Add(new Station
                     {
-                        Lattitude = baseStation.Lattitude,
-                        Longitude = baseStation.Longitude
-                    }
-                });
-            }
-            Location location = locations[0].Location;
-            double distance = calcDistance(fromLocatable, locations[0].Location);
-            for (int i = 1; i < locations.Count; i++)
-            {
-                if (calcDistance(fromLocatable, locations[i].Location) < distance)
-                {
-                    location = locations[i].Location;
-                    distance = calcDistance(fromLocatable, locations[i].Location);
+                        Location = new Location
+                        {
+                            Lattitude = baseStation.Lattitude,
+                            Longitude = baseStation.Longitude
+                        }
+                    });
                 }
+                Location location = locations[0].Location;
+                double distance = calcDistance(fromLocatable, locations[0].Location);
+                for (int i = 1; i < locations.Count; i++)
+                {
+                    if (calcDistance(fromLocatable, locations[i].Location) < distance)
+                    {
+                        location = locations[i].Location;
+                        distance = calcDistance(fromLocatable, locations[i].Location);
+                    }
+                }
+                return location;
             }
-            return location;
         }
         /// <summary>
         /// A function that receives a skimmer and returns its position
@@ -88,33 +92,36 @@ namespace BL
         /// <returns> a list of base stations in order from the closest to the farthest</returns>
         private List<Station> ClosetBaseStationsLocation(Location fromLocatable)
         {
-            List<Station> locations = new List<Station>();
-            foreach (var baseStation in myDal.GetStations())
+            lock (myDal)
             {
-                locations.Add(new Station
+                List<Station> locations = new List<Station>();
+                foreach (var baseStation in myDal.GetStations())
                 {
-                    Location = new Location
+                    locations.Add(new Station
                     {
-                        Lattitude = baseStation.Lattitude,
-                        Longitude = baseStation.Longitude
-                    }
-                });
+                        Location = new Location
+                        {
+                            Lattitude = baseStation.Lattitude,
+                            Longitude = baseStation.Longitude
+                        }
+                    });
+                }
+                Location location = locations[0].Location;
+                double distance = calcDistance(fromLocatable, locations[0].Location);
+                int i, j;
+                for (i = 0; i < locations.Count - 1; i++)
+
+                    // Last i elements are already in place
+                    for (j = 0; j < locations.Count - i - 1; j++)
+                        if (calcDistance(fromLocatable, locations[j].Location) > calcDistance(fromLocatable, locations[j + 1].Location))
+                        {
+                            Station temp = locations[j];
+                            locations[j] = locations[j + 1];
+                            locations[j + 1] = locations[j];
+                        }
+
+                return locations;
             }
-            Location location = locations[0].Location;
-            double distance = calcDistance(fromLocatable, locations[0].Location);
-            int i, j;
-            for (i = 0; i < locations.Count - 1; i++)
-
-                // Last i elements are already in place
-                for (j = 0; j < locations.Count - i - 1; j++)
-                    if (calcDistance(fromLocatable, locations[j].Location) > calcDistance(fromLocatable, locations[j + 1].Location))
-                    {
-                        Station temp = locations[j];
-                        locations[j] = locations[j + 1];
-                        locations[j + 1] = locations[j];
-                    }
-
-            return locations;
         }
     }
 }

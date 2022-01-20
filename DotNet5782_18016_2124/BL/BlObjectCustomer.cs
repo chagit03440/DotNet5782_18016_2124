@@ -1,4 +1,5 @@
-﻿using BO;
+﻿using System.Runtime.CompilerServices;
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,36 +15,41 @@ namespace BL
         ///  A function that recieve a customer and update the customer whith the same id in the customer list
         /// </summary>
         /// <param name="cus">customer that need update</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer cus)
         {
-            Customer c;
-            try
+            lock (myDal)
             {
-                c = GetCustomer(cus.Id);
-            }
-            catch (Exception ex)
-            {
+                Customer c;
+                try
+                {
+                    c = GetCustomer(cus.Id);
+                }
+                catch (Exception ex)
+                {
 
-                throw new BLInVaildIdException("The customer not exsit", ex);
+                    throw new BLInVaildIdException("The customer not exsit", ex);
+                }
+                if (cus.Name != null)
+                    c.Name = cus.Name;
+                if (cus.Phone != null)
+                    c.Phone = cus.Phone;
+                DO.Customer cuaDo = new DO.Customer()
+                {
+                    ID = c.Id,
+                    Name = c.Name,
+                    Lattitude = c.Location.Lattitude,
+                    Longitude = c.Location.Longitude,
+                    Phone = c.Phone
+                };
+                myDal.UpdateCustomers(cuaDo);
             }
-            if (cus.Name != null)
-                c.Name = cus.Name;
-            if (cus.Phone != null)
-                c.Phone = cus.Phone;
-            DO.Customer cuaDo = new DO.Customer()
-            {
-                ID = c.Id,
-                Name = c.Name,
-                Lattitude = c.Location.Lattitude,
-                Longitude = c.Location.Longitude,
-                Phone = c.Phone
-            };
-            myDal.UpdateCustomers(cuaDo);
         }
         /// <summary>
         /// A function that recieve a customer and add it to the lists of the customers
         /// </summary>
         /// <param name="customer">the customer we need to add</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer customer)
         {
             lock (myDal)
@@ -75,6 +81,7 @@ namespace BL
         /// </summary>
         /// <param name="requestedId">customer id</param>
         /// <returns>return customer with this id</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int requestedId)
         {
             lock (myDal)
