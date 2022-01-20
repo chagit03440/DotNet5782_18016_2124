@@ -9,11 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		CustomersXml.xml = CustomersXml.xml
 		DroneChargeXml.xml = DroneChargeXml.xml
-		DronesXml.xml = DronesXml.xml
-		ParcelsXml.xml = ParcelsXml.xml
 		README.md = README.md
-		StationsXml.xml = StationsXml.xml
-		UsersXml.xml = UsersXml.xml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{5AEE2441-AE27-444C-A430-B9D09DC2B787}"

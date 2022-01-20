@@ -15,18 +15,18 @@ namespace Dal
     class DalXml:IDal
     {
         #region singelton
-
-        static readonly DalXml instance = new DalXml();
-        static DalXml() { }
-        DalXml() { Initialize(); }
-        public static DalXml Instance { get => instance; }
-        #endregion
         static string parcelPath = @"data\ParcelsXml.xml";//XMLSerializer
         static string stationPath = @"data\StationsXml.xml";  //XElement
         static string customerPath = @"data\CustomersXml.xml";//XMLSerializer
         static string dronePath = @"data\DronesXml.xml";//XMLSerializer
         static string usersPath = @"data\UsersXml.xml";//XMLSerializer
         static string droneChargePath = @"data\DroneChargeXml.xml";
+        static readonly DalXml instance = new DalXml();
+        static DalXml() { }
+        DalXml() { Initialize(); }
+        public static DalXml Instance { get => instance; }
+        #endregion
+        
 
         static Random rand= new Random();
 
