@@ -17,6 +17,7 @@ namespace Dal
         ///  A function that recieve a station and add it to the lists of the stations
         /// </summary>
         /// <param name="station">the station we need to add</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station station)
         {
             if (DataSource.stations.Exists(x => x.ID == station.ID))
@@ -30,6 +31,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">the id of the station</param>
         /// <returns>return the station with this id</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int id)
         {
             if (!DataSource.stations.Exists(x => x.ID == id))
@@ -38,11 +40,13 @@ namespace Dal
             };
             return DataSource.stations.Find(x => x.ID == id);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStations(Station st)
         {
             DataSource.stations.RemoveAll(item => item.ID == st.ID);
             DataSource.stations.Add(st);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int AvailableChargingPorts(int baseStationId)
         {
             try
@@ -55,6 +59,7 @@ namespace Dal
                 throw new InVaildIdException("Station didn't exist", ex);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(Station s)
         {
             DataSource.parcels.RemoveAll(x => x.ID == s.ID);

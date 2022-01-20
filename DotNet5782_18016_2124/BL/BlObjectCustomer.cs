@@ -49,6 +49,7 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer customer)
         {
+
             DO.Customer customerDO =
                             new DO.Customer()
                             {

@@ -17,6 +17,7 @@ namespace Dal
         ///  A function that recieve a drone and add it to the lists of the drones
         /// </summary>
         /// <param name="drone">the drone we need to add</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone drone)
         {
             if (DataSource.drones.Exists(x => x.ID == drone.ID))
@@ -31,6 +32,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">the id of the drone</param>
         /// <returns>return the drone with this id</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
             if (!DataSource.drones.Exists(x => x.ID == id))
@@ -44,6 +46,7 @@ namespace Dal
         ///  A function that recieve a drone and update the drone whith the same id in the drones list
         /// </summary>
         /// <param name="dr">the drone with new data to update</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrones(Drone dr)
         {
             Drone drone = DataSource.drones.Find(x => x.ID == dr.ID);

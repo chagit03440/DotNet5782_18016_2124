@@ -21,14 +21,15 @@ namespace Dal
         
         public static IDal Instance { get => instance.Value; }// The public Instance property to use
         #endregion
-        private DalObject() => DataSource.Initialize();     
-    
+        private DalObject() => DataSource.Initialize();
 
-    /// <summary>
-    /// A function that return from the list of the drones
-    /// </summary>
-    /// <returns>return the list of drones </returns>
-    public IEnumerable<Drone> GetDrones(Func<Drone, bool> predicate = null)
+
+        /// <summary>
+        /// A function that return from the list of the drones
+        /// </summary>
+        /// <returns>return the list of drones </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Drone> GetDrones(Func<Drone, bool> predicate = null)
         {
             if (predicate == null)
                 return DataSource.drones;
@@ -38,6 +39,7 @@ namespace Dal
         /// A function that return from the list of the customers
         /// </summary>
         /// <returns>return the list of customers</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> Getcustomers(Func<Customer, bool> predicate = null)
         {
             if (predicate == null)
@@ -48,12 +50,14 @@ namespace Dal
         /// A function that return from the list of the parcels
         /// </summary>
         /// <returns>return the list of parcels</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcels(Func<Parcel, bool> predicate = null)
         {
             if (predicate == null)
                 return DataSource.parcels;
             return DataSource.parcels.Where(predicate);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetDronesInCharge(Func<DroneCharge, bool> predicate = null)
         {
             if (predicate == null)
@@ -64,6 +68,7 @@ namespace Dal
         /// A function that return from the list of the statoins
         /// </summary>
         /// <returns>return the list of stations</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetStations(Func<Station, bool> predicate = null)
         {
             if (predicate == null)
@@ -87,6 +92,7 @@ namespace Dal
         /// </summary>
         /// <param name="station">the station that the drone charge there</param>
         /// <param name="drone">the drone thet need to charge</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AnchorDroneStation(Station station, Drone drone)
         {
             try
@@ -127,8 +133,8 @@ namespace Dal
         /// </summary>
         /// <param name="parcel">the parcel thet need to updat</param>
         /// <param name="drone">the drone thet need to updat</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void BelongingParcel(Parcel parcel, Drone drone)
-
         {
             try
             {
@@ -168,6 +174,7 @@ namespace Dal
         /// </summary>
         /// <param name="drone">the drone its need to release</param>
         /// <param name="st">the station that charged this drone</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void ReleasDrone(Drone drone, Station st)
         {
 
@@ -202,6 +209,7 @@ namespace Dal
         /// </summary>
         /// <param name="parcel">the parcel its need to supply</param>
         /// <param name="customer">the customer that recieve the parcel</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void SupplyParcel(Parcel parcel, Customer customer)
         {
             try
@@ -232,6 +240,7 @@ namespace Dal
         /// <param name="coord"></param>
         /// <param name="latOrLot"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public string DecimalToSexagesimal(double coord, char latOrLot)// funciton receives char to decide wheter it is t=latitude and n=lonitude.
         {
             char direction;
@@ -266,6 +275,7 @@ namespace Dal
         /// </summary>
         /// <param name="radian">the angle`s computes </param>
         /// <returns>return half a versine of the angle</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double Hav(double radian)
         {
             return Math.Sin(radian / 2) * Math.Sin(radian / 2);
@@ -276,6 +286,7 @@ namespace Dal
         /// </summary>
         /// <param name="degree">a number to transfore to radian</param>
         /// <returns>returns an angle in radians</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double Radians(double degree)
         {
             return degree * Math.PI / 180;
@@ -290,6 +301,7 @@ namespace Dal
         /// <param name="lon2"></param>
         /// <param name="lat2"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double Haversine(double lon1, double lat1, double lon2, double lat2)
         {
             const int RADIUS = 6371;//earths radius in KM
@@ -300,6 +312,8 @@ namespace Dal
             double distance = 2 * RADIUS * Math.Asin(havd);
             return distance;
         }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double Distance(int ID, double lonP, double latP)
         {
             if (ID > 9999)//if its a customer
@@ -314,7 +328,7 @@ namespace Dal
 
 
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] PowerRequest()
         {
             double[] arr = new double[5];
@@ -325,6 +339,8 @@ namespace Dal
             arr[4] = DataSource.Config.chargingRate;
             return arr;
         }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool LogInVerify(User user)
         {
             DO.User us = DataSource.ListUser.Find(u => u.UserName == user.UserName);
@@ -341,6 +357,8 @@ namespace Dal
             else
                 throw new DO.InVaildIdException( $"bad user id: {user.UserName}");
         }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool isWorker(User user)
         {
             bool worker;

@@ -17,6 +17,7 @@ namespace Dal
         ///  A function that recieve a parcel and add it to the lists of the parcels
         /// </summary>
         /// <param name="newParcel">the parcel we need to add</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel newParcel)
         {
             if (DataSource.parcels.Exists(x => x.ID == newParcel.ID))
@@ -30,6 +31,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">the id of the parcel</param>
         /// <returns>return the drone with this id</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
             if (!DataSource.parcels.Exists(x => x.ID == id))
@@ -42,6 +44,7 @@ namespace Dal
         /// A function that recieve a parcel and update the parcel whith the same id in the parcels list
         /// </summary>
         /// <param name="parcel">the parcel with new data to update</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(Parcel parcel)
         {
             try
@@ -67,11 +70,13 @@ namespace Dal
             DataSource.parcels.RemoveAt(result);
             DataSource.parcels.Add(Ptmp);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcels(Parcel parcel)
         {
             DataSource.parcels.RemoveAll(x => x.ID == parcel.ID);
             DataSource.parcels.Add(parcel);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int GetStatusOfParcel(int parceliD)
         {
             Parcel parcel = GetParcel(parceliD);
@@ -86,6 +91,7 @@ namespace Dal
             return -1;
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(Parcel p)
         {
             DataSource.parcels.RemoveAll(x => x.ID == p.ID);
