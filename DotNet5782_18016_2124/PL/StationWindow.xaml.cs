@@ -141,10 +141,10 @@ namespace PL
                 s.Name = txtName.Text;
                 myBl.UpdateStation(s,-1);
                 MessageBox.Show("the name of the station was successfully updated");
-
-                Station dr = myBl.GetStation(s.Id);
-                fillTextbox(s);
                 Update();
+                Station dr = myBl.GetStation(s.Id);
+                //fillTextbox(s);
+                
 
             }
             catch (Exception ex)
@@ -170,7 +170,7 @@ namespace PL
 
             myBl.DeleteStation(s);
             Update();
-            Close();
+            this.Close();
         }
     }
 }

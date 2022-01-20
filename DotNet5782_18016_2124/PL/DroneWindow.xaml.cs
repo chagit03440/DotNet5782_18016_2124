@@ -358,6 +358,11 @@ namespace PL
             pw.Show();
             //pw.Update += ParcelWindow_Update;
         }
+
+        private void btnAutomatic_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
 

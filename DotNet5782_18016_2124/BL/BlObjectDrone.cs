@@ -109,7 +109,7 @@ namespace BL
                 {
 
                     DO.Station station = new DO.Station();
-                    station.ID = rand.Next(1, myDal.GetStations().Count())+1000;
+                    station.ID = rand.Next(0, myDal.GetStations().Count())+1000;
                     DO.Drone tdrone = myDal.GetDrone(drone.Id);
                     myDal.AnchorDroneStation(station, tdrone);
                     return getBaseStationLocation(station.ID);
@@ -262,9 +262,10 @@ namespace BL
         /// <param name="drone">the drone we need to update</param>
         public void UpdateDrone(Drone drone)
         {
+            DO.Drone dDO;
             try
             {
-                myDal.GetDrone(drone.Id);
+                dDO=myDal.GetDrone(drone.Id);
             }
             catch (Exception ex)
             {
@@ -275,6 +276,8 @@ namespace BL
 
             int index = drones.FindIndex(x => x.Id == dr.Id);
             dr.Model = drone.Model;
+            dDO.Model = drone.Model;
+            myDal.UpdateDrones(dDO);
             drones.RemoveAt(index);
             drones.Insert(index, dr);
         }

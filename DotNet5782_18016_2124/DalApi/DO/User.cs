@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace DO
 {
-    public class User
+    public struct User
     {
         public string UserName { get; set; }
         public string Password { get; set; }
         public bool Worker;
-        public bool IsActive = true;
-        public IEnumerable<User> ListOfUser { get; set; }
+        public bool IsActive;
     }
 }

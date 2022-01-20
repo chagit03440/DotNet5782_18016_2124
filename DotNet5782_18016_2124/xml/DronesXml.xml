@@ -2,18 +2,18 @@
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
     <ID>1000</ID>
-    <Model>iFly0</Model>
-    <MaxWeight>middle</MaxWeight>
+    <Model>dr0</Model>
+    <MaxWeight>low</MaxWeight>
   </Drone>
   <Drone>
     <ID>1001</ID>
     <Model>iFly1</Model>
-    <MaxWeight>heavy</MaxWeight>
+    <MaxWeight>middle</MaxWeight>
   </Drone>
   <Drone>
     <ID>1002</ID>
     <Model>iFly2</Model>
-    <MaxWeight>heavy</MaxWeight>
+    <MaxWeight>middle</MaxWeight>
   </Drone>
   <Drone>
     <ID>1003</ID>
@@ -23,31 +23,31 @@
   <Drone>
     <ID>1004</ID>
     <Model>iFly4</Model>
-    <MaxWeight>low</MaxWeight>
+    <MaxWeight>middle</MaxWeight>
   </Drone>
   <Drone>
     <ID>1005</ID>
     <Model>iFly5</Model>
-    <MaxWeight>low</MaxWeight>
+    <MaxWeight>middle</MaxWeight>
   </Drone>
   <Drone>
     <ID>1006</ID>
     <Model>iFly6</Model>
-    <MaxWeight>low</MaxWeight>
+    <MaxWeight>heavy</MaxWeight>
   </Drone>
   <Drone>
     <ID>1007</ID>
     <Model>iFly7</Model>
-    <MaxWeight>middle</MaxWeight>
+    <MaxWeight>heavy</MaxWeight>
   </Drone>
   <Drone>
     <ID>1008</ID>
     <Model>iFly8</Model>
-    <MaxWeight>middle</MaxWeight>
+    <MaxWeight>low</MaxWeight>
   </Drone>
   <Drone>
     <ID>1009</ID>
     <Model>iFly9</Model>
-    <MaxWeight>low</MaxWeight>
+    <MaxWeight>middle</MaxWeight>
   </Drone>
 </ArrayOfDrone>
