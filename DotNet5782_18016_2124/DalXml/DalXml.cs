@@ -191,6 +191,7 @@ namespace Dal
         #endregion
 
         #region users
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddUser(User userToAdd)
         {
             List<User> listOfAllUsers = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
@@ -199,7 +200,7 @@ namespace Dal
             listOfAllUsers.Add(userToAdd);
             XMLTools.SaveListToXMLSerializer<User>(listOfAllUsers, usersPath);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<User> GetPartOfUsers(Predicate<User> UserCondition)
         {
             List<User> listOfAllUsers = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
@@ -208,7 +209,7 @@ namespace Dal
                        select user;
             return list;
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteUser(string userName)
         {
             List<User> listOfAllUsers = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
@@ -218,12 +219,13 @@ namespace Dal
             listOfAllUsers.Remove(user);
             XMLTools.SaveListToXMLSerializer<User>(listOfAllUsers, usersPath);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<User> GetAllUsers()
         {
             List<User> listOfAllUsers = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
             return listOfAllUsers;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public User GetUser(string userName)
         {
             List<User> listOfAllUsers = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
@@ -232,7 +234,7 @@ namespace Dal
                 return myUser;
             throw new InVaildIdException("the user doesn't exists in system");
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateUser(User usertoUpdate)
         {
             List<User> listOfAllUsers = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
@@ -250,6 +252,7 @@ namespace Dal
 
             XMLTools.SaveListToXMLSerializer<User>(listOfAllUsers, usersPath);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool LogInVerify(User user)
         {
             List<User> users = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
@@ -268,6 +271,7 @@ namespace Dal
             else
                 throw new DO.InVaildIdException($"bad user id: {user.UserName}");
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool isWorker(User user)
         {
             bool worker;
@@ -281,6 +285,7 @@ namespace Dal
         #endregion
 
         #region customer
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer customer)
         {
             var listOfCustomer = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
@@ -289,7 +294,7 @@ namespace Dal
             listOfCustomer.Add(customer);
             XMLTools.SaveListToXMLSerializer<Customer>(listOfCustomer, customerPath);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int customerID)
         {
             var listOfCustomer = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
@@ -300,7 +305,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer<Customer>(listOfCustomer, customerPath);
 
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int customerID)
         {
             var listOfCustomer = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
@@ -311,11 +316,8 @@ namespace Dal
             return customer;
         }
 
-        //public IEnumerable<Customer> GetAllCustomer()
-        //{
-        //    return XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
-        //}
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> Getcustomers(Func<Customer, bool> predicate = null)
         {
             var listOfCustomer = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
@@ -324,7 +326,7 @@ namespace Dal
             return listOfCustomer.Where(predicate);
             
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer customer)
         {
             var listOfCustomer = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
@@ -350,7 +352,7 @@ namespace Dal
         #region droneCharge 
 
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCharge GetDroneCharge(int id)
         {
             List<DroneCharge> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);
@@ -360,6 +362,7 @@ namespace Dal
             return droneC;
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneCharge(DroneCharge droneCharge)
         {
             List<DroneCharge> listOfAllDroneCharge = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);
@@ -368,7 +371,7 @@ namespace Dal
             listOfAllDroneCharge.Add(droneCharge);
             XMLTools.SaveListToXMLSerializer<DroneCharge>(listOfAllDroneCharge, droneChargePath);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         private void deleteDroneCharge(DroneCharge dCharge)
         {
             XElement droneRoot = XMLTools.LoadListFromXMLElement(droneChargePath);
@@ -381,7 +384,7 @@ namespace Dal
             droneX.Remove();
             XMLTools.SaveListToXMLElement(droneRoot, droneChargePath);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetDronesInCharge(Func<DroneCharge, bool> predicate = null)
         {
             List<DroneCharge> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);
@@ -395,6 +398,8 @@ namespace Dal
         #endregion
 
         #region parcel
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcelToAdd)
         {
             List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
@@ -404,7 +409,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelPath);
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(Parcel parcel)
         {
             XElement parcelRoot = XMLTools.LoadListFromXMLElement(parcelPath);
@@ -418,6 +423,7 @@ namespace Dal
             XMLTools.SaveListToXMLElement(parcelRoot, parcelPath);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
             List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
@@ -426,8 +432,8 @@ namespace Dal
                 throw new InVaildIdException("The parcel in path doesn't exist");
             return parcel;
         }
-      
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcels(Func<Parcel, bool> predicate = null)
         {
             List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
@@ -436,7 +442,7 @@ namespace Dal
             return listOfAllParcels.Where(predicate);
 
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(Parcel parceltoUpdate)
         {
             List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
@@ -460,7 +466,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelPath);
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int GetStatusOfParcel(int iD)
         {
             Parcel parcel = GetParcel(iD);
@@ -475,9 +481,9 @@ namespace Dal
             return -1;
         }
 
-        
-   
 
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AnchorDroneStation(Station station, Drone drone)
         {
  
@@ -508,7 +514,7 @@ namespace Dal
             UpdateStation(station);
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void BelongingParcel(Parcel parcel, Drone drone)
         {
             try
@@ -538,7 +544,7 @@ namespace Dal
             //updating parcels
             UpdateParcels(parcel);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void ReleasDrone(Drone drone, Station st)
         {
             try
@@ -567,8 +573,8 @@ namespace Dal
             UpdateStation(st);
         }
 
-       
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void SupplyParcel(Parcel parcel, Customer customer)
         {
             try
@@ -593,7 +599,7 @@ namespace Dal
             DeleteCustomer(customer.ID);
             UpdateParcel(parcel);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public string DecimalToSexagesimal(double coord, char latOrLot)
         {
             char direction;
@@ -621,17 +627,17 @@ namespace Dal
             string toReturn = deg + "° " + min + $"' " + sec + quote + direction;
             return toReturn;
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double Hav(double radian)
         {
             return Math.Sin(radian / 2) * Math.Sin(radian / 2);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double Radians(double degree)
         {
             return degree * Math.PI / 180;
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double Haversine(double lon1, double lat1, double lon2, double lat2)
         {
             const int RADIUS = 6371;//earths radius in KM
@@ -642,7 +648,7 @@ namespace Dal
             double distance = 2 * RADIUS * Math.Asin(havd);
             return distance;
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int AvailableChargingPorts(int baseStationId)
         {
             try
@@ -655,27 +661,30 @@ namespace Dal
                 throw new InVaildIdException("Station didn't exist", ex);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int ParcelsCustomerGot(int customerId)
         {
             return GetParcels(h => h.TargetId == customerId).Count();
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int ParcelsCustomerSendAndDelivered(int customerId)
         {
             return GetParcels(h => h.SenderId == customerId && h.Delivered != null).Count();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcels(Parcel parcel)
         {
             throw new NotImplementedException();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomers(Customer customer)
         {
             throw new NotImplementedException();
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double Distance(int ID, double lonP, double latP)
         {
             
@@ -689,6 +698,7 @@ namespace Dal
             return 0.0;// default return
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] PowerRequest()
         {
             double[] arr = new double[5];
@@ -700,19 +710,20 @@ namespace Dal
             return arr;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int ParcelsCustomerSendAndNotDelivered(int iD)
         {
             return GetParcels(h => h.SenderId == iD && h.Delivered == null).Count();
         }
 
-       
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int ParcelsInTheWayToCustomer(int customerId)
         {
             return GetParcels(h => h.TargetId == customerId && h.PickedUp != null).Count();
 
-         }
-
+        }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStations(Station st)
         {
             throw new NotImplementedException();

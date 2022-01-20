@@ -46,6 +46,7 @@ namespace BL
         /// <param name="customer">the customer we need to add</param>
         public void AddCustomer(Customer customer)
         {
+
             DO.Customer customerDO =
                             new DO.Customer()
                             {

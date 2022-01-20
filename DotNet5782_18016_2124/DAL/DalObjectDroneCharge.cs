@@ -18,6 +18,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">the id of the droneCharge</param>
         /// <returns>return the droneCharge with this id </returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCharge GetDroneCharge(int id)
         {
             if (!DataSource.incharge.Exists(x => x.DroneId == id))
