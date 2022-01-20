@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Runtime.CompilerServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,6 +48,8 @@ namespace Dal
 
 
         #region station
+        
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station station)
         {
             XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
@@ -65,7 +68,7 @@ namespace Dal
             
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(Station stationID)
         {
             XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
@@ -81,7 +84,7 @@ namespace Dal
         }
 
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetStations(Func<Station, bool> predicate = null)
         {
             List<Station> listOfAllStations = XMLTools.LoadListFromXMLSerializer<Station>(stationPath);
@@ -92,7 +95,7 @@ namespace Dal
 
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int stationID)
         {
             var listOfStation = XMLTools.LoadListFromXMLSerializer<Station>(stationPath);
@@ -103,7 +106,7 @@ namespace Dal
             return station;
 
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(Station station)
         {
             XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
@@ -117,6 +120,7 @@ namespace Dal
             stations.Element("Name").Value = s.Name.ToString();
             stations.Element("ChargeSlots").Value = station.ChargeSlots.ToString();
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdatePluseChargeSlots(int stationId)
         {
 
@@ -128,6 +132,7 @@ namespace Dal
         #endregion
 
         #region drone
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrones(Drone droneToUpdate)
         {
             List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
@@ -143,6 +148,7 @@ namespace Dal
 
             XMLTools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronePath);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone droneToAdd)
         {
             List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
@@ -151,7 +157,7 @@ namespace Dal
             listOfAllDrones.Add(droneToAdd);
             XMLTools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronePath);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
             List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
@@ -163,7 +169,7 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronePath);
         }
 
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
             List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);
@@ -172,7 +178,7 @@ namespace Dal
                 throw new InVaildIdException("The drone in path doesn't exist");
             return drone;
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetDrones(Func<Drone, bool> predicate = null)
         {
             List<Drone> listOfAllDrones = XMLTools.LoadListFromXMLSerializer<Drone>(dronePath);

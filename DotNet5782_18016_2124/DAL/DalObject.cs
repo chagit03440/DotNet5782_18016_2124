@@ -1,4 +1,5 @@
 ﻿//we did the bonus function
+using System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
 using System.Text;
