@@ -1,4 +1,5 @@
-﻿using BO;
+﻿using System.Runtime.CompilerServices;
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -128,7 +129,7 @@ namespace BL
                     }
                 }
             }
- 
+
         //private void initializeDrones()
         //{
         //    bool flag = false;
@@ -226,6 +227,7 @@ namespace BL
         /// A function that return  the list of the drones
         /// </summary>
         /// <returns>return list of drone</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneForList> GetDrones(Func<DroneForList, bool> predicate = null)
         {
             if (predicate == null)
@@ -237,6 +239,7 @@ namespace BL
         /// A function that return  the list of the stations
         /// </summary>
         /// <returns>return list of station</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationForList> GetStations(Func<StationForList, bool> predicate = null)
         {
             IEnumerable<StationForList> l;
@@ -264,6 +267,7 @@ namespace BL
         /// A function that return  the list of the customers
         /// </summary>
         /// <returns>return list of the customer</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerForList> GetCustomers(Func<CustomerForList, bool> predicate = null)
         {
             IEnumerable<CustomerForList> l;
@@ -290,6 +294,7 @@ namespace BL
         /// A function that return  the list of the parcels
         /// </summary>
         /// <returns>return list of the parcel</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelForList> GetParcels(Func<ParcelForList, bool> predicate = null)
         {
             IEnumerable<ParcelForList> l;
@@ -315,6 +320,7 @@ namespace BL
         /// A function that return  the list of the unAssignmentParcels
         /// </summary>
         /// <returns>return list of the unAssignmentParcel</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelForList> UnAssignmentParcels()
         {
             List<ParcelForList> p = new List<ParcelForList>();
@@ -343,6 +349,7 @@ namespace BL
         /// A function that return  the list of the availableChargingStations
         /// </summary>
         /// <returns>return list of the availableChargingStation</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> AvailableChargingStations()
         {
             List<Station> s = new List<Station>();
@@ -402,6 +409,7 @@ namespace BL
         /// </summary>
         /// <param name="parcelId">the parcel we want to assign</param>
         /// <param name="droneId">the drone we want to assign</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AssignmentParcelToDrone(int droneId)
         {
             try
@@ -464,6 +472,7 @@ namespace BL
         /// The function checks whether the drone can be sent for charging if it can sends it to a charging station near it with charging stations and updates the data accordingly if it does not send appropriate exceptions
         /// </summary>
         /// <param name="droneId">the number of drone that need to send to recharge</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void SendDroneToRecharge(int droneId)
         {
             try
@@ -509,6 +518,7 @@ namespace BL
         /// <param name="station">the station that the drone charge there</param>
         /// <param name="d">the drone thet need to charge</param>
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AnchorDroneStation(Station station, DroneForList d)
         {
             DO.Station s = new DO.Station
@@ -538,6 +548,7 @@ namespace BL
         /// </summary>
         /// <param name="droneId">the number drone its need to release</param>
         /// <param name="time">Time period on charge </param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void ReleaseDroneFromRecharge(int droneId, double time)
         {
 
@@ -576,6 +587,7 @@ namespace BL
         ///   The function provides a package by a drone if the package can be delivered updates the required data, if no appropriate exception is sent
         /// </summary>
         /// <param name="droneId">the number of the drone</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void PackageDeliveryByDrone(int droneId)
         {
 
@@ -618,6 +630,7 @@ namespace BL
         ///   The function collects the package by the drone if the package can be collected and updates the required data,If no appropriate exception is sent
         /// </summary>
         /// <param name="droneId">the number of the drone</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void PickedupParcel(int droneId)
         {
 
@@ -678,7 +691,8 @@ namespace BL
                 }
             }
         }
-         public bool LogInVerify(User curUser)
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public bool LogInVerify(User curUser)
         {
             DO.User userDO = new DO.User()
             {
@@ -702,6 +716,7 @@ namespace BL
             return true;
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool isWorker(User curUser)
         {
             bool check;

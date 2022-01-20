@@ -1,4 +1,5 @@
-﻿using BO;
+﻿using System.Runtime.CompilerServices;
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace BL
         ///  A function that recieve a customer and update the customer whith the same id in the customer list
         /// </summary>
         /// <param name="cus">customer that need update</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer cus)
         {
             Customer c;
@@ -44,6 +46,7 @@ namespace BL
         /// A function that recieve a customer and add it to the lists of the customers
         /// </summary>
         /// <param name="customer">the customer we need to add</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer customer)
         {
             DO.Customer customerDO =
@@ -71,6 +74,7 @@ namespace BL
         /// </summary>
         /// <param name="requestedId">customer id</param>
         /// <returns>return customer with this id</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int requestedId)
         {
             DO.Customer customerDO;

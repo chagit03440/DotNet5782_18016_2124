@@ -12,22 +12,22 @@ namespace Dal
 {
     class XMLTools
     {
-        static string dir = @"data\";
+        private static readonly string dirPath = @"xml\";
         static XMLTools()
         {
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
+            if (!Directory.Exists(dirPath))
+                Directory.CreateDirectory(dirPath);
         }
         #region SaveLoadWithXElement
         public static void SaveListToXMLElement(XElement rootElem, string filePath)
         {
             try
             {
-                rootElem.Save(dir + filePath);
+                rootElem.Save(dirPath + filePath);
             }
             catch (Exception ex)
             {
-                throw new XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
+                throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
 
@@ -35,48 +35,49 @@ namespace Dal
         {
             try
             {
-                if (File.Exists(dir + filePath))
+                if (File.Exists(dirPath + filePath))
                 {
-                    return XElement.Load(dir + filePath);
+                    return XElement.Load(dirPath + filePath);
                 }
                 else
                 {
-                    XElement rootElem = new XElement(dir + filePath);
-                    rootElem.Save(dir + filePath);
+                    XElement rootElem = new XElement(dirPath + filePath);
+                    rootElem.Save(dirPath + filePath);
                     return rootElem;
                 }
             }
             catch (Exception ex)
             {
-                throw new XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
+                throw new DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
         }
         #endregion
 
         #region SaveLoadWithXMLSerializer
-        public static void SaveListToXMLSerializer<T>(List<T> list, string filePath)
+        public static void SaveListToXMLSerializer<T>(IEnumerable<T> list, string filePath)
         {
             try
             {
-                FileStream file = new FileStream(dir + filePath, FileMode.Create);
+                FileStream file = new FileStream(dirPath + filePath, FileMode.Create);
                 XmlSerializer x = new XmlSerializer(list.GetType());
+
                 x.Serialize(file, list);
                 file.Close();
             }
             catch (Exception ex)
             {
-                throw new XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
+                throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
         public static List<T> LoadListFromXMLSerializer<T>(string filePath)
         {
             try
             {
-                if (File.Exists(dir + filePath))
+                if (File.Exists(dirPath + filePath))
                 {
                     List<T> list;
                     XmlSerializer x = new XmlSerializer(typeof(List<T>));
-                    FileStream file = new FileStream(dir + filePath, FileMode.Open);
+                    FileStream file = new FileStream(dirPath + filePath, FileMode.Open);
                     list = (List<T>)x.Deserialize(file);
                     file.Close();
                     return list;
@@ -86,22 +87,10 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                throw new XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
+                throw new DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
         }
         #endregion
     }
-    [Serializable]
-    public class XMLFileLoadCreateException : Exception
-    {
-        public string xmlFilePath;
-        public XMLFileLoadCreateException(string xmlPath) : base() { xmlFilePath = xmlPath; }
-        public XMLFileLoadCreateException(string xmlPath, string message) :
-            base(message)
-        { xmlFilePath = xmlPath; }
-        public XMLFileLoadCreateException(string xmlPath, string message, Exception innerException) :
-            base(message, innerException)
-        { xmlFilePath = xmlPath; }
-        public override string ToString() => base.ToString() + $", fail to load or create xml file: {xmlFilePath}";
-    }
 }
+

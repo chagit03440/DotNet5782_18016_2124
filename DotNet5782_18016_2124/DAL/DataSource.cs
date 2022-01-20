@@ -186,12 +186,14 @@ private static void creatParcel(int n)
             /// <param name="n">a number of drones to intilize</param>
             private static void creatDrone(int n)
             {
+                WeightCategories[] values = WeightCategories.GetValues<WeightCategories>();
+
                 for (int i = 0; i < n; i++)
                 {
                     Drone newDrone = new Drone();
                     newDrone.ID = i+1000;
                     //newDrone.Battery = 1;
-                    newDrone.MaxWeight = (WeightCategories)rand.Next(3);
+                    newDrone.MaxWeight = values[rand.Next(values.Length)];
                     newDrone.Model = "iFly" + i;
                   //  newDrone.Status = DroneStatuses.maintenance;
                     drones.Add(newDrone);

@@ -1,4 +1,5 @@
-﻿using BO;
+﻿using System.Runtime.CompilerServices;
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace BL
         /// </summary>
         /// <param name="requestedId">id parcel</param>
         /// <returns>return the parcel with this id</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int requestedId)
         {
             DroneInParcel d=null;
@@ -52,6 +54,7 @@ namespace BL
 
             return parcelBO;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public ParcelForList GetParcelForList(int requestedId)
         {
             DO.Parcel parcelDO;
@@ -98,6 +101,7 @@ namespace BL
         /// A function that recieve a parcel and add the parcel to the list
         /// </summary>
         /// <param name="newParcel">the parcel we need to add</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel newParcel)
         {
             newParcel.AssociationTime = 0;
@@ -121,6 +125,7 @@ namespace BL
         /// A function that recieve a parcel and update the parcel whith the same id
         /// </summary>
         /// <param name="parcel">parcel to update</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(Parcel parcel)
         {
             DO.Parcel p = myDal.GetParcels().FirstOrDefault(x => x.ID == parcel.Id);
@@ -129,6 +134,7 @@ namespace BL
             myDal.UpdateParcel(p);
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(Parcel p)
         {
             DO.Parcel dp = new DO.Parcel() { ID = p.Id };

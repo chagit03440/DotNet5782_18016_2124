@@ -1,4 +1,5 @@
 ﻿//we did the bonus function
+using System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -327,7 +328,7 @@ namespace Dal
         public bool LogInVerify(User user)
         {
             DO.User us = DataSource.ListUser.Find(u => u.UserName == user.UserName);
-            if (us != null)
+            if (DataSource.ListUser.Exists(x => x.UserName == us.UserName))
             {
                 if (us.Password == user.Password)
                 {

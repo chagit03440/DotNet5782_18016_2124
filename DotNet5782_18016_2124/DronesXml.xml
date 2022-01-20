@@ -3,22 +3,22 @@
   <Drone>
     <ID>1000</ID>
     <Model>iFly0</Model>
-    <MaxWeight>middle</MaxWeight>
+    <MaxWeight>low</MaxWeight>
   </Drone>
   <Drone>
     <ID>1001</ID>
     <Model>iFly1</Model>
-    <MaxWeight>heavy</MaxWeight>
+    <MaxWeight>low</MaxWeight>
   </Drone>
   <Drone>
     <ID>1002</ID>
     <Model>iFly2</Model>
-    <MaxWeight>heavy</MaxWeight>
+    <MaxWeight>low</MaxWeight>
   </Drone>
   <Drone>
     <ID>1003</ID>
     <Model>iFly3</Model>
-    <MaxWeight>middle</MaxWeight>
+    <MaxWeight>low</MaxWeight>
   </Drone>
   <Drone>
     <ID>1004</ID>
@@ -33,7 +33,7 @@
   <Drone>
     <ID>1006</ID>
     <Model>iFly6</Model>
-    <MaxWeight>low</MaxWeight>
+    <MaxWeight>middle</MaxWeight>
   </Drone>
   <Drone>
     <ID>1007</ID>

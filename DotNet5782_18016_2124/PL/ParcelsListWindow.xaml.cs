@@ -76,11 +76,11 @@ namespace PL
                 
                 pr = myBl.GetParcel(prL.Id);
                 //else
-                //    pr = new BO.Parcel()
+                //    parcel = new BO.Parcel()
                 //    {
-                //        Id = pr.Id,
-                //        Longitude = (WeightCategories)pr.Longitude,
-                //        Priority = (Priorities)pr.Priority,
+                //        Id = parcel.Id,
+                //        Longitude = (WeightCategories)parcel.Longitude,
+                //        Priority = (Priorities)parcel.Priority,
                 //        AssociationTime = 0,
                 //        CollectionTime = 0,
                 //        CreationTime = DateTime.MinValue,

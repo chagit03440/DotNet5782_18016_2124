@@ -1,4 +1,5 @@
-﻿using BO;
+﻿using System.Runtime.CompilerServices;
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,7 @@ namespace BL
         /// </summary>
         /// <param name="st">station we need to updat</param>
         /// <param name="cs">num of charging stations</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(Station st, int cs)
         {
             Station s;
@@ -72,6 +74,7 @@ namespace BL
 
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(Station s)
         {
             DO.Station dp = new DO.Station() { ID = s.Id };
@@ -81,6 +84,7 @@ namespace BL
         /// add Base excestationption to dal
         /// </summary>
         /// <param name="AddbaseStation">receive from BL</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station AddbaseStation)
         {
             DO.Station baseStationDO =
@@ -108,6 +112,7 @@ namespace BL
         /// </summary>
         /// <param name="requestedId">station id</param>
         /// <returns>return the station with this id</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int requestedId)
         {
             DO.Station baseStationDO;

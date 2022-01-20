@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <User>
+    <Worker>true</Worker>
+    <IsActive>true</IsActive>
+    <UserName>Chagit</UserName>
+    <Password>3440</Password>
+  </User>
+  <User>
+    <Worker>true</Worker>
+    <IsActive>true</IsActive>
+    <UserName>Sarah</UserName>
+    <Password>bbb</Password>
+  </User>
+  <User>
+    <Worker>false</Worker>
+    <IsActive>true</IsActive>
+    <UserName>Yonhatan</UserName>
+    <Password>ccc</Password>
+  </User>
+  <User>
+    <Worker>false</Worker>
+    <IsActive>true</IsActive>
+    <UserName>Noa</UserName>
+    <Password>ddd</Password>
+  </User>
+  <User>
+    <Worker>false</Worker>
+    <IsActive>true</IsActive>
+    <UserName>Daniel</UserName>
+    <Password>eee</Password>
+  </User>
+  <User>
+    <Worker>false</Worker>
+    <IsActive>false</IsActive>
+    <UserName>Customer 0</UserName>
+    <Password>a0</Password>
+  </User>
+  <User>
+    <Worker>false</Worker>
+    <IsActive>false</IsActive>
+    <UserName>Customer 1</UserName>
+    <Password>a1</Password>
+  </User>
+  <User>
+    <Worker>false</Worker>
+    <IsActive>false</IsActive>
+    <UserName>Customer 2</UserName>
+    <Password>a2</Password>
+  </User>
+  <User>
+    <Worker>false</Worker>
+    <IsActive>false</IsActive>
+    <UserName>Customer 3</UserName>
+    <Password>a3</Password>
+  </User>
+  <User>
+    <Worker>false</Worker>
+    <IsActive>false</IsActive>
+    <UserName>Customer 4</UserName>
+    <Password>a4</Password>
+  </User>
+  <User>
+    <Worker>false</Worker>
+    <IsActive>false</IsActive>
+    <UserName>Customer 5</UserName>
+    <Password>a5</Password>
+  </User>
+  <User>
+    <Worker>false</Worker>
+    <IsActive>false</IsActive>
+    <UserName>Customer 6</UserName>
+    <Password>a6</Password>
+  </User>
+  <User>
+    <Worker>false</Worker>
+    <IsActive>false</IsActive>
+    <UserName>Customer 7</UserName>
+    <Password>a7</Password>
+  </User>
+  <User>
+    <Worker>false</Worker>
+    <IsActive>false</IsActive>
+    <UserName>Customer 8</UserName>
+    <Password>a8</Password>
+  </User>
+  <User>
+    <Worker>false</Worker>
+    <IsActive>false</IsActive>
+    <UserName>Customer 9</UserName>
+    <Password>a9</Password>
+  </User>
+</ArrayOfUser>

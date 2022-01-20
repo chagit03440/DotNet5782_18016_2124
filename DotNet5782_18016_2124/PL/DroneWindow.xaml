@@ -76,8 +76,9 @@
                 <ColumnDefinition Width="0*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Name="btnAddDrone" Content="Add" HorizontalAlignment="Left" Margin="70,188,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnAddDrone_Click" Grid.ColumnSpan="3" Grid.RowSpan="2" Background="#FF494E7A"/>
-            <Button Name="btnShowParcel" Content="Show Parcel" Grid.Column="2" HorizontalAlignment="Left" Margin="70,61,0,0" VerticalAlignment="Top" Height="43" Width="108" Click="btnShowParcel_Click"/>
+            <Button Name="btnAddDrone" Content="Add" HorizontalAlignment="Left" Margin="70,188,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnAddDrone_Click" Grid.ColumnSpan="3" Grid.RowSpan="2" Background="{x:Null}"/>
+            <Button Name="btnShowParcel" Content="Show Parcel" Grid.Column="2" HorizontalAlignment="Left" Margin="70,61,0,0" VerticalAlignment="Top" Height="43" Width="108" Click="btnShowParcel_Click" Background="{x:Null}"/>
+            <Button Name="btnAutomatic" Content="Automatic" HorizontalAlignment="Left" Margin="70,130,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnAutomatic_Click" Grid.ColumnSpan="3" Background="{x:Null}"/>
         </Grid>
         <Grid Name="grdUpdate" Margin="6,13,-294,16" Grid.RowSpan="7" Grid.Column="2">
             <Grid.Background>

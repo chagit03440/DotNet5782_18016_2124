@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <ID>1000</ID>
+    <Name>Customer 0</Name>
+    <Phone>057-1332996</Phone>
+    <Longitude>35.11549739461183</Longitude>
+    <Lattitude>31.794987538687412</Lattitude>
+  </Customer>
+  <Customer>
+    <ID>1001</ID>
+    <Name>Customer 1</Name>
+    <Phone>052-6859314</Phone>
+    <Longitude>35.158523799599394</Longitude>
+    <Lattitude>31.768532980870702</Lattitude>
+  </Customer>
+  <Customer>
+    <ID>1002</ID>
+    <Name>Customer 2</Name>
+    <Phone>057-2634809</Phone>
+    <Longitude>35.15287354474555</Longitude>
+    <Lattitude>31.779569441955335</Lattitude>
+  </Customer>
+  <Customer>
+    <ID>1003</ID>
+    <Name>Customer 3</Name>
+    <Phone>053-7668821</Phone>
+    <Longitude>35.19022928261675</Longitude>
+    <Lattitude>31.72561261398979</Lattitude>
+  </Customer>
+  <Customer>
+    <ID>1004</ID>
+    <Name>Customer 4</Name>
+    <Phone>050-1647011</Phone>
+    <Longitude>35.161061222134656</Longitude>
+    <Lattitude>31.7392592073601</Lattitude>
+  </Customer>
+  <Customer>
+    <ID>1005</ID>
+    <Name>Customer 5</Name>
+    <Phone>054-9960758</Phone>
+    <Longitude>35.16173219064331</Longitude>
+    <Lattitude>31.758088810163592</Lattitude>
+  </Customer>
+  <Customer>
+    <ID>1006</ID>
+    <Name>Customer 6</Name>
+    <Phone>051-2755346</Phone>
+    <Longitude>35.19573622229311</Longitude>
+    <Lattitude>31.780182575238953</Lattitude>
+  </Customer>
+  <Customer>
+    <ID>1007</ID>
+    <Name>Customer 7</Name>
+    <Phone>055-3373682</Phone>
+    <Longitude>35.14340063088732</Longitude>
+    <Lattitude>31.72937775358063</Lattitude>
+  </Customer>
+  <Customer>
+    <ID>1008</ID>
+    <Name>Customer 8</Name>
+    <Phone>051-6621065</Phone>
+    <Longitude>35.192828418311116</Longitude>
+    <Lattitude>31.70429951795577</Lattitude>
+  </Customer>
+  <Customer>
+    <ID>1009</ID>
+    <Name>Customer 9</Name>
+    <Phone>057-3439127</Phone>
+    <Longitude>35.109338181330514</Longitude>
+    <Lattitude>31.720630319100167</Lattitude>
+  </Customer>
+</ArrayOfCustomer>

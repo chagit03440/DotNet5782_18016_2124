@@ -22,14 +22,15 @@ namespace PL
     public partial class ParcelWindow : Window
     {
         private IBL myBl;
-        private Parcel pr;
+        private Parcel parcel;
         public event Action Update = delegate { };
 
         public ParcelWindow(IBL myBl)
         {
             InitializeComponent();
             this.myBl = myBl;
-            DataContext = pr;
+
+            DataContext = parcel;
 
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
@@ -66,7 +67,7 @@ namespace PL
             InitializeComponent();
             DataContext = pr;
             this.myBl = myBl;
-
+            parcel = pr;
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
             comboDrone.ItemsSource = myBl.GetDrones(d => d.Status == DroneStatuses.Free);
@@ -82,7 +83,7 @@ namespace PL
 
         private void btnDroneWindow_Click(object sender, RoutedEventArgs e)
         {
-            Parcel p = myBl.GetParcel(pr.Id);
+            Parcel p = myBl.GetParcel(parcel.Id);
             
             Drone d = myBl.GetDrone(p.DroneP.Id);
             DroneWindow droneWindow= new DroneWindow(myBl, d);
@@ -92,22 +93,23 @@ namespace PL
         private void btnTargetWindow_Click(object sender, RoutedEventArgs e)
         {
             
-            Customer c = myBl.GetCustomer(pr.Target.Id);
+            Customer c = myBl.GetCustomer(parcel.Target.Id);
             CustomerWindow customerWindow = new CustomerWindow(myBl, c);
             customerWindow.Show();
         }
 
         private void btnSenderWindow_Click(object sender, RoutedEventArgs e)
         {
-            Customer c = myBl.GetCustomer(pr.Sender.Id);
+            Customer c = myBl.GetCustomer(parcel.Sender.Id);
             CustomerWindow customerWindow = new CustomerWindow(myBl, c);
             customerWindow.Show();
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            myBl.DeleteParcel(pr);
+            myBl.DeleteParcel(parcel);
             Update();
+            this.Close();
         }
 
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
@@ -115,7 +117,7 @@ namespace PL
             bool flag = true;
             try
             {
-                //ParcelForList pr = new ParcelForList()
+                //ParcelForList parcel = new ParcelForList()
                 //{
                 //    Id = Convert.ToInt32(txtId.Text),
                 //    Longitude = (WeightCategories)comboWeight.SelectedItem,

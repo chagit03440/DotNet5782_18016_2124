@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Targil0", "Targil0\Targil0.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CD4EA2D7-4F37-44A8-BDB1-D152934E132D}"
 	ProjectSection(SolutionItems) = preProject
-		CustomersXml.xml = CustomersXml.xml
-		DroneChargeXml.xml = DroneChargeXml.xml
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -26,7 +24,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalApi", "DalApi\DalApi.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{21A3DC7A-F592-43EE-B4E0-458E9EDC483F}"
 	ProjectSection(SolutionItems) = preProject
+		xml\CustomersXml.xml = xml\CustomersXml.xml
 		xml\dal-config.xml = xml\dal-config.xml
+		xml\DroneChargeXml.xml = xml\DroneChargeXml.xml
+		xml\DronesXml.xml = xml\DronesXml.xml
+		xml\ParcelsXml.xml = xml\ParcelsXml.xml
+		xml\StationsXml.xml = xml\StationsXml.xml
+		xml\UsersXml.xml = xml\UsersXml.xml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalXml", "DalXml\DalXml.csproj", "{7F54D668-1597-4AF3-B7C8-AA7D2A4CE49C}"
