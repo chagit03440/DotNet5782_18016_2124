@@ -54,6 +54,8 @@ namespace BL
             /// </summary>
             private void initializeDrones()
             {
+                lock (myDal)
+             {
                 foreach (var drone in myDal.GetDrones())
                 {
                     drones.Add(new DroneForList
@@ -127,97 +129,10 @@ namespace BL
                         }
                     }
                 }
+              }
             }
  
-        //private void initializeDrones()
-        //{
-        //    bool flag = false;
-        //    Random rnd = new Random();
-        //    double minBatery = 0;
-
-        //    IEnumerable<IDAL.DO.Drone> d = myDal.GetDrones();
-        //    IEnumerable<IDAL.DO.Parcel> p = myDal.GetParcels();
-        //    foreach (var item in d)
-        //    {
-        //        IBL.BO.DroneForList drt = new DroneForList();
-        //        drt.Id = item.ID;
-        //        drt.Model = item.Model;
-        //        foreach (var pr in p)
-        //        {
-        //            if (pr.DroneId == item.ID && pr.Delivered == DateTime.MinValue)
-        //            {
-        //                IDAL.DO.Customer sender = myDal.GetCustomer(pr.SenderId);
-        //                IDAL.DO.Customer target = myDal.GetCustomer(pr.TargetId);
-        //                IBL.BO.DroneLocation senderLocation = new DroneLocation { Lattitude = sender.Lattitude, Longitude = sender.Longitude };
-        //                IBL.BO.DroneLocation targetLocation = new DroneLocation { Lattitude = target.Lattitude, Longitude = target.Longitude };
-        //                drt.Status = DroneStatuses.Shipping;
-        //                if (pr.PickedUp == null && pr.Scheduled != null)//החבילה שויכה אבל עדיין לא נאספה
-        //                {
-        //                    drt.DroneLocation = new DroneLocation { Lattitude = findClosetBaseStationLocation(senderLocation).Lattitude, Longitude = findClosetBaseStationLocation(senderLocation).Longitude };
-        //                    minBatery = calcDistance(drt.DroneLocation, senderLocation) * myDal.PowerRequest()[0];
-        //                    minBatery += calcDistance(senderLocation, targetLocation) * myDal.PowerRequest()[3]/*/*//*indexOfChargeCapacity(pr.Longitude)*//*/*/;
-        //                    minBatery += calcDistance(targetLocation, new DroneLocation { Lattitude = findClosetBaseStationLocation(targetLocation).Lattitude, Longitude = findClosetBaseStationLocation(targetLocation).Longitude }) * myDal.PowerRequest()[0];
-        //                }
-        //                if (pr.PickedUp != null && pr.Delivered == null)//החבילה נאספה אבל עדיין לא הגיעה ליעד
-        //                {
-        //                    drt.DroneLocation = new DroneLocation();
-        //                    drt.DroneLocation = senderLocation;
-        //                    minBatery = calcDistance(targetLocation, new DroneLocation { Lattitude = findClosetBaseStationLocation(targetLocation).Lattitude, Longitude = findClosetBaseStationLocation(targetLocation).Longitude }) * myDal.PowerRequest()[0];
-        //                    minBatery += calcDistance(drt.DroneLocation, targetLocation) * myDal.PowerRequest()[2];//indexOfChargeCapacity(pr.Longitude);
-        //                }
-        //                drt.Battery = rnd.Next((int)minBatery, 101);
-        //                flag = true;
-        //                break;
-        //            }
-        //        }
-        //        if (!flag)
-        //        {
-        //            int temp = rnd.Next(1, 3);
-        //            if (temp == 1)
-        //                drt.Status = IBL.BO.DroneStatuses.Free;
-        //            else
-        //                drt.Status = IBL.BO.DroneStatuses.Maintenance;
-        //            if (drt.Status == IBL.BO.DroneStatuses.Maintenance)
-        //            {
-        //                int l = rnd.Next(0, myDal.GetStations().Count()), i = 0;
-        //                IDAL.DO.Station s = new IDAL.DO.Station();
-        //                foreach (var ite in myDal.GetStations())
-        //                {
-        //                    s = ite;
-        //                    if (i == l)
-        //                        break;
-        //                    i++;
-        //                }
-        //                Station station = new Station()
-        //                {
-        //                    Id = s.ID,
-        //                    ChargeSlots = s.ChargeSlots,
-        //                    Name = s.Name,
-        //                    DroneLocation = new DroneLocation() { Lattitude = s.Lattitude, Longitude = s.Longitude }
-        //                };
-        //                drt.DroneLocation = new DroneLocation { Lattitude = s.Lattitude, Longitude = s.Longitude };
-        //                drt.Battery = rnd.Next(0, 21);
-
-        //                AnchorDroneStation(station, drt);
-        //            }
-        //            else
-        //            {
-        //                List<IDAL.DO.Customer> lst = new List<IDAL.DO.Customer>();
-        //                foreach (var pr in p)
-        //                {
-        //                    if (pr.Delivered != null)
-        //                        lst.Add(myDal.GetCustomer(pr.TargetId));
-        //                }
-
-        //                int l = rnd.Next(0, lst.Count());
-        //                drt.DroneLocation = new DroneLocation { Lattitude = lst[l].Lattitude, Longitude = lst[l].Longitude };
-        //                minBatery += calcDistance(drt.DroneLocation, new DroneLocation { Longitude = findClosetBaseStationLocation(drt.DroneLocation).Longitude, Lattitude = findClosetBaseStationLocation(drt.DroneLocation).Lattitude }) * myDal.PowerRequest()[0];
-        //                drt.Battery = rnd.Next((int)minBatery, 101);
-        //            }
-        //        }
-        //        drones.Add(drt);
-        //    }
-        //}
+       
 
 
 
@@ -239,22 +154,24 @@ namespace BL
         /// <returns>return list of station</returns>
         public IEnumerable<StationForList> GetStations(Func<StationForList, bool> predicate = null)
         {
-            IEnumerable<StationForList> l;
+            lock (myDal)
+            {
+                IEnumerable<StationForList> l;
 
-
-            l = myDal.GetStations()
-                .Select(baseStation =>
-                    new StationForList
-                    {
-                        Id = baseStation.ID,
-                        Name = baseStation.Name,
-                        NotAvailableChargeSlots = getUsedChargingPorts(baseStation.ID),
-                        AvailableChargeSlots = myDal.AvailableChargingPorts(baseStation.ID)
-                    }
-                );
-            if (predicate == null)
-                return l;
-            return l.Where(predicate);
+                l = myDal.GetStations()
+                    .Select(baseStation =>
+                        new StationForList
+                        {
+                            Id = baseStation.ID,
+                            Name = baseStation.Name,
+                            NotAvailableChargeSlots = getUsedChargingPorts(baseStation.ID),
+                            AvailableChargeSlots = myDal.AvailableChargingPorts(baseStation.ID)
+                        }
+                    );
+                if (predicate == null)
+                    return l;
+                return l.Where(predicate);
+            }
         }
 
 
@@ -266,25 +183,28 @@ namespace BL
         /// <returns>return list of the customer</returns>
         public IEnumerable<CustomerForList> GetCustomers(Func<CustomerForList, bool> predicate = null)
         {
-            IEnumerable<CustomerForList> l;
+            lock (myDal)
+            {
+                IEnumerable<CustomerForList> l;
 
-            l = myDal.Getcustomers()
-                .Select(customer =>
-                    new CustomerForList
-                    {
-                        Id = customer.ID,
-                        Name = customer.Name,
-                        Phone = customer.Phone,
-                        ParcelsHeGot = myDal.ParcelsCustomerGot(customer.ID),
-                        ParcelsHeSendAndDelivered = myDal.ParcelsCustomerSendAndDelivered(customer.ID),
-                        ParcelsHeSendAndNotDelivered = myDal.ParcelsCustomerSendAndNotDelivered(customer.ID),
-                        ParcelsInTheWayToCustomer = myDal.ParcelsInTheWayToCustomer(customer.ID),
+                l = myDal.Getcustomers()
+                    .Select(customer =>
+                        new CustomerForList
+                        {
+                            Id = customer.ID,
+                            Name = customer.Name,
+                            Phone = customer.Phone,
+                            ParcelsHeGot = myDal.ParcelsCustomerGot(customer.ID),
+                            ParcelsHeSendAndDelivered = myDal.ParcelsCustomerSendAndDelivered(customer.ID),
+                            ParcelsHeSendAndNotDelivered = myDal.ParcelsCustomerSendAndNotDelivered(customer.ID),
+                            ParcelsInTheWayToCustomer = myDal.ParcelsInTheWayToCustomer(customer.ID),
 
-                    }
-                );
-            if (predicate == null)
-                return l;
-            return l.Where(predicate);
+                        }
+                    );
+                if (predicate == null)
+                    return l;
+                return l.Where(predicate);
+            }
         }
         /// <summary>
         /// A function that return  the list of the parcels
@@ -292,24 +212,27 @@ namespace BL
         /// <returns>return list of the parcel</returns>
         public IEnumerable<ParcelForList> GetParcels(Func<ParcelForList, bool> predicate = null)
         {
-            IEnumerable<ParcelForList> l;
+            lock (myDal)
+            {
+                IEnumerable<ParcelForList> l;
 
-            l = myDal.GetParcels()
-                    .Select(parcel =>
-                        new ParcelForList
-                        {
-                            Id = parcel.ID,
-                            SenderId = parcel.SenderId,
-                            TargetId = parcel.TargetId,
-                            Longitude = (WeightCategories)parcel.Longitude,
-                            Priority = (Priorities)parcel.Priority,
-                            Status = (ParcelStatuses)myDal.GetStatusOfParcel(parcel.ID)
+                l = myDal.GetParcels()
+                        .Select(parcel =>
+                            new ParcelForList
+                            {
+                                Id = parcel.ID,
+                                SenderId = parcel.SenderId,
+                                TargetId = parcel.TargetId,
+                                Longitude = (WeightCategories)parcel.Longitude,
+                                Priority = (Priorities)parcel.Priority,
+                                Status = (ParcelStatuses)myDal.GetStatusOfParcel(parcel.ID)
 
-                        }
-                    );
-            if (predicate == null)
-                return l;
-            return l.Where(predicate);
+                            }
+                        );
+                if (predicate == null)
+                    return l;
+                return l.Where(predicate);
+            }
         }
         /// <summary>
         /// A function that return  the list of the unAssignmentParcels
@@ -317,27 +240,30 @@ namespace BL
         /// <returns>return list of the unAssignmentParcel</returns>
         public IEnumerable<ParcelForList> UnAssignmentParcels()
         {
-            List<ParcelForList> p = new List<ParcelForList>();
-            ParcelForList parcelBo;
-            foreach (var parcel in myDal.GetParcels())
+            lock (myDal)
             {
-                if (parcel.DroneId == 0)
+                List<ParcelForList> p = new List<ParcelForList>();
+                ParcelForList parcelBo;
+                foreach (var parcel in myDal.GetParcels())
                 {
-                    parcelBo = new ParcelForList()
+                    if (parcel.DroneId == 0)
                     {
-                        Id = parcel.ID,
-                        Longitude = (WeightCategories)parcel.Longitude,
-                        Priority = (Priorities)parcel.Priority,
-                        SenderId = parcel.SenderId,
-                        TargetId = parcel.TargetId,
-                        Status = ParcelStatuses.Requested
+                        parcelBo = new ParcelForList()
+                        {
+                            Id = parcel.ID,
+                            Longitude = (WeightCategories)parcel.Longitude,
+                            Priority = (Priorities)parcel.Priority,
+                            SenderId = parcel.SenderId,
+                            TargetId = parcel.TargetId,
+                            Status = ParcelStatuses.Requested
 
 
-                    };
-                    p.Add(parcelBo);
+                        };
+                        p.Add(parcelBo);
+                    }
                 }
+                return p;
             }
-            return p;
         }
         /// <summary>
         /// A function that return  the list of the availableChargingStations
@@ -345,40 +271,43 @@ namespace BL
         /// <returns>return list of the availableChargingStation</returns>
         public IEnumerable<Station> AvailableChargingStations()
         {
-            List<Station> s = new List<Station>();
-            Station stationBo;
-            foreach (var station in myDal.GetStations())
+            lock (myDal)
             {
-                if (station.ChargeSlots > 0)
+                List<Station> s = new List<Station>();
+                Station stationBo;
+                foreach (var station in myDal.GetStations())
                 {
-                    List<DroneInCharging> d = new List<DroneInCharging>();
-                    foreach (var drone in drones)
+                    if (station.ChargeSlots > 0)
                     {
-                        if (drone.DroneLocation.Longitude == station.Longitude && drone.DroneLocation.Lattitude == station.Lattitude)
+                        List<DroneInCharging> d = new List<DroneInCharging>();
+                        foreach (var drone in drones)
                         {
-                            DroneInCharging dIc = new DroneInCharging() { Battery = drone.Battery, Id = drone.Id };
-                            d.Add(dIc);
+                            if (drone.DroneLocation.Longitude == station.Longitude && drone.DroneLocation.Lattitude == station.Lattitude)
+                            {
+                                DroneInCharging dIc = new DroneInCharging() { Battery = drone.Battery, Id = drone.Id };
+                                d.Add(dIc);
+                            }
                         }
+                        stationBo = new Station()
+                        {
+                            Id = station.ID,
+                            Name = station.Name,
+                            ChargeSlots = station.ChargeSlots,
+                            Drones = d,
+                            Location = new Location()
+                            {
+                                Lattitude = station.Lattitude,
+                                Longitude = station.Longitude
+                            }
+
+
+
+                        };
+                        s.Add(stationBo);
                     }
-                    stationBo = new Station()
-                    {
-                        Id = station.ID,
-                        Name = station.Name,
-                        ChargeSlots = station.ChargeSlots,
-                        Drones = d,
-                        Location = new Location()
-                        {
-                            Lattitude = station.Lattitude,
-                            Longitude = station.Longitude
-                        }
-
-
-
-                    };
-                    s.Add(stationBo);
                 }
+                return s;
             }
-            return s;
         }
 
 

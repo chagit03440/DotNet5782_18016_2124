@@ -46,8 +46,10 @@ namespace BL
         /// <param name="customer">the customer we need to add</param>
         public void AddCustomer(Customer customer)
         {
+            lock (myDal)
+            {
 
-            DO.Customer customerDO =
+                DO.Customer customerDO =
                             new DO.Customer()
                             {
                                 ID = customer.Id,
@@ -57,14 +59,15 @@ namespace BL
                                 Longitude = customer.Location.Longitude
                             };
 
-            try
-            {
-                myDal.AddCustomer(customerDO);
-            }
-            catch (Exception ex)
-            {
-                //sending inner exception for the exception returning from the DAL
-                throw new BLInVaildIdException(ex.Message, ex);
+                try
+                {
+                    myDal.AddCustomer(customerDO);
+                }
+                catch (Exception ex)
+                {
+                    //sending inner exception for the exception returning from the DAL
+                    throw new BLInVaildIdException(ex.Message, ex);
+                }
             }
         }
         /// <summary>
@@ -74,24 +77,27 @@ namespace BL
         /// <returns>return customer with this id</returns>
         public Customer GetCustomer(int requestedId)
         {
-            DO.Customer customerDO;
-            try
+            lock (myDal)
             {
-                customerDO = myDal.GetCustomer(requestedId);
+                DO.Customer customerDO;
+                try
+                {
+                    customerDO = myDal.GetCustomer(requestedId);
 
+                }
+                catch (BLInVaildIdException ex)
+                {
+                    throw new BLInVaildIdException("id didn't exist", ex);
+                }
+                Customer customerBO = new Customer();
+                customerBO.Id = customerDO.ID;
+                customerBO.Name = customerDO.Name;
+                customerBO.Phone = customerDO.Phone;
+                customerBO.Location = new Location() { Lattitude = customerDO.Lattitude, Longitude = customerDO.Longitude };
+                customerBO.ParcelsFromTheCustomer = (List<ParcelInCustomer>)getCustomerShippedParcels(requestedId);
+                customerBO.ParcelsToTheCustomer = (List<ParcelInCustomer>)getCustomerReceivedParcels(requestedId);
+                return customerBO;
             }
-            catch (BLInVaildIdException ex)
-            {
-                throw new BLInVaildIdException("id didn't exist", ex);
-            }
-            Customer customerBO = new Customer();
-            customerBO.Id = customerDO.ID;
-            customerBO.Name = customerDO.Name;
-            customerBO.Phone = customerDO.Phone;
-            customerBO.Location = new Location() { Lattitude = customerDO.Lattitude, Longitude = customerDO.Longitude };
-            customerBO.ParcelsFromTheCustomer =(List<ParcelInCustomer> )getCustomerShippedParcels(requestedId);
-            customerBO.ParcelsToTheCustomer = (List<ParcelInCustomer>)getCustomerReceivedParcels(requestedId);
-            return customerBO;
         }
         /// <summary>
         /// A function that receives a customer and returns all the packages that the customer received
@@ -100,25 +106,28 @@ namespace BL
         /// <returns>the of all the packages that the customer received</returns>
         private IEnumerable<ParcelInCustomer> getCustomerReceivedParcels(int requestedId)
         {
-            List<ParcelInCustomer> deliveries = new List<ParcelInCustomer>();
-            foreach (DO.Parcel p in myDal.GetParcels())
+            lock (myDal)
             {
-                if (p.TargetId == requestedId)
+                List<ParcelInCustomer> deliveries = new List<ParcelInCustomer>();
+                foreach (DO.Parcel p in myDal.GetParcels())
                 {
-                    ParcelInCustomer pi = new ParcelInCustomer
+                    if (p.TargetId == requestedId)
                     {
-                        Id = p.ID,
-                        Sender = new CustomerInParcel() { Id = p.SenderId },
-                        Target = new CustomerInParcel() { Id = p.TargetId },
-                        Priority = (Priorities)p.Priority,
-                        Longitude = (WeightCategories)p.Longitude
+                        ParcelInCustomer pi = new ParcelInCustomer
+                        {
+                            Id = p.ID,
+                            Sender = new CustomerInParcel() { Id = p.SenderId },
+                            Target = new CustomerInParcel() { Id = p.TargetId },
+                            Priority = (Priorities)p.Priority,
+                            Longitude = (WeightCategories)p.Longitude
 
-                    };
-                    deliveries.Add(pi);
+                        };
+                        deliveries.Add(pi);
+                    }
                 }
-            }
 
-            return deliveries;
+                return deliveries;
+            }
         }
         /// <summary>
         ///  A function that receives a customer and returns all the packages that the customer shipped
@@ -127,23 +136,26 @@ namespace BL
         /// <returns>the of all the packages that the customer shipped</returns>
         private IEnumerable<ParcelInCustomer> getCustomerShippedParcels(int requestedId)
         {
-            List<ParcelInCustomer> deliveries = new List<ParcelInCustomer>();
-            foreach (var parcel in myDal.GetParcels())
+            lock (myDal)
             {
-                if (parcel.SenderId == requestedId)
+                List<ParcelInCustomer> deliveries = new List<ParcelInCustomer>();
+                foreach (var parcel in myDal.GetParcels())
                 {
-                    deliveries.Add(new ParcelInCustomer()
+                    if (parcel.SenderId == requestedId)
                     {
-                        Id = parcel.ID,
-                        Sender = new CustomerInParcel() { Id = parcel.SenderId },
-                        Target = new CustomerInParcel() { Id = parcel.TargetId },
-                        Priority = (Priorities)parcel.Priority,
-                        Longitude = (WeightCategories)parcel.Longitude
+                        deliveries.Add(new ParcelInCustomer()
+                        {
+                            Id = parcel.ID,
+                            Sender = new CustomerInParcel() { Id = parcel.SenderId },
+                            Target = new CustomerInParcel() { Id = parcel.TargetId },
+                            Priority = (Priorities)parcel.Priority,
+                            Longitude = (WeightCategories)parcel.Longitude
+                        }
+                        );
                     }
-                    );
                 }
+                return deliveries;
             }
-            return deliveries;
         }
         ///// <summary>
         ///// A function that recieve a customers id and add it to the list of the customers
