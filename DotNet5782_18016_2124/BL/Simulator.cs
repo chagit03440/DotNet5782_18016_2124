@@ -55,10 +55,10 @@ namespace BL
                         lock (bl) lock (dal)
                             {
                                 parcelId = bl.GetParcels(p => p?.Scheduled == null
-                                                                  && (WeightCategories)(p?.Weight) <= drone.MaxWeight
+                                                                  && (WeightCategories)(p?.Longitude) <= drone.MaxWeight
                                                                   && drone.RequiredBattery(bl, (int)p?.Id) < drone.Battery)
                                                  .OrderByDescending(p => p?.Priority)
-                                                 .ThenByDescending(p => p?.Weight)
+                                                 .ThenByDescending(p => p?.Longitude)
                                                  .FirstOrDefault()?.Id;
                                 switch (parcelId, drone.Battery)
                                 {
