@@ -17,7 +17,7 @@ namespace BL
         /// <param name="from">the start location</param>
         /// <param name="to">the destination location</param>
         /// <returns>the distance between the locations</returns>
-        private double calcDistance(Location from, Location to)
+        public double calcDistance(Location from, Location to)
         {
             int R = 6371 * 1000; // metres
             double phi1 = from.Lattitude * Math.PI / 180; // φ, λ in radians
@@ -37,7 +37,7 @@ namespace BL
         /// </summary>
         /// <param name="fromLocatable">the start location </param>
         /// <returns>the closest base station location</returns>
-        private Location findClosetBaseStationLocation(Location fromLocatable)
+        public Location findClosetBaseStationLocation(Location fromLocatable)
         {
             lock (myDal)
             {

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BO;
 using System.Threading;
+using static System.Math;
 using static BL.BLObject;
 
 namespace BL
@@ -51,11 +52,11 @@ namespace BL
 
                         lock (bl) lock (dal)
                             {
-                                parcelId = bl.GetParcels(p => p?.Scheduled == null
-                                                                  && (WeightCategories)(p?.Weight) <= drone.MaxWeight
-                                                                  && drone.RequiredBattery(bl, (int)p?.Id) < drone.Battery)
+                                parcelId = bl.GetParcels(p => p?.Status!=ParcelStatuses.Scheduled
+                                                                  && (WeightCategories)(p?.Longitude) <= drone.MaxWeight
+                                                                  && bl.(bl, (int)p?.Id) < drone.Battery)
                                                  .OrderByDescending(p => p?.Priority)
-                                                 .ThenByDescending(p => p?.Weight)
+                                                 .ThenByDescending(p => p?.Longitude)
                                                  .FirstOrDefault()?.Id;
                                 switch (parcelId, drone.Battery)
                                 {
@@ -63,7 +64,7 @@ namespace BL
                                         break;
 
                                     case (null, _):
-                                        baseStationId = bl.FindClosestBaseStation(drone, charge: true)?.Id;
+                                        baseStationId = bl.findClosetBaseStationLocation(drone, charge: true)?.Id;
                                         if (baseStationId != null)
                                         {
                                             drone.Status = DroneStatuses.Maintenance;
@@ -75,7 +76,7 @@ namespace BL
                                     case (_, _):
                                         try
                                         {
-                                            dal.ParcelSchedule((int)parcelId, droneId);
+                                            dal.ParcelSchedule(parcelId, droneId);
                                             drone.ParcelId = parcelId;
                                             initDelivery((int)parcelId);
                                             drone.Status = DroneStatuses.Shipping;
@@ -113,7 +114,7 @@ namespace BL
                                     {
                                         double delta = distance < STEP ? distance : STEP;
                                         distance -= delta;
-                                        drone.Battery = Max(0.0, drone.Battery - delta * bl.BatteryUsages[DRONE_FREE]);
+                                        drone.Battery = Max(0.0, drone.Battery - bl.BatteryUsages(delta,0));
                                     }
                                 }
                                 break;
@@ -122,27 +123,27 @@ namespace BL
                                 if (drone.Battery == 1.0)
                                     lock (bl) lock (dal)
                                         {
-                                            drone.Status = DroneStatuses.Available;
+                                            drone.Status = DroneStatuses.Free;
                                             dal.DeleteDroneCharge(droneId);
                                             dal.BaseStationDroneOut(bs.Id);
                                         }
                                 else
                                 {
                                     if (!sleepDelayTime()) break;
-                                    lock (bl) drone.Battery = Min(1.0, drone.Battery + bl.BatteryUsages[DRONE_CHARGE] * TIME_STEP);
+                                    lock (bl) drone.Battery = Min(1.0, drone.Battery + bl.BatteryUsages(TIME_STEP, 4));
                                 }
                                 break;
                             default:
-                                throw new BadStatusException("Internal error: wrong maintenance substate");
+                                throw new BLInVaildIdException("Internal error: wrong maintenance substate");
                         }
                         break;
 
-                    case DroneForList { Status: DroneStatuses.Delivery }:
+                    case DroneForList { Status: DroneStatuses.Shipping }:
                         lock (bl) lock (dal)
                             {
-                                try { if (parcelId == null) initDelivery((int)drone.DeliveryId); }
-                                catch (DO.ExistIdException ex) { throw new BadStatusException("Internal error getting parcel", ex); }
-                                distance = drone.Distance(customer);
+                                try { if (parcelId == null) initDelivery((int)drone.ParcelId); }
+                                catch (DO.AlreadyExistExeption ex) { throw new BLInVaildIdException("Internal error getting parcel", ex); }
+                                distance =bl.calcDistance( drone.DroneLocation,customer.Location);
                             }
 
                         if (distance < 0.01 || drone.Battery == 0.0)
