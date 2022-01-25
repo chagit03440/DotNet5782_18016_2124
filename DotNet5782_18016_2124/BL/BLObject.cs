@@ -277,6 +277,7 @@ namespace BL
                 return l.Where(predicate);
             }
         }
+
         /// <summary>
         /// A function that return  the list of the parcels
         /// </summary>

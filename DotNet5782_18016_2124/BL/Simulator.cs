@@ -7,6 +7,9 @@ using BO;
 using System.Threading;
 using static System.Math;
 using static BL.BLObject;
+using static System.Math;
+
+ 
 
 namespace BL
 {
@@ -143,22 +146,22 @@ namespace BL
                             {
                                 try { if (parcelId == null) initDelivery((int)drone.ParcelId); }
                                 catch (DO.AlreadyExistExeption ex) { throw new BLInVaildIdException("Internal error getting parcel", ex); }
-                                distance =bl.calcDistance( drone.DroneLocation,customer.Location);
+                                distance = bl.calcDistance(drone.DroneLocation,customer.Location);
                             }
 
                         if (distance < 0.01 || drone.Battery == 0.0)
                             lock (bl) lock (dal)
                                 {
-                                    drone.Location = customer.Location;
+                                    drone.DroneLocation = customer.Location;
                                     if (pickedUp)
                                     {
-                                        dal.ParcelDelivery((int)parcel?.Id);
-                                        drone.Status = DroneStatuses.Available;
+                                        dal.ParcelDelivery((int)parcel?.ID);
+                                        drone.Status = DroneStatuses.Free;
 
                                     }
                                     else
                                     {
-                                        dal.ParcelPickup((int)parcel?.Id);
+                                        dal.ParcelPickup((int)parcel?.ID);
                                         customer = bl.GetCustomer((int)parcel?.TargetId);
                                         pickedUp = true;
                                     }
@@ -170,16 +173,16 @@ namespace BL
                             {
                                 double delta = distance < STEP ? distance : STEP;
                                 double proportion = delta / distance;
-                                drone.Battery = Max(0.0, drone.Battery - delta * bl.BatteryUsages[pickedUp ? batteryUsage : DRONE_FREE]);
-                                double lat = drone.Location.Latitude + (customer.Location.Latitude - drone.Location.Latitude) * proportion;
-                                double lon = drone.Location.Longitude + (customer.Location.Longitude - drone.Location.Longitude) * proportion;
-                                drone.Location = new() { Latitude = lat, Longitude = lon };
+                                drone.Battery = Max(0.0, drone.Battery -  bl.BatteryUsages(delta,0) );
+                                double lat = drone.DroneLocation.Lattitude + (customer.Location.Lattitude - drone.DroneLocation.Lattitude) * proportion;
+                                double lon = drone.DroneLocation.Longitude + (customer.Location.Longitude - drone.DroneLocation.Longitude) * proportion;
+                                drone.DroneLocation = new() { Lattitude = lat, Longitude = lon };
                             }
                         }
                         break;
 
                     default:
-                        throw new BadStatusException("Internal error: not available after Delivery...");
+                        throw new BLInVaildIdException("Internal error: not available after Delivery...");
 
                 }
                 updateDrone();
