@@ -158,6 +158,8 @@ namespace BlApi
         void AddCustomer(Customer customer);
         void DeleteParcel(Parcel p);
         void DeleteStation(Station s);
+        double BatteryUsages(double distance, int index);
+        double calcDistance(Location from, Location to);
     }
 }
 
