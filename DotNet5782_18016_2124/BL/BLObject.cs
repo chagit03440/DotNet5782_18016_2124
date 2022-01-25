@@ -277,6 +277,7 @@ namespace BL
                 return l.Where(predicate);
             }
         }
+
         /// <summary>
         /// A function that return  the list of the parcels
         /// </summary>
@@ -396,7 +397,7 @@ namespace BL
         /// <param name="index"> DroneLocation of the drone in the list</param>
         /// <returns>return the power consumption of the drone   </returns>
 
-        private double BatteryUsages(double distance, int index)
+        public double BatteryUsages(double distance, int index)
         {
             lock (myDal)
             {
