@@ -50,6 +50,11 @@
         <Label Content="Welcome!" HorizontalAlignment="Left" Margin="309,32,0,0" VerticalAlignment="Top" Height="49" Width="284" FontSize="36"/>
         <TextBox Name="txtUserName" HorizontalAlignment="Left" Margin="115,186,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="427" Height="59"/>
         <TextBox x:Name="txtPassword" HorizontalAlignment="Left" Margin="115,383,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="427" Height="59"/>
+        <Button x:Name="btnSignup" Content="Sign up" HorizontalAlignment="Left" Margin="556,29,0,0" VerticalAlignment="Top" Height="55" Width="193" FontSize="20" FontWeight="Normal" Grid.Row="1" Click="btnSignup_Click">
+            <Button.Background>
+                <ImageBrush/>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>
