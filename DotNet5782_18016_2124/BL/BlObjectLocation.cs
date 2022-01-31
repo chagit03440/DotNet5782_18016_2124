@@ -37,7 +37,7 @@ namespace BL
         /// </summary>
         /// <param name="fromLocatable">the start location </param>
         /// <returns>the closest base station location</returns>
-        private Location findClosetBaseStationLocation(Location fromLocatable)
+        public Location findClosetBaseStationLocation(Location fromLocatable)
         {
             lock (myDal)
             {
