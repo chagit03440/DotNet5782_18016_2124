@@ -753,6 +753,7 @@ namespace BL
                 return check;
             }
         }
+        public void StartDroneSimulator(int id, Action update, Func<bool> checkStop) => new Simulator(this, id, update, checkStop);
 
     }
 }

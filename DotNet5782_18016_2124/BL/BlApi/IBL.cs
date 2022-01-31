@@ -172,14 +172,17 @@ namespace BlApi
         /// <param name="distance"> The distance of the drone.</param>
         /// <param name="index"> DroneLocation of the drone in the list</param>
         /// <returns>return the power consumption of the drone   </returns>
-        public double BatteryUsages(double distance, int index);
+        double BatteryUsages(double distance, int index);
         /// <summary>
         /// A function that receives a start and a destination and returns the distance between the two locations
         /// </summary>
         /// <param name="from">the start location</param>
         /// <param name="to">the destination location</param>
         /// <returns>the distance between the locations</returns>
-        public double calcDistance(Location from, Location to)
+        double calcDistance(Location from, Location to);
+        Station findClosetBaseStation(DroneForList drone);
+        void StartDroneSimulator(int id, Action update, Func<bool> checkStop);
+
     }
 }
 

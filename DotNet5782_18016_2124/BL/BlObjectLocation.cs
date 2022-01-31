@@ -66,6 +66,12 @@ namespace BL
                 return location;
             }
         }
+        public Station findClosetBaseStation(DroneForList drone)
+        {
+            Location l = findClosetBaseStationLocation(drone.DroneLocation);
+            Station s=GetStation( myDal.GetStations().FirstOrDefault(s => s.Lattitude == l.Lattitude && s.Longitude == l.Longitude).ID);
+            return s;
+        }
         /// <summary>
         /// A function that receives a skimmer and returns its position
         /// </summary>

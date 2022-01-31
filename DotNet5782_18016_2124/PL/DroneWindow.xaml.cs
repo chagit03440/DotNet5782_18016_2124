@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,8 +40,47 @@ namespace PL
         }
         private BlApi.IBL myBl;
         private BO.Drone drone ;
+        bool closing;
+        public event PropertyChangedEventHandler PropertyChanged;
         public event Action Update=delegate { };
-        
+        BackgroundWorker worker;
+        bool charge;
+        //public bool Charge
+        //{
+        //    get => charge;
+        //    set => this.setAndNotify(PropertyChanged, nameof(Charge), out charge, value);
+        //}
+        //bool release;
+        //public bool Release
+        //{
+        //    get => release;
+        //    set => this.setAndNotify(PropertyChanged, nameof(Release), out release, value);
+        //}
+        //bool auto;
+        //public bool Auto
+        //{
+        //    get => auto;
+        //    set => this.setAndNotify(PropertyChanged, nameof(Auto), out auto, value);
+        //}
+        //bool schedule;
+        //public bool Schedule
+        //{
+        //    get => schedule;
+        //    set => this.setAndNotify(PropertyChanged, nameof(Schedule), out schedule, value);
+        //}
+        //bool pickup;
+        //public bool Pickup
+        //{
+        //    get => pickup;
+        //    set => this.setAndNotify(PropertyChanged, nameof(Pickup), out pickup, value);
+        //}
+        //bool deliver;
+        //public bool Deliver
+        //{
+        //    get => deliver;
+        //    set => this.setAndNotify(PropertyChanged, nameof(Deliver), out deliver, value);
+        //}
+        public Drone Drone { get => drone; }
 
         public DroneWindow(BlApi.IBL myBl)
         {
@@ -147,36 +187,45 @@ namespace PL
             }
         }
 
-        
 
-        //private void fillTextbox(DroneForList d)
-        //{
 
-        //    txtStatus.Text = d.Status.ToString();
-        //    txtMaxWeight.Text = d.MaxWeight.ToString();
-        //    txtId.Text = d.Id.ToString();
-        //    txtModel.Text = d.Model.ToString();
-        //    txtBattery.Text = d.Battery.ToString() + "%";
-            
-        //    txtLongtitude.Text = d.DroneLocation.Longitude.ToString();
-        //    txtLatitude.Text = d.DroneLocation.Lattitude.ToString();
-        //}
-        //private void fillTextbox(Drone d)
-        //{
-        //    if (d != null)
-        //    {
-        //        txtStatus.Text = d.Status.ToString();
-        //        txtMaxWeight.Text = d.MaxWeight.ToString();
-        //        txtId.Text = d.Id.ToString();
-        //        txtModel.Text = d.Model.ToString();
-        //        txtBattery.Text = d.Battery.ToString() + "%";
-                
-        //        txtLongtitude.Text = d.Location.Longitude.ToString();
-        //        txtLatitude.Text = d.Location.Lattitude.ToString();
-        //        return;
-        //    }
-             
-        //}
+        void updateFlags()
+        {
+            //Charge = Release = Schedule = Pickup = Deliver = false;
+            //switch (Drone.Status)
+            //{
+            //    case DroneStatuses.Free:
+            //        Charge = Schedule = true;
+            //        break;
+            //    case DroneStatuses.Maintenance:
+            //        Release = true;
+            //        break;
+            //    case DroneStatuses.Shipping:
+            //        if (Drone.Package.Status==ParcelStatuses.PickedUp)
+            //            Deliver = true;
+            //        else
+            //            Pickup = true;
+            //        break;
+            //}
+        }
+
+        private void updateDroneView()
+        {
+            //lock (myBl)
+            //{
+            //    drone = myBl.GetDrone(Drone.Id);
+            //    updateFlags();
+            //    this.setAndNotify(PropertyChanged, nameof(Drone), out drone, drone);
+
+            //    DroneForList droneForList = Model.Drones.FirstOrDefault(d => d.Id == Drone.Id);
+            //    int index = Model.Drones.IndexOf(droneForList);
+            //    if (index >= 0)
+            //    {
+            //        Model.Drones.Remove(droneForList);
+            //        Model.Drones.Insert(index, myBl.GetDroneForList(Drone.Id));
+            //    }
+            //}
+        }
 
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
         {
@@ -346,7 +395,13 @@ namespace PL
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
+
             this.Close();
+            //if (worker != null)
+            //{
+            //    closing = true;
+            //    e.Cancel = true;
+            //}
         }
 
      
@@ -361,12 +416,24 @@ namespace PL
 
         private void btnAutomatic_Click(object sender, RoutedEventArgs e)
         {
-
+            //Auto = true;
+            //worker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
+            ////worker.DoWork += (sender, args) => myBl.StartDroneSimulator((int)args.Argument, updateDrone, checkStop);
+            //worker.RunWorkerCompleted += (sender, args) =>
+            //{
+            //    Auto = false;
+            //    worker = null;
+            //    if (closing) Close();
+            //};
+            //worker.ProgressChanged += (sender, args) => updateDroneView();
+            //worker.RunWorkerAsync(Drone.Id);
         }
+        private void Manual_Click(object sender, RoutedEventArgs e) => worker?.CancelAsync();
+
     }
 
 
 
-  
+
 }
 

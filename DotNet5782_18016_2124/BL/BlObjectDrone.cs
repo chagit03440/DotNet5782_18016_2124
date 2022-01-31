@@ -15,7 +15,7 @@ namespace BL
              /// </summary>
              /// <param name="drone">the drone to calculate</param>
              /// <returns>the minimum battery required</returns>
-        private int calcMinBatteryRequired(DroneForList drone)
+        public int calcMinBatteryRequired(DroneForList drone)
         {
             lock (myDal)
             {
