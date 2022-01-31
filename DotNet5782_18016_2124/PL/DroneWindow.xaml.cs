@@ -189,43 +189,7 @@ namespace PL
 
 
 
-        void updateFlags()
-        {
-            //Charge = Release = Schedule = Pickup = Deliver = false;
-            //switch (Drone.Status)
-            //{
-            //    case DroneStatuses.Free:
-            //        Charge = Schedule = true;
-            //        break;
-            //    case DroneStatuses.Maintenance:
-            //        Release = true;
-            //        break;
-            //    case DroneStatuses.Shipping:
-            //        if (Drone.Package.Status==ParcelStatuses.PickedUp)
-            //            Deliver = true;
-            //        else
-            //            Pickup = true;
-            //        break;
-            //}
-        }
-
-        private void updateDroneView()
-        {
-            //lock (myBl)
-            //{
-            //    drone = myBl.GetDrone(Drone.Id);
-            //    updateFlags();
-            //    this.setAndNotify(PropertyChanged, nameof(Drone), out drone, drone);
-
-            //    DroneForList droneForList = Model.Drones.FirstOrDefault(d => d.Id == Drone.Id);
-            //    int index = Model.Drones.IndexOf(droneForList);
-            //    if (index >= 0)
-            //    {
-            //        Model.Drones.Remove(droneForList);
-            //        Model.Drones.Insert(index, myBl.GetDroneForList(Drone.Id));
-            //    }
-            //}
-        }
+       
 
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
         {

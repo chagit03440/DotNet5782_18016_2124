@@ -86,5 +86,11 @@ namespace PL
 
             }
         }
+
+        private void btnSignup_Click(object sender, RoutedEventArgs e)
+        {
+            CustomerWindow cu= new CustomerWindow(myBl);
+            cu.ShowDialog();
+        }
     }
 }
