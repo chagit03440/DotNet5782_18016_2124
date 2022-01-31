@@ -550,7 +550,44 @@ namespace BL
             }
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void FreeDroneFromeCharger(int droneId)
+        {
+            lock (myDal)
+            {
+                try
+                {
+                    DroneForList drone = drones.FirstOrDefault(x => x.Id == droneId);
+                    if (drone.Status == DroneStatuses.Maintenance)
+                    {
+                        //update drone
 
+                       
+                        drone.Status = DroneStatuses.Free;
+                        updateDroneForList(drone);
+                        //update station and drone in BL
+                        DO.Drone d = new DO.Drone()
+                        {
+                            ID = drone.Id,
+                            Model = drone.Model,
+                            MaxWeight = (DO.WeightCategories)drone.MaxWeight,
+
+                        };
+                        //myDal.AddDrone(d);
+                        int staionid = myDal.GetDronesInCharge().FirstOrDefault(x => x.DroneId == drone.Id).StationId;
+                        DO.Station s = myDal.GetStation(staionid);
+                        myDal.ReleasDrone(d, s);
+
+                    }
+
+                }
+                catch (DO.AlreadyExistExeption ex)
+                {
+
+                    throw new BLAlreadyExistExeption("The drone can't be release", ex);
+                }
+            }
+        }
 
 
         /// <summary>
@@ -639,6 +676,7 @@ namespace BL
             }
 
         }
+        
 
         /// <summary>
         ///   The function collects the package by the drone if the package can be collected and updates the required data,If no appropriate exception is sent
@@ -753,9 +791,14 @@ namespace BL
                 return check;
             }
         }
-        public void StartSimulatur(int droneId, Action action, Func<bool> stop)
+        public double[] Power()
+        {
+          return  myDal.PowerRequest();
+        }
+        public void StartDroneSimulator(int droneId, Action action, Func<bool> stop)
         {
             new Simulator(this, droneId, action, stop);
         }
+
     }
 }

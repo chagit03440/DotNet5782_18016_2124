@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace PL
         private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
+        private DroneWindow windowDrones;
 
         void ToolWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -38,9 +39,48 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
         private BlApi.IBL myBl;
-        private BO.Drone drone ;
-        public event Action Update=delegate { };
-        
+        private BO.Drone drone;
+        bool closing;
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event Action Update = delegate { };
+        BackgroundWorker worker;
+        bool charge;
+        //public bool Charge
+        //{
+        //    get => charge;
+        //    set => this.setAndNotify(PropertyChanged, nameof(Charge), out charge, value);
+        //}
+        //bool release;
+        //public bool Release
+        //{
+        //    get => release;
+        //    set => this.setAndNotify(PropertyChanged, nameof(Release), out release, value);
+        //}
+        //bool auto;
+        //public bool Auto
+        //{
+        //    get => auto;
+        //    set => this.setAndNotify(PropertyChanged, nameof(Auto), out auto, value);
+        //}
+        //bool schedule;
+        //public bool Schedule
+        //{
+        //    get => schedule;
+        //    set => this.setAndNotify(PropertyChanged, nameof(Schedule), out schedule, value);
+        //}
+        //bool pickup;
+        //public bool Pickup
+        //{
+        //    get => pickup;
+        //    set => this.setAndNotify(PropertyChanged, nameof(Pickup), out pickup, value);
+        //}
+        //bool deliver;
+        //public bool Deliver
+        //{
+        //    get => deliver;
+        //    set => this.setAndNotify(PropertyChanged, nameof(Deliver), out deliver, value);
+        //}
+        public Drone Drone { get => drone; }
 
         public DroneWindow(BlApi.IBL myBl)
         {
@@ -57,10 +97,10 @@ namespace PL
             grdAdd.Visibility = Visibility.Visible;
             grdRelease.Visibility = Visibility.Hidden;
             grdUpdate.Visibility = Visibility.Hidden;
-            
+
             btnShowParcel.Visibility = Visibility.Hidden;
-            txtMaxWeight.Visibility= Visibility.Hidden;
-            txtStatus.Visibility= Visibility.Hidden;
+            txtMaxWeight.Visibility = Visibility.Hidden;
+            txtStatus.Visibility = Visibility.Hidden;
             lblStatus.Content = "Station";
             txtBattery.Visibility = Visibility.Hidden;
             //comboPackage.Visibility = Visibility.Hidden;
@@ -71,33 +111,22 @@ namespace PL
             lblLatitude.Visibility = Visibility.Hidden;
             lblLongtitude.Visibility = Visibility.Hidden;
         }
-        
-        public DroneWindow(BlApi.IBL myBl, Drone d)
+        private void WindowUp()
         {
-
-            InitializeComponent();
-           
-            //to remove close box from window
-            Loaded += ToolWindow_Loaded;
-            this.myBl = myBl;
-            DataContext = d;
-            drone = new Drone();
-            drone = d;
-            txtBattery.Text = d.Battery.ToString() + "%";
             btnShowParcel.Visibility = Visibility.Hidden;
 
             grdAdd.Visibility = Visibility.Hidden;
-            comboMaxWeight.Visibility= Visibility.Hidden;
-            comboStatus.Visibility= Visibility.Hidden;
+            comboMaxWeight.Visibility = Visibility.Hidden;
+            comboStatus.Visibility = Visibility.Hidden;
             grdRelease.Visibility = Visibility.Hidden;
             //fillTextbox(drone);
-            if (d.Status == DroneStatuses.Free)
+            if (drone.Status == DroneStatuses.Free)
             {
                 btnCharge.Visibility = Visibility.Visible;
                 btnAssignment.Visibility = Visibility.Visible;
             }
 
-            if (d.Status == DroneStatuses.Maintenance)
+            if (drone.Status == DroneStatuses.Maintenance)
             {
                 btnRelease.Visibility = Visibility.Visible;
                 btnCharge.Visibility = Visibility.Hidden;
@@ -107,7 +136,7 @@ namespace PL
                 btnShowParcel.Visibility = Visibility.Hidden;
             }
 
-            if (d.Status == DroneStatuses.Shipping)
+            if (drone.Status == DroneStatuses.Shipping)
             {
                 btnCharge.Visibility = Visibility.Hidden;
                 btnAssignment.Visibility = Visibility.Hidden;
@@ -123,17 +152,33 @@ namespace PL
             comboStatus.IsEnabled = false;
             comboMaxWeight.IsEnabled = false;
             txtBattery.IsEnabled = false;
-           
+
             txtLongtitude.IsEnabled = false;
             txtLatitude.IsEnabled = false;
+            if (windowDrones != null)
+                Update();
+        }
+        public DroneWindow(BlApi.IBL myBl, Drone d)
+        {
+
+            InitializeComponent();
+
+            //to remove close box from window
+            Loaded += ToolWindow_Loaded;
+            this.myBl = myBl;
+            DataContext = d;
+            drone = new Drone();
+            drone = d;
+            txtBattery.Text = d.Battery.ToString() + "%";
+            WindowUp();
         }
         private void btnUpdateModel_Click(object sender, RoutedEventArgs e)
         {
             try
-            { 
-            drone.Model = txtModel.Text;
-            myBl.UpdateDrone(drone);
-            MessageBox.Show("the model of the drone was successfully updated");
+            {
+                drone.Model = txtModel.Text;
+                myBl.UpdateDrone(drone);
+                MessageBox.Show("the model of the drone was successfully updated");
 
                 DroneForList dr = myBl.GetDroneForList(drone.Id);
                 //fillTextbox(dr);
@@ -147,36 +192,9 @@ namespace PL
             }
         }
 
+
+
         
-
-        //private void fillTextbox(DroneForList d)
-        //{
-
-        //    txtStatus.Text = d.Status.ToString();
-        //    txtMaxWeight.Text = d.MaxWeight.ToString();
-        //    txtId.Text = d.Id.ToString();
-        //    txtModel.Text = d.Model.ToString();
-        //    txtBattery.Text = d.Battery.ToString() + "%";
-            
-        //    txtLongtitude.Text = d.DroneLocation.Longitude.ToString();
-        //    txtLatitude.Text = d.DroneLocation.Lattitude.ToString();
-        //}
-        //private void fillTextbox(Drone d)
-        //{
-        //    if (d != null)
-        //    {
-        //        txtStatus.Text = d.Status.ToString();
-        //        txtMaxWeight.Text = d.MaxWeight.ToString();
-        //        txtId.Text = d.Id.ToString();
-        //        txtModel.Text = d.Model.ToString();
-        //        txtBattery.Text = d.Battery.ToString() + "%";
-                
-        //        txtLongtitude.Text = d.Location.Longitude.ToString();
-        //        txtLatitude.Text = d.Location.Lattitude.ToString();
-        //        return;
-        //    }
-             
-        //}
 
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
         {
@@ -187,48 +205,48 @@ namespace PL
                 DroneForList dr = new DroneForList()
                 {
                     Id = Convert.ToInt32(txtId.Text),
-                    MaxWeight =(WeightCategories) comboMaxWeight.SelectedItem,
+                    MaxWeight = (WeightCategories)comboMaxWeight.SelectedItem,
                     Model = txtModel.Text,
                 };
-               
-                   
+
+
                 myBl.AddDrone(dr, Convert.ToInt32(s.Id));
                 MessageBox.Show("the drone was successfully added");
                 Update();
 
             }
-            catch(BLAlreadyExistExeption ex)
+            catch (BLAlreadyExistExeption ex)
             {
                 MessageBox.Show("this id already exist");
                 flag = false;
-               
+
             }
-           
+
             catch (Exception ex)
             {
 
                 MessageBox.Show(ex.Message);
                 flag = false;
             }
-           if(!flag)
+            if (!flag)
             {
                 var bc = new BrushConverter();
                 txtId.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
 
             }
             new DroneListWindow(myBl);
-            if(flag)
+            if (flag)
                 this.Close();
         }
 
-        
-         
 
-        
 
-       
-         
-      
+
+
+
+
+
+
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
 
@@ -276,51 +294,51 @@ namespace PL
 
         private void btnAssignment_Click(object sender, RoutedEventArgs e)
         {
-               try
-                {
-                    myBl.AssignmentParcelToDrone(drone.Id);
-                    MessageBox.Show("the drone belongs to parcel");
-                    DroneForList dr = myBl.GetDroneForList(drone.Id);
-                    //fillTextbox(dr);
-                    btnPickedup.Visibility = Visibility.Visible;
-                    btnDelivery.Visibility = Visibility.Visible;
-                    btnCharge.Visibility = Visibility.Hidden;
-                    btnAssignment.Visibility = Visibility.Hidden;
+            try
+            {
+                myBl.AssignmentParcelToDrone(drone.Id);
+                MessageBox.Show("the drone belongs to parcel");
+                DroneForList dr = myBl.GetDroneForList(drone.Id);
+                //fillTextbox(dr);
+                btnPickedup.Visibility = Visibility.Visible;
+                btnDelivery.Visibility = Visibility.Visible;
+                btnCharge.Visibility = Visibility.Hidden;
+                btnAssignment.Visibility = Visibility.Hidden;
                 Update();
             }
-                catch (Exception ex)
-                {
+            catch (Exception ex)
+            {
 
-                    MessageBox.Show(ex.Message);
-                }
-           }
+                MessageBox.Show(ex.Message);
+            }
+        }
 
-        
+
 
         private void btnDelivery_Click(object sender, RoutedEventArgs e)
         {
-             
-                try
-                {
 
-                    myBl.PackageDeliveryByDrone(drone.Id);
-                    MessageBox.Show("the parcel was delivered to the customer");
-                    Drone dr = myBl.GetDrone(drone.Id);
-                   // fillTextbox(dr);
+            try
+            {
 
-                    btnPickedup.Visibility = Visibility.Hidden;
-                    btnDelivery.Visibility = Visibility.Hidden;
-                    btnCharge.Visibility = Visibility.Visible;
-                    btnAssignment.Visibility = Visibility.Visible;
+                myBl.PackageDeliveryByDrone(drone.Id);
+                MessageBox.Show("the parcel was delivered to the customer");
+                Drone dr = myBl.GetDrone(drone.Id);
+                // fillTextbox(dr);
+
+                btnPickedup.Visibility = Visibility.Hidden;
+                btnDelivery.Visibility = Visibility.Hidden;
+                btnCharge.Visibility = Visibility.Visible;
+                btnAssignment.Visibility = Visibility.Visible;
                 Update();
 
             }
-                catch (Exception ex)
-                {
+            catch (Exception ex)
+            {
 
-                    MessageBox.Show(ex.Message);
-                }
-            
+                MessageBox.Show(ex.Message);
+            }
+
 
         }
 
@@ -328,7 +346,7 @@ namespace PL
         {
             try
             {
-                myBl.PickedupParcel( drone.Id);
+                myBl.PickedupParcel(drone.Id);
                 DroneForList dr = myBl.GetDroneForList(drone.Id);
                 //fillTextbox(dr);
                 MessageBox.Show("the parcel was collected by the parcel");
@@ -340,33 +358,55 @@ namespace PL
 
 
             }
-           
+
 
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
+
             this.Close();
+            //if (worker != null)
+            //{
+            //    closing = true;
+            //    e.Cancel = true;
+            //}
         }
 
-     
+
 
         private void btnShowParcel_Click(object sender, RoutedEventArgs e)
         {
             Parcel p = myBl.GetParcel(drone.Package.Id);
-            ParcelWindow pw = new ParcelWindow(myBl,p);
+            ParcelWindow pw = new ParcelWindow(myBl, p);
             pw.Show();
             //pw.Update += ParcelWindow_Update;
         }
-
+ 
+        private void UpdateWidowDrone()
+        {
+            drone = myBl.GetDrone(drone.Id);
+            DataContext = drone;
+            WindowUp();
+        }
         private void btnAutomatic_Click(object sender, RoutedEventArgs e)
         {
-
+            btnManual.IsEnabled = true;
+            worker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
+            worker.DoWork += (sender, args) => myBl.StartDroneSimulator((int)args.Argument, () => worker.ReportProgress(0), () => worker.CancellationPending);
+            worker.ProgressChanged += (sender, args) => UpdateWidowDrone();
+            worker.RunWorkerAsync(drone.Id);
         }
+        private void Manual_Click(object sender, RoutedEventArgs e) 
+            {
+            worker.CancelAsync();
+            btnManual.IsEnabled = false;
+            }
+
     }
 
 
 
-  
+
 }
 

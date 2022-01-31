@@ -68,17 +68,18 @@
 
         <Grid Name="grdAdd" Margin="342,14,-569,23" Grid.RowSpan="5" Grid.Row="2" Grid.Column="2">
             <Grid.RowDefinitions>
-                <RowDefinition Height="304*"/>
-                <RowDefinition Height="81*"/>
+                <RowDefinition Height="147*"/>
+                <RowDefinition Height="61*"/>
+                <RowDefinition Height="55*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="0*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Name="btnAddDrone" Content="Add" HorizontalAlignment="Left" Margin="70,188,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnAddDrone_Click" Grid.ColumnSpan="3" Grid.RowSpan="2" Background="{x:Null}"/>
+            <Button Name="btnAddDrone" Content="Add" HorizontalAlignment="Left" Margin="70,41,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnAddDrone_Click" Grid.ColumnSpan="3" Grid.RowSpan="2" Background="{x:Null}" Grid.Row="1"/>
             <Button Name="btnShowParcel" Content="Show Parcel" Grid.Column="2" HorizontalAlignment="Left" Margin="70,61,0,0" VerticalAlignment="Top" Height="43" Width="108" Click="btnShowParcel_Click" Background="{x:Null}"/>
-            <Button Name="btnAutomatic" Content="Automatic" HorizontalAlignment="Left" Margin="70,130,0,0" VerticalAlignment="Top" Height="39" Width="108" Click="btnAutomatic_Click" Grid.ColumnSpan="3" Background="{x:Null}"/>
+
         </Grid>
         <Grid Name="grdUpdate" Margin="6,13,-294,16" Grid.RowSpan="7" Grid.Column="2">
             <Grid.Background>
@@ -118,6 +119,8 @@
                     <ImageBrush/>
                 </Button.Background>
             </Button>
+            <Button Name="btnAutomatic" Content="Automatic" HorizontalAlignment="Left" Margin="142,165,0,0" VerticalAlignment="Top" Height="17" Width="108" Click="btnAutomatic_Click" Background="{x:Null}"/>
+            <Button Name="btnManual" Content="Manual" HorizontalAlignment="Left" Margin="18,164,0,0" VerticalAlignment="Top" Height="20" Width="108" Click="Manual_Click" Background="{x:Null}"/>
 
         </Grid>
         <Grid x:Name="grdRelease" Grid.Row="4" Margin="6,17,-251,17" Grid.RowSpan="3" Grid.Column="2">
