@@ -24,12 +24,15 @@ namespace PL
         private BlApi.IBL myBl;
         private BO.Station s;
         public event Action Update = delegate { };
-        
 
 
-       
-        //constructor to update
-            public StationWindow(BlApi.IBL myBl, BO.Station station)
+
+        /// <summary>
+        /// constructor to update
+        /// </summary>
+        /// <param name="myBl"></param>
+        /// <param name="station"></param>
+        public StationWindow(BlApi.IBL myBl, BO.Station station)
         {
             
             InitializeComponent();
@@ -51,7 +54,10 @@ namespace PL
             txtCharge.IsEnabled = false;
 
         }
-        //constructor to add
+         /// <summary>
+        /// constructor to add
+        /// </summary>
+        /// <param name="myBl"></param>
         public StationWindow(IBL myBl)
         {
             this.myBl = myBl;
@@ -79,12 +85,20 @@ namespace PL
         }
 
 
-        //a click that close the window
+         /// <summary>
+        /// a click that close the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void closbtn_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
-        //a click to add station
+         /// <summary>
+        /// a click to add station
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Add_btn_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
@@ -132,7 +146,12 @@ namespace PL
             if (flag)
                 this.Close();
         }
-        // a click to updat the station
+
+        /// <summary>
+        /// a click to updat the station
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Updat_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -152,8 +171,13 @@ namespace PL
 
             }
         }
- 
-        //a click that delet the station
+
+
+        /// <summary>
+        /// a click that delet the station
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void deletbtn_Click(object sender, RoutedEventArgs e)
         {
 

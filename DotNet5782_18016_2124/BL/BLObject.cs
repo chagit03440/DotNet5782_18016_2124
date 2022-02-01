@@ -463,7 +463,7 @@ namespace BL
                     Name = station.Name,
                     Longitude = station.Location.Longitude,
                     Lattitude = station.Location.Lattitude,
-                    ChargeSlots = station.ChargeSlots
+                    ChargeSlots =station.ChargeSlots  
 
                 };
                 DO.Drone drone = new DO.Drone
