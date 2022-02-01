@@ -727,8 +727,9 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] PowerRequest()
         {
-            
-                return XMLTools.LoadListFromXMLElement(configPath).Element("BatteryUsages").Elements()
+
+           var l= XMLTools.LoadListFromXMLElement(configPath);
+            return  l.Element("BatteryUsages").Elements()
                     .Select(e => Convert.ToDouble(e.Value)).ToArray();
             
         }
