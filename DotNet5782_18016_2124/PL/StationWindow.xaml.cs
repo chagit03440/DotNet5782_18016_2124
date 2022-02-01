@@ -28,7 +28,7 @@ namespace PL
 
 
        
-
+        //constructor to update
             public StationWindow(BlApi.IBL myBl, BO.Station station)
         {
             
@@ -42,7 +42,6 @@ namespace PL
             DataContext = station;
             s = station;
             Add_btn.Visibility = Visibility.Hidden;
-            fillTextbox(station);
             txtId.IsEnabled=false;
             txtlatitude.IsEnabled=false;
 
@@ -52,7 +51,7 @@ namespace PL
             txtCharge.IsEnabled = false;
 
         }
-
+        //constructor to add
         public StationWindow(IBL myBl)
         {
             this.myBl = myBl;
@@ -80,12 +79,12 @@ namespace PL
         }
 
 
-
+        //a click that close the window
         private void closbtn_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
-
+        //a click to add station
         private void Add_btn_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
@@ -133,7 +132,7 @@ namespace PL
             if (flag)
                 this.Close();
         }
-
+        // a click to updat the station
         private void Updat_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -153,18 +152,8 @@ namespace PL
 
             }
         }
-
-        private void fillTextbox(Station station)
-        {
-            //txtId.Text = station.Id.ToString();
-            //txtlatitude.Text = station.Location.Lattitude.ToString();
-
-            //txtlongenttitude.Text = station.Location.Longitude.ToString();
-            //txtName.Text = station.Name.ToString();
-
-            //txtCharge.Text = station.ChargeSlots.ToString();
-        }
-
+ 
+        //a click that delet the station
         private void deletbtn_Click(object sender, RoutedEventArgs e)
         {
 

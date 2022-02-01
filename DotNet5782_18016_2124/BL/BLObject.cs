@@ -31,7 +31,7 @@ namespace BL
             drones = new List<DroneForList>();
             try
             {
-                initializeDrones();
+                initializeDrones();//to initialize the list of the drones
             }
 
             catch (BLInVaildIdException ex)
@@ -57,7 +57,7 @@ namespace BL
             {
             lock (myDal)
             {
-                foreach (var drone in myDal.GetDrones())
+                foreach (var drone in myDal.GetDrones())//to copy the drones from the list of drones in Dal
                 {
                     drones.Add(new DroneForList
                     {
@@ -69,18 +69,18 @@ namespace BL
 
                 foreach (var drone in drones)
                 {
-                    if (isDroneWhileShipping(drone))
+                    if (isDroneWhileShipping(drone))//if the drone is shipping a parcel
                     {
                         drone.Status = DroneStatuses.Shipping;
-                        drone.DroneLocation = findDroneLocation(drone);
-                        // note : drone.DeliveryId getting value inside isDroneWhileShipping
+                        drone.DroneLocation = findDroneLocation(drone);//find the location of the drone
+                        
                         int minBattery = calcMinBatteryRequired(drone);
                         drone.Battery = rand.Next(minBattery, 100) ;
                     }
                     else
                     {
                         drone.Status = (DroneStatuses)rand.Next(0, 2);
-                        if (drone.Status == DroneStatuses.Maintenance)
+                        if (drone.Status == DroneStatuses.Maintenance)//if the drone ststus is maitenance
                         {
                             DO.Station station = default;
                             DO.Drone drone1 = default;
@@ -107,7 +107,7 @@ namespace BL
                             }
                             try
                             {
-                                myDal.AnchorDroneStation(station, drone1);
+                                myDal.AnchorDroneStation(station, drone1);//send the drone to recharge
                             }
                             catch (DO.InVaildIdException ex)
                             {
@@ -121,7 +121,7 @@ namespace BL
                             drone.ParcelId = 0;
                         }
 
-                        if (drone.Status == DroneStatuses.Free)
+                        if (drone.Status == DroneStatuses.Free)//if the status of the drone is free
                         {
                             drone.DroneLocation = findDroneLocation(drone);
                             drone.ParcelId = 0;
@@ -480,7 +480,10 @@ namespace BL
                 myDal.AnchorDroneStation(s, drone);
             }
         }
-
+        /// <summary>
+        /// a function that recieves a drone and free it from charging without update it's battery
+        /// </summary>
+        /// <param name="droneId">the drone to free</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void FreeDroneFromeCharger(int droneId)
         {
@@ -676,6 +679,11 @@ namespace BL
                 }
             }
         }
+        /// <summary>
+        /// A function that gets a user and return true if the user exists or false if not
+        /// </summary>
+        /// <param name="curUser">the user it checks</param>
+        /// <returns>true if the user exists or false if not</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool LogInVerify(User curUser)
         {
@@ -704,6 +712,11 @@ namespace BL
             }
 
         }
+        /// <summary>
+        /// A function that gets a user and return true if the user is a worker or false if not
+        /// </summary>
+        /// <param name="curUser">the user it checks</param>
+        /// <returns>true if the user is a worker or false if not</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool isWorker(User curUser)
         {
@@ -722,10 +735,20 @@ namespace BL
                 return check;
             }
         }
+        /// <summary>
+        /// a function that returns an array with the power requested in each status of the drone
+        /// </summary>
+        /// <returns>an array with the power requested in each status of the drone</returns>
         public double[] Power()
         {
           return  myDal.PowerRequest();
         }
+        /// <summary>
+        /// a function that start  the simulator of the drone
+        /// </summary>
+        /// <param name="id">the drone that need to be in simulator</param>
+        /// <param name="update">a function that update the windows of the drones</param>
+        /// <param name="checkStop">a function that tells to the simulator if it needs to stop or not</param>
         public void StartDroneSimulator(int droneId, Action action, Func<bool> stop)
         {
             new Simulator(this, droneId, action, stop);

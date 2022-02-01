@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfParcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Parcel>
     <ID>1000</ID>
@@ -7,7 +7,7 @@
     <Longitude>heavy</Longitude>
     <Priority>fast</Priority>
     <Requested xsi:nil="true" />
-    <DroneId>6155</DroneId>
+    <DroneId>0</DroneId>
     <Scheduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Delivered xsi:nil="true" />
@@ -19,7 +19,7 @@
     <Longitude>heavy</Longitude>
     <Priority>emergency</Priority>
     <Requested xsi:nil="true" />
-    <DroneId>2607</DroneId>
+    <DroneId>0</DroneId>
     <Scheduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Delivered xsi:nil="true" />
@@ -31,7 +31,7 @@
     <Longitude>low</Longitude>
     <Priority>emergency</Priority>
     <Requested xsi:nil="true" />
-    <DroneId>4612</DroneId>
+    <DroneId>0</DroneId>
     <Scheduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Delivered xsi:nil="true" />
@@ -43,7 +43,7 @@
     <Longitude>low</Longitude>
     <Priority>fast</Priority>
     <Requested xsi:nil="true" />
-    <DroneId>9910</DroneId>
+    <DroneId>0</DroneId>
     <Scheduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Delivered xsi:nil="true" />
@@ -55,19 +55,7 @@
     <Longitude>heavy</Longitude>
     <Priority>emergency</Priority>
     <Requested xsi:nil="true" />
-    <DroneId>7527</DroneId>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-  </Parcel>
-  <Parcel>
-    <ID>1005</ID>
-    <SenderId>1008</SenderId>
-    <TargetId>1008</TargetId>
-    <Longitude>heavy</Longitude>
-    <Priority>fast</Priority>
-    <Requested xsi:nil="true" />
-    <DroneId>7281</DroneId>
+    <DroneId>0</DroneId>
     <Scheduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Delivered xsi:nil="true" />
@@ -79,7 +67,7 @@
     <Longitude>heavy</Longitude>
     <Priority>fast</Priority>
     <Requested xsi:nil="true" />
-    <DroneId>3692</DroneId>
+    <DroneId>0</DroneId>
     <Scheduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Delivered xsi:nil="true" />
@@ -91,7 +79,7 @@
     <Longitude>low</Longitude>
     <Priority>fast</Priority>
     <Requested xsi:nil="true" />
-    <DroneId>4692</DroneId>
+    <DroneId>0</DroneId>
     <Scheduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Delivered xsi:nil="true" />
@@ -103,7 +91,7 @@
     <Longitude>heavy</Longitude>
     <Priority>emergency</Priority>
     <Requested xsi:nil="true" />
-    <DroneId>1971</DroneId>
+    <DroneId>0</DroneId>
     <Scheduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Delivered xsi:nil="true" />
@@ -114,42 +102,6 @@
     <TargetId>1010</TargetId>
     <Longitude>heavy</Longitude>
     <Priority>fast</Priority>
-    <Requested xsi:nil="true" />
-    <DroneId>7579</DroneId>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-  </Parcel>
-  <Parcel>
-    <ID>123456</ID>
-    <SenderId>0</SenderId>
-    <TargetId>0</TargetId>
-    <Longitude>low</Longitude>
-    <Priority>regular</Priority>
-    <Requested xsi:nil="true" />
-    <DroneId>0</DroneId>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-  </Parcel>
-  <Parcel>
-    <ID>12345</ID>
-    <SenderId>0</SenderId>
-    <TargetId>0</TargetId>
-    <Longitude>low</Longitude>
-    <Priority>regular</Priority>
-    <Requested xsi:nil="true" />
-    <DroneId>0</DroneId>
-    <Scheduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-  </Parcel>
-  <Parcel>
-    <ID>123456</ID>
-    <SenderId>1009</SenderId>
-    <TargetId>1008</TargetId>
-    <Longitude>low</Longitude>
-    <Priority>regular</Priority>
     <Requested xsi:nil="true" />
     <DroneId>0</DroneId>
     <Scheduled xsi:nil="true" />

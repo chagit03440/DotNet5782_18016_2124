@@ -164,29 +164,7 @@ namespace BL
                 return deliveries;
             }
         }
-        ///// <summary>
-        ///// A function that recieve a customers id and add it to the list of the customers
-        ///// </summary>
-        ///// <param name="customer">the customer we need to add</param>
-        //public void AddNewCustomer(Customer customer)
-        //{
-        //    IDAL.DO.Customer customerDO = new IDAL.DO.Customer();
-        //    customerDO.ID = customer.Id;
-        //    customerDO.Name = customer.Name;
-        //    customerDO.Phone = customer.Phone;
-        //    customerDO.Lattitude = customer.DroneLocation.Lattitude;
-        //    customerDO.Longitude = customer.DroneLocation.Longitude;
-
-        //    try
-        //    {
-        //        myDal.AddCustomer(customerDO);
-        //    }
-        //    catch (Exception exp)
-        //    {
-
-        //        throw new BLInVaildIdException("", exp);
-        //    }
-        //}
+      
 
     }
 }

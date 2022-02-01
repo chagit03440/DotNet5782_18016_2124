@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BO;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -27,9 +28,10 @@ namespace PL
         private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
+        private List<IGrouping<int, StationForList>> GroupingData { get; set; }
         private BlApi.IBL myBl { get; }
         private ObservableCollection<BO.StationForList> collection;
+        //constructor 
         public StationListWindow(BlApi.IBL MyBl)
         {
             myBl = MyBl;
@@ -50,7 +52,7 @@ namespace PL
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
  
-
+        //close the window
         private void closbtn_Click(object sender, RoutedEventArgs e)
         {
            
@@ -78,12 +80,15 @@ namespace PL
             stationWindow.Update += StationWindow_Update;
            
         }
+ /// <summary>
+ /// update the window
+ /// </summary>
         private void StationWindow_Update()
         {
             collection = new ObservableCollection<BO.StationForList>(myBl.GetStations( ));
             stationListView.ItemsSource = collection;
         }
-
+        //the click open the station window to add station
         private void addbtn_Click(object sender, RoutedEventArgs e)
         {
             StationWindow s = new StationWindow(myBl);
@@ -93,6 +98,12 @@ namespace PL
         private void stationListView_SelectionChanged_2(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+        //a function to group a station by Available Charge Slots
+        private void group_Click(object sender, RoutedEventArgs e)
+        {
+            GroupingData = myBl.GetStations().GroupBy(x => x.AvailableChargeSlots).ToList();
+            stationListView.ItemsSource = GroupingData;
         }
     }
 }

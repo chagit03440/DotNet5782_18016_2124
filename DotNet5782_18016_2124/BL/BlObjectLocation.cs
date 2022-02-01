@@ -33,7 +33,7 @@ namespace BL
             return d;
         }
         /// <summary>
-        /// A function that receives a location and returns the nearest base station
+        /// A function that receives a location and returns the nearest base station location
         /// </summary>
         /// <param name="fromLocatable">the start location </param>
         /// <returns>the closest base station location</returns>
@@ -66,6 +66,11 @@ namespace BL
                 return location;
             }
         }
+        /// <summary>
+        /// A function that receives a location and returns the nearest base station
+        /// </summary>
+        /// <param name="drone">the drone taht needs to recharge</param>
+        /// <returns>the nearest base station</returns>
         public Station findClosetBaseStation(DroneForList drone)
         {
             Location l = findClosetBaseStationLocation(drone.DroneLocation);

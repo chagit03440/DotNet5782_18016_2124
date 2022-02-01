@@ -66,18 +66,33 @@ namespace Dal
         {
             return DataSource.parcels.Count(h => h.TargetId == customerId);
         }
+        /// <summary>
+        /// a unction that calculate the number of parcels the customer send and not delievered
+        /// </summary>
+        /// <param name="iD">the customer to check on</param>
+        /// <returns>the number of parcels the customer send and delievered</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int ParcelsCustomerSendAndDelivered(int customerId)
         {
             return DataSource.parcels.Count(h => h.SenderId == customerId && h.Delivered != null);
 
         }
+        /// <summary>
+        /// a unction that calculate the number of parcels the customer send and not delievered
+        /// </summary>
+        /// <param name="iD">the customer to check on</param>
+        /// <returns>the number of parcels the customer send and not delievered</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int ParcelsCustomerSendAndNotDelivered(int customerId)
         {
             return DataSource.parcels.Count(h => h.SenderId == customerId && h.Delivered == null);
 
         }
+        /// <summary>
+        /// a unction that calculate the number of parcels on the way to the customer 
+        /// </summary>
+        /// <param name="iD">the customer to check on</param>
+        /// <returns>the number of parcels the customer send and not delievered</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int ParcelsInTheWayToCustomer(int customerId)
         {

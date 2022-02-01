@@ -25,7 +25,9 @@ namespace PL
     {
         BlApi.IBL myBl;
         BO.User curUser = new User();
-
+     /// <summary>
+     /// constructor
+     /// </summary>
         public MainWindow()
         {
             myBl = BlFactory.GetBl();
@@ -33,18 +35,14 @@ namespace PL
         }
 
        
-
+        //close 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
-        //private void btnGuest_Click(object sender, RoutedEventArgs e)
-        //{
-        //    ManagerMainWindow managementWin = new ManagerMainWindow(myBl);
-        //    this.Close();
-        //    managementWin.ShowDialog();
-        //}
+         
+        //a click to enter to the system to existing user
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
@@ -86,7 +84,7 @@ namespace PL
 
             }
         }
-
+        //a click to open the customer window to add user
         private void btnSignup_Click(object sender, RoutedEventArgs e)
         {
             CustomerWindow cu= new CustomerWindow(myBl);

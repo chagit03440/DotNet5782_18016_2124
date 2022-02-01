@@ -11,7 +11,13 @@ namespace BL
     internal class Simulator
     {
         BLObject bl;
-
+        /// <summary>
+        /// constructor of the simulator
+        /// </summary>
+        /// <param name="_bl"></param>
+        /// <param name="droneID"></param>
+        /// <param name="ReportProgressInSimultor"></param>
+        /// <param name="IsTimeRun"></param>
         public Simulator(BLObject _bl, int droneID, Action ReportProgressInSimultor, Func<bool> IsTimeRun)
         {
             bl = _bl;

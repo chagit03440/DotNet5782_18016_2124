@@ -134,9 +134,7 @@ namespace PL
 
         private void btnSender_Click(object sender, RoutedEventArgs e)
         {
-            //CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ParcelsListView.ItemsSource); //grouping by sender
-            //PropertyGroupDescription groupDescription = new PropertyGroupDescription("SenderId");
-            //view.GroupDescriptions.Add(groupDescription);
+          
             GroupingData = myBl.GetParcels().GroupBy(x => x.SenderId).ToList();
             ParcelsListView.ItemsSource = GroupingData;
 

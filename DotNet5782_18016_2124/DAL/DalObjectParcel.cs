@@ -67,12 +67,21 @@ namespace Dal
             DataSource.parcels.RemoveAt(result);
             DataSource.parcels.Add(Ptmp);
         }
+        /// <summary>
+        /// A function that recieve a parcel and update the parcel whith the same id in the parcels list
+        /// </summary>
+        /// <param name="parcel">the parcel with new data to update</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcels(Parcel parcel)
         {
             DataSource.parcels.RemoveAll(x => x.ID == parcel.ID);
             DataSource.parcels.Add(parcel);
         }
+        /// <summary>
+        /// a function that returns the status of the parcel
+        /// </summary>
+        /// <param name="iD">the id of the parcel</param>
+        /// <returns>the status of the parcel</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int GetStatusOfParcel(int parceliD)
         {
@@ -88,6 +97,10 @@ namespace Dal
             return -1;
 
         }
+        /// <summary>
+        /// A function that recieve a parcel and delete the station whith the same id in the parcels list
+        /// </summary>
+        /// <param name="p">the parcel to delete</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(Parcel p)
         {

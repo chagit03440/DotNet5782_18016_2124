@@ -127,15 +127,6 @@ namespace PL
             bool flag = true;
             try
             {
-                //ParcelForList parcel = new ParcelForList()
-                //{
-                //    Id = Convert.ToInt32(txtId.Text),
-                //    Longitude = (WeightCategories)comboWeight.SelectedItem,
-                //    SenderId = Convert.ToInt32(txtSenderId.Text),
-                //    TargetId= Convert.ToInt32(txtTargetId.Text),
-                //    Priority=(Priorities)comboPriority.SelectedItem,
-
-                //};
                 
                 Parcel p = new Parcel()
                 {

@@ -425,10 +425,18 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcelToAdd)
         {
-            List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath); 
-           
+            List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
+            XElement configXml = XMLTools.LoadListFromXMLElement(configPath);
+            parcelToAdd.ID = 1 + int.Parse(configXml.Element("RowNumbers").Element("NewParcelId").Value);
+            parcelToAdd.Requested = DateTime.Now;
+            parcelToAdd.Scheduled = null;
+            parcelToAdd.PickedUp = null;
+            parcelToAdd.Delivered = null;
             listOfAllParcels.Add(parcelToAdd);
-            XMLTools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelPath);
+            XMLTools.SaveListToXMLSerializer(listOfAllParcels, parcelPath);
+            configXml.Element("RowNumbers").Element("NewParcelId").Value = parcelToAdd.ID.ToString();
+            XMLTools.SaveListToXMLElement(configXml, "ConfigXml.xml");
+
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

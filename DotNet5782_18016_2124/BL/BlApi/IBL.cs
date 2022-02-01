@@ -26,7 +26,17 @@ namespace BlApi
         /// </summary>
         /// <param name="droneId">the number of drone that need to send to recharge</param>
         void SendDroneToRecharge(int droneId);
+        /// <summary>
+        /// A function that gets a user and return true if the user exists or false if not
+        /// </summary>
+        /// <param name="curUser">the user it checks</param>
+        /// <returns>true if the user exists or false if not</returns>
         bool LogInVerify(User curUser);
+        /// <summary>
+        /// A function that gets a user and return true if the user is a worker or false if not
+        /// </summary>
+        /// <param name="curUser">the user it checks</param>
+        /// <returns>true if the user is a worker or false if not</returns>
         bool isWorker(User curUser);
 
         /// <summary>
@@ -156,7 +166,15 @@ namespace BlApi
         /// </summary>
         /// <param name="customer">the customer we need to add</param>
         void AddCustomer(Customer customer);
+        /// <summary>
+        /// A function that recieve a parcel and delete it from the lists of the parcels
+        /// </summary>
+        /// <param name="p">the parcel to delete</param>
         void DeleteParcel(Parcel p);
+        /// <summary>
+        /// A function that recieve a station and delete it from the lists of the stations
+        /// </summary>
+        /// <param name="s">the station to delete</param>
         void DeleteStation(Station s);
 
         /// <summary>
@@ -180,8 +198,23 @@ namespace BlApi
         /// <param name="to">the destination location</param>
         /// <returns>the distance between the locations</returns>
         double calcDistance(Location from, Location to);
+        /// <summary>
+        /// a function that recieves a drone and return the closest base station to the drone
+        /// </summary>
+        /// <param name="drone">the drone that need to recharge</param>
+        /// <returns>the closest base station to the drone</returns>
         Station findClosetBaseStation(DroneForList drone);
+        /// <summary>
+        /// a function that start  the simulator of the drone
+        /// </summary>
+        /// <param name="id">the drone that need to be in simulator</param>
+        /// <param name="update">a function that update the windows of the drones</param>
+        /// <param name="checkStop">a function that tells to the simulator if it needs to stop or not</param>
         void StartDroneSimulator(int id, Action update, Func<bool> checkStop);
+        /// <summary>
+        /// a function that returns an array with the power requested in each status of the drone
+        /// </summary>
+        /// <returns>an array with the power requested in each status of the drone</returns>
         public double[] Power();
     }
 }
