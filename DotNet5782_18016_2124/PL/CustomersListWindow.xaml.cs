@@ -22,7 +22,10 @@ namespace PL
     {
         private BlApi.IBL myBl { get; }
         private ObservableCollection<BO.CustomerForList> collection;
-
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="MyBl"></param>
         public CustomersListWindow(BlApi.IBL MyBl)
         {
             myBl = MyBl;
@@ -43,7 +46,11 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-
+        /// <summary>
+        /// a function to remove the close box from the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void ToolWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
@@ -52,8 +59,11 @@ namespace PL
         }
         
        
-
-       
+        /// <summary>
+        /// a function that open  window with the checked customer 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (CustomersListView.SelectedItem == null)
@@ -78,23 +88,30 @@ namespace PL
 
         }
 
-
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+       
+        /// <summary>
+        /// a function that update the listview in the window
+        /// </summary>
         private void CustomerWindow_Update()
         {
             collection = new ObservableCollection<BO.CustomerForList>(myBl.GetCustomers());
             CustomersListView.ItemsSource = collection;
         }
 
-        
+        /// <summary>
+        /// a function to close the window 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnClose_Click_1(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
+        /// <summary>
+        /// a function that open a customer window in state add
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             CustomerWindow cw = new CustomerWindow(myBl);

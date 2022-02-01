@@ -44,7 +44,10 @@ namespace PL
             get { return selectedCustomer; }
             set { selectedCustomer = value; }
         }
-
+        /// <summary>
+        /// a constructor for add state
+        /// </summary>
+        /// <param name="myBl"></param>
         public CustomerWindow(BlApi.IBL myBl)
         {
             InitializeComponent();
@@ -68,7 +71,11 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-
+        /// <summary>
+        /// a function to remove the close box from the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void ToolWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
@@ -78,8 +85,11 @@ namespace PL
 
 
 
-
-
+        /// <summary>
+        /// a constructor for update mode
+        /// </summary>
+        /// <param name="myBl"></param>
+        /// <param name="c"></param>
         public CustomerWindow(BlApi.IBL myBl, Customer c)
         {
 
@@ -101,6 +111,11 @@ namespace PL
             txtLongtitude.IsEnabled = false;
             txtLatitude.IsEnabled = false;
         }
+        /// <summary>
+        /// a function for update the name of the customer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnUpdateModel_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -121,16 +136,20 @@ namespace PL
             }
         }
 
-
-
-        
-
-
+        /// <summary>
+        /// a function to close the window 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
+        /// <summary>
+        /// a function to add a customer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddCustomer_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
@@ -173,14 +192,18 @@ namespace PL
             if (!flag)
             {
                 var bc = new BrushConverter();
-                txtId.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");
+                txtId.BorderBrush = (Brush)bc.ConvertFrom("#FFE92617");//if there is a customer with the same id
 
             }
             new DroneListWindow(myBl);
             if (flag)
                 this.Close();
         }
-
+        /// <summary>
+        /// a function that change the list by the selected customer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboParcelsFrom_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboParcelsFrom.SelectedItem == null)
@@ -202,7 +225,11 @@ namespace PL
             customerWindow.Show();
 
         }
-
+        /// <summary>
+        /// a function that change the list by the selected customer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboParcelsTo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboParcelsTo.SelectedItem == null)

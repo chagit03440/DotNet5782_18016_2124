@@ -38,15 +38,6 @@ namespace Dal
         // DalXml() {  }
         private DalXml() //private  
         {
-           
-            //List<int> config = XMLTools.LoadListFromXMLSerializer<int>(configPath); 
-            //config.Add(1);
-            //config.Add(2);
-            //config.Add(3);
-            //config.Add(4);
-            //config.Add(1010);
-            //XMLTools.SaveListToXMLSerializer(config, configPath);
-
 
             List<DroneCharge> droneCharge = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);
             //foreach (var item in droneCharge)
@@ -60,7 +51,10 @@ namespace Dal
 
 
         #region station
-
+        /// <summary>
+        ///  A function that recieve a station and add it to the lists of the stations
+        /// </summary>
+        /// <param name="station">the station we need to add</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station station)
         {
@@ -79,7 +73,10 @@ namespace Dal
             stationsRoot.Add(newStation);
 
         }
-
+        /// <summary>
+        /// A function that recieve a station and delete the station whith the same id in the stations list
+        /// </summary>
+        /// <param name="s"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(Station stationID)
         {
@@ -95,7 +92,10 @@ namespace Dal
             XMLTools.SaveListToXMLElement(stationsRoot, stationPath);
         }
 
-
+        /// <summary>
+        /// A function that return from the list of the statoins
+        /// </summary>
+        /// <returns>return the list of stations</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetStations(Func<Station, bool> predicate = null)
         {
@@ -106,7 +106,11 @@ namespace Dal
 
 
         }
-
+        /// <summary>
+        ///  A function that recieve a stations id and return from the list of the stations the station with this id
+        /// </summary>
+        /// <param name="id">the id of the station</param>
+        /// <returns>return the station with this id</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int stationID)
         {
@@ -118,6 +122,10 @@ namespace Dal
             return station;
 
         }
+        /// <summary>
+        /// a function to update a station in the list
+        /// </summary>
+        /// <param name="st">the station to update</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(Station stationT)
         {
@@ -136,6 +144,10 @@ namespace Dal
 
             XMLTools.SaveListToXMLSerializer<Station>(listOfAllStations, stationPath);
         }
+        /// <summary>
+        /// a function that update  the charge slots of the station plus 1
+        /// </summary>
+        /// <param name="stationId">the station to update</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdatePluseChargeSlots(int stationId)
         {
@@ -148,6 +160,10 @@ namespace Dal
         #endregion
 
         #region drone
+        /// <summary>
+        ///  A function that recieve a drone and update the drone whith the same id in the drones list
+        /// </summary>
+        /// <param name="dr">the drone with new data to update</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrones(Drone droneToUpdate)
         {
@@ -164,6 +180,10 @@ namespace Dal
 
             XMLTools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronePath);
         }
+        /// <summary>
+        ///  A function that recieve a drone and add it to the lists of the drones
+        /// </summary>
+        /// <param name="drone">the drone we need to add</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone droneToAdd)
         {
@@ -173,6 +193,10 @@ namespace Dal
             listOfAllDrones.Add(droneToAdd);
             XMLTools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronePath);
         }
+        /// <summary>
+        /// a function to delete a drone
+        /// </summary>
+        /// <param name="id">the id of the drone</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
@@ -185,6 +209,11 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer<Drone>(listOfAllDrones, dronePath);
         }
 
+        /// <summary>
+        /// A function that recieve a drones id and return from the list of the drones the drone with this id
+        /// </summary>
+        /// <param name="id">the id of the drone</param>
+        /// <returns>return the drone with this id</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
@@ -194,6 +223,10 @@ namespace Dal
                 throw new InVaildIdException("The drone in path doesn't exist");
             return drone;
         }
+        /// <summary>
+        /// A function that return from the list of the drones
+        /// </summary>
+        /// <returns>return the list of drones </returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetDrones(Func<Drone, bool> predicate = null)
         {
@@ -207,6 +240,10 @@ namespace Dal
         #endregion
 
         #region users
+        /// <summary>
+        /// a function to add a user 
+        /// </summary>
+        /// <param name="userToAdd">the user to add</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddUser(User userToAdd)
         {
@@ -216,6 +253,11 @@ namespace Dal
             listOfAllUsers.Add(userToAdd);
             XMLTools.SaveListToXMLSerializer<User>(listOfAllUsers, usersPath);
         }
+        /// <summary>
+        /// a function that return part of the users list
+        /// </summary>
+        /// <param name="UserCondition">the condition to the users</param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<User> GetPartOfUsers(Predicate<User> UserCondition)
         {
@@ -225,6 +267,10 @@ namespace Dal
                        select user;
             return list;
         }
+        /// <summary>
+        ///  function that delete a user
+        /// </summary>
+        /// <param name="userName">the name of the user</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteUser(string userName)
         {
@@ -235,12 +281,21 @@ namespace Dal
             listOfAllUsers.Remove(user);
             XMLTools.SaveListToXMLSerializer<User>(listOfAllUsers, usersPath);
         }
+        /// <summary>
+        /// a function that returns the users list
+        /// </summary>
+        /// <returns>the list of users</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<User> GetAllUsers()
         {
             List<User> listOfAllUsers = XMLTools.LoadListFromXMLSerializer<User>(usersPath);
             return listOfAllUsers;
         }
+        /// <summary>
+        /// a function that returns the user with this name
+        /// </summary>
+        /// <param name="userName">the name of the user</param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public User GetUser(string userName)
         {
@@ -250,6 +305,10 @@ namespace Dal
                 return myUser;
             throw new InVaildIdException("the user doesn't exists in system");
         }
+        /// <summary>
+        /// a function that update the parcel
+        /// </summary>
+        /// <param name="usertoUpdate">the parcel to update</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateUser(User usertoUpdate)
         {
@@ -268,6 +327,11 @@ namespace Dal
 
             XMLTools.SaveListToXMLSerializer<User>(listOfAllUsers, usersPath);
         }
+        /// <summary>
+        /// A function that gets a user and return true if the user exists or false if not
+        /// </summary>
+        /// <param name="userDO">the user it checks</param>
+        /// <returns>true if the user exists or false if not</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool LogInVerify(User user)
         {
@@ -287,6 +351,11 @@ namespace Dal
             else
                 throw new DO.InVaildIdException($"bad user id: {user.UserName}");
         }
+        /// <summary>
+        /// A function that gets a user and return true if the user is a worker or false if not
+        /// </summary>
+        /// <param name="userDO">the user it checks</param>
+        /// <returns>true if the user is a worker or false if not</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool isWorker(User user)
         {
@@ -301,6 +370,10 @@ namespace Dal
         #endregion
 
         #region customer
+        /// <summary>
+        /// A function that recieve a customer and add it to the lists of the customers
+        /// </summary>
+        /// <param name="customer">the customer we need to add </param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer customer)
         {
@@ -317,6 +390,10 @@ namespace Dal
             };
             AddUser(u);
         }
+        /// <summary>
+        /// A function that recieve a customer and delete the customer whith the same id in the customers list
+        /// </summary>
+        /// <param name="customerID">the customer id to delete</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int customerID)
         {
@@ -328,6 +405,11 @@ namespace Dal
             XMLTools.SaveListToXMLSerializer<Customer>(listOfCustomer, customerPath);
 
         }
+        /// <summary>
+        /// A function that recieve a customers id and return from the list of the customers the customer with this id
+        /// </summary>
+        /// <param name="id">the id of the customer</param>
+        /// <returns>return the customer with this id</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int customerID)
         {
@@ -339,7 +421,10 @@ namespace Dal
             return customer;
         }
 
-
+        /// <summary>
+        /// A function that return from the list of the customers
+        /// </summary>
+        /// <returns>return the list of customers</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> Getcustomers(Func<Customer, bool> predicate = null)
         {
@@ -349,6 +434,10 @@ namespace Dal
             return listOfCustomer.Where(predicate);
 
         }
+        /// <summary>
+        /// a function to update a customer in the list
+        /// </summary>
+        /// <param name="customer">the customer to update</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomers(Customer customer)
         {
@@ -373,8 +462,11 @@ namespace Dal
         #endregion
 
         #region droneCharge
-
-
+        /// <summary>
+        /// A function that recieve a droneCharge id and return from the list of the droneCharges the droneCharge with this id
+        /// </summary>
+        /// <param name="id">the id of the droneCharge</param>
+        /// <returns>return the droneCharge with this id </returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneCharge GetDroneCharge(int id)
         {
@@ -385,6 +477,10 @@ namespace Dal
             return droneC;
 
         }
+        /// <summary>
+        /// A function that recieve a dronecharge and add it to the lists of the dronescharge
+        /// </summary>
+        /// <param name="droneCharge">the drone to add</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneCharge(DroneCharge droneCharge)
         {
@@ -394,6 +490,10 @@ namespace Dal
             listOfAllDroneCharge.Add(droneCharge);
             XMLTools.SaveListToXMLSerializer<DroneCharge>(listOfAllDroneCharge, droneChargePath);
         }
+        /// <summary>
+        /// A function that recieve a droneCharge and delete the droneCharge whith the same id in the droneCharges list
+        /// </summary>
+        /// <param name="dCharge">the drone to delete</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         private void deleteDroneCharge(DroneCharge dCharge)
         {
@@ -407,6 +507,11 @@ namespace Dal
             droneX.Remove();
             XMLTools.SaveListToXMLElement(droneRoot, droneChargePath);
         }
+        /// <summary>
+        /// a function that returns the list of drones charge
+        /// </summary>
+        /// <param name="predicate">if there is a requierment</param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetDronesInCharge(Func<DroneCharge, bool> predicate = null)
         {
@@ -421,7 +526,10 @@ namespace Dal
         #endregion
 
         #region parcel
-
+        /// <summary>
+        ///  A function that recieve a parcel and add it to the lists of the parcels
+        /// </summary>
+        /// <param name="newParcel">the parcel we need to add</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcelToAdd)
         {
@@ -438,7 +546,10 @@ namespace Dal
             listOfAllParcels.Add(parcelToAdd);
             XMLTools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelPath);
         }
-
+        /// <summary>
+        /// A function that recieve a parcel and delete the station whith the same id in the parcels list
+        /// </summary>
+        /// <param name="p">the parcel to delete</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(Parcel parcel)
         {
@@ -452,7 +563,11 @@ namespace Dal
             parcelX.Remove();
             XMLTools.SaveListToXMLElement(parcelRoot, parcelPath);
         }
-
+        /// <summary>
+        /// A function that recieve a parcels id and return from the list of the parcels the parcel with this id
+        /// </summary>
+        /// <param name="id">the id of the parcel</param>
+        /// <returns>return the drone with this id</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
@@ -462,7 +577,10 @@ namespace Dal
                 throw new InVaildIdException("The parcel in path doesn't exist");
             return parcel;
         }
-
+        /// <summary>
+        /// A function that return from the list of the parcels
+        /// </summary>
+        /// <returns>return the list of parcels</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcels(Func<Parcel, bool> predicate = null)
         {
@@ -472,6 +590,10 @@ namespace Dal
             return listOfAllParcels.Where(predicate);
 
         }
+        /// <summary>
+        /// a function to update a parcel in the list
+        /// </summary>
+        /// <param name="parcel">the parcel to update</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcels(Parcel parceltoUpdate)
         {
@@ -495,7 +617,11 @@ namespace Dal
 
             XMLTools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelPath);
         }
-
+        /// <summary>
+        /// a function that returns the status of the parcel
+        /// </summary>
+        /// <param name="iD">the id of the parcel</param>
+        /// <returns>the status of the parcel</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int GetStatusOfParcel(int iD)
         {
@@ -512,7 +638,11 @@ namespace Dal
         }
 
 
-
+        /// <summary>
+        /// A function that recieve a station and a drone and create a new dronecharge with both id`s and update the station accordingly
+        /// </summary>
+        /// <param name="station">the station that the drone charge there</param>
+        /// <param name="drone">the drone thet need to charge</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AnchorDroneStation(Station station, Drone drone)
         {
@@ -544,7 +674,11 @@ namespace Dal
             AddDroneCharge(dCharge);
             UpdateStation(station);
         }
-
+        /// <summary>
+        /// A function that recieve a parcel and a drone and and update the parcel to be connected to the drone, update the list of the parcels and drones accordingly
+        /// </summary>
+        /// <param name="parcel">the parcel thet need to updat</param>
+        /// <param name="drone">the drone thet need to updat</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void BelongingParcel(Parcel parcel, Drone drone)
         {
@@ -575,6 +709,11 @@ namespace Dal
             //updating parcels
             UpdateParcels(parcel);
         }
+        /// <summary>
+        /// A function that recieve a station and a drone and releas the ststion that charged him, and update the lists of the drones and station accordingly
+        /// </summary>
+        /// <param name="drone">the drone its need to release</param>
+        /// <param name="st">the station that charged this drone</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void ReleasDrone(Drone drone, Station st)
         {
@@ -604,7 +743,11 @@ namespace Dal
             UpdateStation(st);
         }
 
-
+        /// <summary>
+        /// function that recieve a parcel and a customer,update the parcel supply to the customer and update  the lists of the customers and parcels accordingly
+        /// </summary>
+        /// <param name="parcel">the parcel its need to supply</param>
+        /// <param name="customer">the customer that recieve the parcel</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void SupplyParcel(Parcel parcel, Customer customer)
         {
@@ -630,6 +773,12 @@ namespace Dal
             DeleteCustomer(customer.ID);
             UpdateParcels(parcel);
         }
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="coord"></param>
+        /// <param name="latOrLot"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public string DecimalToSexagesimal(double coord, char latOrLot)
         {
@@ -658,16 +807,34 @@ namespace Dal
             string toReturn = deg + "° " + min + $"' " + sec + quote + direction;
             return toReturn;
         }
+        /// <summary>
+        /// computes half a versine of the angle
+        /// </summary>
+        /// <param name="radian">the angle`s computes </param>
+        /// <returns>return half a versine of the angle</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double Hav(double radian)
         {
             return Math.Sin(radian / 2) * Math.Sin(radian / 2);
         }
+        /// <summary>
+        /// computes an angle in radians
+        /// </summary>
+        /// <param name="degree">a number to transfore to radian</param>
+        /// <returns>returns an angle in radians</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double Radians(double degree)
         {
             return degree * Math.PI / 180;
         }
+        /// <summary>
+        ///  receiving 2 points the haversine formula returns the distance (in km) between the 2
+        /// </summary>
+        /// <param name="lon1"></param>
+        /// <param name="lat1"></param>
+        /// <param name="lon2"></param>
+        /// <param name="lat2"></param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double Haversine(double lon1, double lat1, double lon2, double lat2)
         {
@@ -679,6 +846,11 @@ namespace Dal
             double distance = 2 * RADIUS * Math.Asin(havd);
             return distance;
         }
+        /// <summary>
+        /// a unction that calculate the number of available Charging Ports
+        /// </summary>
+        /// <param name="baseStationId">the base staion to check on</param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int AvailableChargingPorts(int baseStationId)
         {
@@ -692,29 +864,51 @@ namespace Dal
                 throw new InVaildIdException("Station didn't exist", ex);
             }
         }
+        /// <summary>
+        /// a unction that calculate the number of parcels the customer got
+        /// </summary>
+        /// <param name="customerId">the customer to check on</param>
+        /// <returns>the number of parcels the customer got</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int ParcelsCustomerGot(int customerId)
         {
             return GetParcels(h => h.TargetId == customerId).Count();
         }
+        /// <summary>
+        /// a unction that calculate the number of parcels the customer send and not delievered
+        /// </summary>
+        /// <param name="customerId">the customer to check on</param>
+        /// <returns>the number of parcels the customer send and delievered</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int ParcelsCustomerSendAndDelivered(int customerId)
         {
             return GetParcels(h => h.SenderId == customerId && h.Delivered != null).Count();
         }
-
+        /// <summary>
+        /// a function to update a parcel in the list
+        /// </summary>
+        /// <param name="parcel">the parcel to update</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(Parcel parcel)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// A function that recieve a customer and update the customer whith the same id in the customers list
+        /// </summary>
+        /// <param name="customer">the customer with new data to update</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer customer)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// a function to calc a distance between points
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="lonP"></param>
+        /// <param name="latP"></param>
+        /// <returns>the distance</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double Distance(int ID, double lonP, double latP)
         {
@@ -728,7 +922,10 @@ namespace Dal
                 foreach (Station Kingsx in GetStations()) { if (Kingsx.ID == ID) return Haversine(lonP, latP, Kingsx.Longitude, Kingsx.Lattitude); }
             return 0.0;// default return
         }
-
+        /// <summary>
+        /// a function that returns an array with the power requested in each status of the drone
+        /// </summary>
+        /// <returns>an array with the power requested in each status of the drone</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] PowerRequest()
         {
@@ -738,20 +935,33 @@ namespace Dal
                     .Select(e => Convert.ToDouble(e.Value)).ToArray();
             
         }
-
+        /// <summary>
+        /// a unction that calculate the number of parcels the customer send and not delievered
+        /// </summary>
+        /// <param name="iD">the customer to check on</param>
+        /// <returns>the number of parcels the customer send and not delievered</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int ParcelsCustomerSendAndNotDelivered(int iD)
         {
             return GetParcels(h => h.SenderId == iD && h.Delivered == null).Count();
         }
 
-
+        /// <summary>
+        /// a unction that calculate the number of parcels on the way to the customer 
+        /// </summary>
+        /// <param name="iD">the customer to check on</param>
+        /// <returns>the number of parcels the customer send and not delievered</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int ParcelsInTheWayToCustomer(int customerId)
         {
             return GetParcels(h => h.TargetId == customerId && h.PickedUp != null).Count();
 
         }
+
+        /// <summary>
+        ///  A function that recieve a station and update the station whith the same id in the stations list
+        /// </summary>
+        /// <param name="stationT">the drone with new data to update</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStations(Station stationT)
         {
