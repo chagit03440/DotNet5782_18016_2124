@@ -24,6 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalApi", "DalApi\DalApi.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{21A3DC7A-F592-43EE-B4E0-458E9EDC483F}"
 	ProjectSection(SolutionItems) = preProject
+		xml\ConfigXml.xml = xml\ConfigXml.xml
 		xml\CustomersXml.xml = xml\CustomersXml.xml
 		xml\dal-config.xml = xml\dal-config.xml
 		xml\DroneChargeXml.xml = xml\DroneChargeXml.xml

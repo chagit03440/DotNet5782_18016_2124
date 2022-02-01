@@ -102,6 +102,52 @@
             <ListView.Background>
                 <ImageBrush/>
             </ListView.Background>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Drone Status" Width="110" DisplayMemberBinding="{Binding Status}" />
+                    <GridViewColumn Header="ID" Width="90" DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Model" Width="100" DisplayMemberBinding="{Binding Model}" />
+                    <GridViewColumn Header="Max Weight" Width="100" DisplayMemberBinding="{Binding MaxWeight}" />
+                    <GridViewColumn Header="Battery" Width="80" DisplayMemberBinding="{Binding Battery,StringFormat = N0}" />
+                    <GridViewColumn Header="Location" Width="140" DisplayMemberBinding="{Binding DroneLocation}" />
+                    <GridViewColumn Header=" Number of Parcel" Width="40" DisplayMemberBinding="{Binding ParcelId}" />
+                    <GridViewColumn Header="Is active" Width="50" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding isActive}" IsEnabled="False" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+
+            <ListView.GroupStyle>
+                <GroupStyle>
+
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Expander IsExpanded="False">
+                                            <Expander.Header>
+                                                <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListView.GroupStyle>
         </ListView>
     </Grid>
 

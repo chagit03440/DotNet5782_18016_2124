@@ -23,6 +23,8 @@ namespace Dal
         static string dronePath = "DronesXml.xml";//XMLSerializer
         static string usersPath = "UsersXml.xml";//XMLSerializer
         static string droneChargePath = "DroneChargeXml.xml";
+        static string configPath = "ConfigXml.xml";
+
 
         internal static double available = 0;
         internal static double lightWeight = 10;
@@ -36,11 +38,21 @@ namespace Dal
         // DalXml() {  }
         private DalXml() //private  
         {
+           
+            //List<int> config = XMLTools.LoadListFromXMLSerializer<int>(configPath); 
+            //config.Add(1);
+            //config.Add(2);
+            //config.Add(3);
+            //config.Add(4);
+            //config.Add(1010);
+            //XMLTools.SaveListToXMLSerializer(config, configPath);
+
+
             List<DroneCharge> droneCharge = XMLTools.LoadListFromXMLSerializer<DroneCharge>(droneChargePath);
-            foreach (var item in droneCharge)
-            {
-                UpdatePluseChargeSlots(item.StationId);
-            }
+            //foreach (var item in droneCharge)
+            //{
+            //    UpdatePluseChargeSlots(item.StationId);
+            //}
             droneCharge.Clear();
             XMLTools.SaveListToXMLSerializer(droneCharge, droneChargePath);
         }
@@ -107,18 +119,22 @@ namespace Dal
 
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void UpdateStation(Station station)
+        public void UpdateStation(Station stationT)
         {
-            XElement stationsRoot = XMLTools.LoadListFromXMLElement(stationPath);
-            var stations = (from stationElem in stationsRoot.Elements()
-                            where (stationElem.Element("ID").Value == station.ID.ToString())
+            List<Station> listOfAllStations = XMLTools.LoadListFromXMLSerializer<Station>(stationPath);
 
-                            select stationElem).FirstOrDefault();
-            if (stations == null)
-                throw new InVaildIdException("the station dosn't exists");
-            Station s = GetStation(station.ID);
-            stations.Element("Name").Value = s.Name.ToString();
-            stations.Element("ChargeSlots").Value = station.ChargeSlots.ToString();
+            Station station = listOfAllStations.Find(x => x.ID == stationT.ID);
+
+            if (!listOfAllStations.Exists(x => x.ID == stationT.ID))
+                throw new InVaildIdException("This drone doesn't exist in the system");
+            station.ChargeSlots = stationT.ChargeSlots;
+            if (stationT.Name != null)
+                station.Name = stationT.Name;
+            int index = listOfAllStations.FindIndex(x => x.ID == station.ID);
+            listOfAllStations.RemoveAt(index);
+            listOfAllStations.Insert(index, station);
+
+            XMLTools.SaveListToXMLSerializer<Station>(listOfAllStations, stationPath);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdatePluseChargeSlots(int stationId)
@@ -293,6 +309,13 @@ namespace Dal
                 throw new AlreadyExistExeption("The bus already exist in the system");
             listOfCustomer.Add(customer);
             XMLTools.SaveListToXMLSerializer<Customer>(listOfCustomer, customerPath);
+            User u = new User()
+            {
+                UserName = customer.Name,
+                Password = customer.ID.ToString(),
+                Worker = false
+            };
+            AddUser(u);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int customerID)
@@ -327,7 +350,7 @@ namespace Dal
 
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void UpdateCustomer(Customer customer)
+        public void UpdateCustomers(Customer customer)
         {
             var listOfCustomer = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
             Customer myCustomer = listOfCustomer.Find(x => x.ID == customer.ID);
@@ -405,6 +428,8 @@ namespace Dal
             List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
             if (!listOfAllParcels.Exists(x => x.ID == parcelToAdd.ID))
                 throw new AlreadyExistExeption("The parcel already axist in the path");
+           //int[] pid = XMLTools.LoadListFromXMLElement(configPath).Element("RowNumbers").Elements().ToArray();
+           
             listOfAllParcels.Add(parcelToAdd);
             XMLTools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelPath);
         }
@@ -443,7 +468,7 @@ namespace Dal
 
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void UpdateParcel(Parcel parceltoUpdate)
+        public void UpdateParcels(Parcel parceltoUpdate)
         {
             List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
             Parcel parcel = listOfAllParcels.Find(x => x.ID == parceltoUpdate.ID);
@@ -504,7 +529,8 @@ namespace Dal
             {
                 throw new InVaildIdException($"cannot anchor drone{drone.ID}to station", p);
             }
-            station.ChargeSlots--;
+            if(station.ChargeSlots>0)
+                 station.ChargeSlots--;
             DroneCharge dCharge = new DroneCharge()
             {
                 DroneId = drone.ID,
@@ -597,7 +623,7 @@ namespace Dal
 
             parcel.Scheduled = DateTime.Today;
             DeleteCustomer(customer.ID);
-            UpdateParcel(parcel);
+            UpdateParcels(parcel);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public string DecimalToSexagesimal(double coord, char latOrLot)
@@ -673,13 +699,13 @@ namespace Dal
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void UpdateParcels(Parcel parcel)
+        public void UpdateParcel(Parcel parcel)
         {
             throw new NotImplementedException();
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void UpdateCustomers(Customer customer)
+        public void UpdateCustomer(Customer customer)
         {
             throw new NotImplementedException();
         }
@@ -701,13 +727,10 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] PowerRequest()
         {
-            double[] arr = new double[5];
-            arr[0] = available;
-            arr[1] = lightWeight;
-            arr[2] = mediumWeight;
-            arr[3] = heavyWeight;
-            arr[4] = chargingRate;
-            return arr;
+            
+                return XMLTools.LoadListFromXMLElement(configPath).Element("BatteryUsages").Elements()
+                    .Select(e => Convert.ToDouble(e.Value)).ToArray();
+            
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -724,9 +747,22 @@ namespace Dal
 
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void UpdateStations(Station st)
+        public void UpdateStations(Station stationT)
         {
-            throw new NotImplementedException();
+            List<Station> listOfAllStations = XMLTools.LoadListFromXMLSerializer<Station>(stationPath);
+
+            Station station = listOfAllStations.Find(x => x.ID == stationT.ID);
+
+            if (!listOfAllStations.Exists(x => x.ID == stationT.ID))
+                throw new InVaildIdException("This drone doesn't exist in the system");
+            station.ChargeSlots = stationT.ChargeSlots;
+            if (stationT.Name != null)
+                station.Name = stationT.Name;
+            int index = listOfAllStations.FindIndex(x => x.ID == station.ID);
+            listOfAllStations.RemoveAt(index);
+            listOfAllStations.Insert(index, station);
+
+            XMLTools.SaveListToXMLSerializer<Station>(listOfAllStations, stationPath);
         }
 
 

@@ -50,9 +50,9 @@
             <ImageBrush ImageSource="/DRONE3.png"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="39*"/>
-            <ColumnDefinition Width="119*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="79*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="116.007"/>
@@ -67,7 +67,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="comboPrioritySelector" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.5,0.5" Margin="5,31,7,0" Height="24" SelectionChanged="comboPrioritySelector_SelectionChanged">
+            <ComboBox Name="comboPrioritySelector" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.5,0.5" Margin="5,33,7,0" Height="24" SelectionChanged="comboPrioritySelector_SelectionChanged">
                 <ComboBox.Background>
                     <LinearGradientBrush EndPoint="0,1">
                         <GradientStop Color="#FFF0F0F0"/>
@@ -75,7 +75,7 @@
                     </LinearGradientBrush>
                 </ComboBox.Background>
             </ComboBox>
-            <ComboBox Name="comboStatusSelector" Grid.Column="1" Width="120" RenderTransformOrigin="0.5,0.5" Margin="4,26,7,66"  Height="24" SelectionChanged="comboStatusSelector_SelectionChanged">
+            <ComboBox Name="comboStatusSelector" Grid.Column="1" Width="120" RenderTransformOrigin="0.5,0.5" Margin="4,32,7,60"  Height="24" SelectionChanged="comboStatusSelector_SelectionChanged">
                 <ComboBox.Background>
                     <LinearGradientBrush EndPoint="0,1">
                         <GradientStop Color="#FFF0F0F0"/>
@@ -84,7 +84,7 @@
                 </ComboBox.Background>
             </ComboBox>
             <Label Content="Priority Selector" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top"/>
-            <Label Content="Status Selector" Grid.Column="1" HorizontalAlignment="Center" Margin="0,63,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiCondensed"/>
+            <Label Content="Status Selector" Grid.Column="1" HorizontalAlignment="Center" Margin="0,69,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift SemiCondensed"/>
             <Label Content="Add Parcel" Grid.Column="3" HorizontalAlignment="Left" Margin="32,68,0,0" VerticalAlignment="Top"/>
             <Label Content="Close" Grid.Column="5" HorizontalAlignment="Left" Margin="33,70,0,-24" Width="51"/>
             <Button Name="btnAddParcel" Content="Add parcel" Grid.Column="3" HorizontalAlignment="Left" Margin="3,23,0,0" VerticalAlignment="Top" Height="35" Width="124" Click="btnAddParcel_Click" OpacityMask="Black">
@@ -94,7 +94,7 @@
             </Button>
             <Button Name="btnClose" Content="Close" Grid.Column="4" HorizontalAlignment="Left" Margin="129,20,0,0" VerticalAlignment="Top" Height="36" Width="126" Click="btnClose_Click" Background="#FF494E7A" Grid.ColumnSpan="2"/>
             <Button Name="btnSender" Content="Gruop by Sender" Grid.Column="4" HorizontalAlignment="Center" Margin="0,19,0,0" VerticalAlignment="Top" Height="41" Width="113" Click="btnSender_Click"/>
-            <ComboBox x:Name="comboWeightSelector" Grid.Column="2" Width="120" RenderTransformOrigin="0.5,0.5" Margin="2,26,10,66"  Height="24" SelectionChanged="comboWehigtSelector_SelectionChanged">
+            <ComboBox x:Name="comboWeightSelector" Grid.Column="2" Width="120" RenderTransformOrigin="0.5,0.5" Margin="2,30,10,62"  Height="24" SelectionChanged="comboWehigtSelector_SelectionChanged">
                 <ComboBox.Background>
                     <LinearGradientBrush EndPoint="0,1">
                         <GradientStop Color="#FFF0F0F0"/>
@@ -102,12 +102,50 @@
                     </LinearGradientBrush>
                 </ComboBox.Background>
             </ComboBox>
-            <Label Name="lblWeightSelector" Content="Weight Selector" Grid.Column="2" HorizontalAlignment="Center" Margin="0,64,0,0" VerticalAlignment="Top" Height="43" Width="110"/>
+            <Label Name="lblWeightSelector" Content="Weight Selector" Grid.Column="2" HorizontalAlignment="Center" Margin="0,67,0,0" VerticalAlignment="Top" Height="28" Width="110"/>
         </Grid>
         <ListView x:Name="ParcelsListView" Margin="5,8,5,131" MouseDoubleClick="ListView_MouseDoubleClick" Grid.RowSpan="2" Grid.ColumnSpan="3" FontWeight="Bold" FontSize="16" >
             <ListView.Background>
                 <ImageBrush/>
             </ListView.Background>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" Width="90" DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Sender Id" Width="110" DisplayMemberBinding="{Binding SenderId}" />
+                    <GridViewColumn Header="Target Id" Width="100" DisplayMemberBinding="{Binding TargetId}" />
+                    <GridViewColumn Header="Weight" Width="100" DisplayMemberBinding="{Binding Longitude}" />
+                    <GridViewColumn Header="Priority" Width="80" DisplayMemberBinding="{Binding Priority}" />
+                    <GridViewColumn Header="Status" Width="140" DisplayMemberBinding="{Binding Status}" />
+                </GridView>
+            </ListView.View>
+
+            <ListView.GroupStyle>
+                <GroupStyle>
+
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Expander IsExpanded="False">
+                                            <Expander.Header>
+                                                <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListView.GroupStyle>
         </ListView>
     </Grid>
 

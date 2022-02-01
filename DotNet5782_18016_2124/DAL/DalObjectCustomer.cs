@@ -25,6 +25,13 @@ namespace Dal
                 throw new InVaildIdException($"id{customer.ID} allready exist!!");
             };
             DataSource.customers.Add(customer);
+            User u = new User()
+            {
+                UserName = customer.Name,
+                Password =customer.ID.ToString(),
+                Worker = false
+            };
+            DataSource.ListUser.Add(u);
         }
         /// <summary>
         /// A function that recieve a customers id and return from the list of the customers the customer with this id

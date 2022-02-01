@@ -126,81 +126,12 @@ namespace BL
                             drone.DroneLocation = findDroneLocation(drone);
                             drone.ParcelId = 0;
                             int minBattery = calcMinBatteryRequired(drone);
-                            drone.Battery = (double)rand.Next(minBattery, 100) / 100;
+                            drone.Battery = (double)rand.Next(minBattery, 100);
                         }
                     }
                 }
             }
             }
-
-        //private void initializeDrones()
-        //{
-        //    bool flag = false;
-        //    Random rnd = new Random();
-        //    double minBatery = 0;
-
-        //    IEnumerable<IDAL.DO.Drone> d = myDal.GetDrones();
-        //    IEnumerable<IDAL.DO.Parcel> p = myDal.GetParcels();
-        //    foreach (var item in d)
-        //    {
-        //        IBL.BO.DroneForList drt = new DroneForList();
-        //        drt.Id = item.ID;
-        //        drt.Model = item.Model;
-        //        foreach (var pr in p)
-        //        {
-        //            if (pr.DroneId == item.ID && pr.Delivered == DateTime.MinValue)
-        //            {
-        //                IDAL.DO.Customer sender = myDal.GetCustomer(pr.SenderId);
-        //                IDAL.DO.Customer target = myDal.GetCustomer(pr.TargetId);
-        //                IBL.BO.DroneLocation senderLocation = new DroneLocation { Lattitude = sender.Lattitude, Longitude = sender.Longitude };
-        //                IBL.BO.DroneLocation targetLocation = new DroneLocation { Lattitude = target.Lattitude, Longitude = target.Longitude };
-        //                drt.Status = DroneStatuses.Shipping;
-        //                if (pr.PickedUp == null && pr.Scheduled != null)//החבילה שויכה אבל עדיין לא נאספה
-        //                {
-        //                    drt.DroneLocation = new DroneLocation { Lattitude = findClosetBaseStationLocation(senderLocation).Lattitude, Longitude = findClosetBaseStationLocation(senderLocation).Longitude };
-        //                    minBatery = calcDistance(drt.DroneLocation, senderLocation) * myDal.PowerRequest()[0];
-        //                    minBatery += calcDistance(senderLocation, targetLocation) * myDal.PowerRequest()[3]/*/*//*indexOfChargeCapacity(pr.Longitude)*//*/*/;
-        //                    minBatery += calcDistance(targetLocation, new DroneLocation { Lattitude = findClosetBaseStationLocation(targetLocation).Lattitude, Longitude = findClosetBaseStationLocation(targetLocation).Longitude }) * myDal.PowerRequest()[0];
-        //                }
-        //                if (pr.PickedUp != null && pr.Delivered == null)//החבילה נאספה אבל עדיין לא הגיעה ליעד
-        //                {
-        //                    drt.DroneLocation = new DroneLocation();
-        //                    drt.DroneLocation = senderLocation;
-        //                    minBatery = calcDistance(targetLocation, new DroneLocation { Lattitude = findClosetBaseStationLocation(targetLocation).Lattitude, Longitude = findClosetBaseStationLocation(targetLocation).Longitude }) * myDal.PowerRequest()[0];
-        //                    minBatery += calcDistance(drt.DroneLocation, targetLocation) * myDal.PowerRequest()[2];//indexOfChargeCapacity(pr.Longitude);
-        //                }
-        //                drt.Battery = rnd.Next((int)minBatery, 101);
-        //                flag = true;
-        //                break;
-        //            }
-        //        }
-        //        if (!flag)
-        //        {
-        //            int temp = rnd.Next(1, 3);
-        //            if (temp == 1)
-        //                drt.Status = IBL.BO.DroneStatuses.Free;
-        //            else
-        //                drt.Status = IBL.BO.DroneStatuses.Maintenance;
-        //            if (drt.Status == IBL.BO.DroneStatuses.Maintenance)
-        //            {
-        //                int l = rnd.Next(0, myDal.GetStations().Count()), i = 0;
-        //                IDAL.DO.Station s = new IDAL.DO.Station();
-        //                foreach (var ite in myDal.GetStations())
-        //                {
-        //                    s = ite;
-        //                    if (i == l)
-        //                        break;
-        //                    i++;
-        //                }
-        //                Station station = new Station()
-        //                {
-        //                    Id = s.ID,
-        //                    ChargeSlots = s.ChargeSlots,
-        //                    Name = s.Name,
-        //                    DroneLocation = new DroneLocation() { Lattitude = s.Lattitude, Longitude = s.Longitude }
-        //                };
-        //                drt.DroneLocation = new DroneLocation { Lattitude = s.Lattitude, Longitude = s.Longitude };
-        //                drt.Battery = rnd.Next(0, 21);
 
 
 

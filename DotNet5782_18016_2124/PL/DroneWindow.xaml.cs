@@ -30,6 +30,7 @@ namespace PL
         private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
         private DroneWindow windowDrones;
 
         void ToolWindow_Loaded(object sender, RoutedEventArgs e)
@@ -45,41 +46,7 @@ namespace PL
         public event Action Update = delegate { };
         BackgroundWorker worker;
         bool charge;
-        //public bool Charge
-        //{
-        //    get => charge;
-        //    set => this.setAndNotify(PropertyChanged, nameof(Charge), out charge, value);
-        //}
-        //bool release;
-        //public bool Release
-        //{
-        //    get => release;
-        //    set => this.setAndNotify(PropertyChanged, nameof(Release), out release, value);
-        //}
-        //bool auto;
-        //public bool Auto
-        //{
-        //    get => auto;
-        //    set => this.setAndNotify(PropertyChanged, nameof(Auto), out auto, value);
-        //}
-        //bool schedule;
-        //public bool Schedule
-        //{
-        //    get => schedule;
-        //    set => this.setAndNotify(PropertyChanged, nameof(Schedule), out schedule, value);
-        //}
-        //bool pickup;
-        //public bool Pickup
-        //{
-        //    get => pickup;
-        //    set => this.setAndNotify(PropertyChanged, nameof(Pickup), out pickup, value);
-        //}
-        //bool deliver;
-        //public bool Deliver
-        //{
-        //    get => deliver;
-        //    set => this.setAndNotify(PropertyChanged, nameof(Deliver), out deliver, value);
-        //}
+       
         public Drone Drone { get => drone; }
 
         public DroneWindow(BlApi.IBL myBl)

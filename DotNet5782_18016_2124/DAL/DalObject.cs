@@ -112,7 +112,8 @@ namespace Dal
             {
                 throw new InVaildIdException($"cannot anchor drone{drone.ID}to station");
             }
-            station.ChargeSlots--;
+            if(station.ChargeSlots>0)
+                station.ChargeSlots--;
             DroneCharge dCharge = new DroneCharge()
             {
                 DroneId = drone.ID,

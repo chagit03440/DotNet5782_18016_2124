@@ -140,8 +140,8 @@ namespace PL
             {
                 s.Name = txtName.Text;
                 myBl.UpdateStation(s,-1);
-                MessageBox.Show("the name of the station was successfully updated");
                 Update();
+                MessageBox.Show("the name of the station was successfully updated");
                 Station dr = myBl.GetStation(s.Id);
                 //fillTextbox(s);
                 
