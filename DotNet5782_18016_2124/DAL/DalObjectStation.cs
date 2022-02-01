@@ -40,12 +40,21 @@ namespace Dal
             };
             return DataSource.stations.Find(x => x.ID == id);
         }
+        /// <summary>
+        /// A function that recieve a station and delete the station whith the same id in the stations list
+        /// </summary>
+        /// <param name="s"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStations(Station st)
         {
             DataSource.stations.RemoveAll(item => item.ID == st.ID);
             DataSource.stations.Add(st);
         }
+        /// <summary>
+        /// a unction that calculate the number of available Charging Ports
+        /// </summary>
+        /// <param name="baseStationId">the base staion to check on</param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int AvailableChargingPorts(int baseStationId)
         {
@@ -59,6 +68,10 @@ namespace Dal
                 throw new InVaildIdException("Station didn't exist", ex);
             }
         }
+        /// <summary>
+        /// A function that recieve a station and delete the station whith the same id in the stations list
+        /// </summary>
+        /// <param name="s"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(Station s)
         {

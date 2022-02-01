@@ -34,7 +34,9 @@ namespace DAL
             internal static List<User> ListUser = new List<User>();
 
             static Random rand = new Random();
-
+            /// <summary>
+            /// a function 
+            /// </summary>
             internal static void Initialize()
             {
                 creatDrone(10);

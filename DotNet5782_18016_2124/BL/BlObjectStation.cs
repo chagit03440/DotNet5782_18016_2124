@@ -77,6 +77,10 @@ namespace BL
             }
 
         }
+        /// <summary>
+        /// A function that recieve a station and delete it from the lists of the stations
+        /// </summary>
+        /// <param name="s">the station to delete</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(Station s)
         {

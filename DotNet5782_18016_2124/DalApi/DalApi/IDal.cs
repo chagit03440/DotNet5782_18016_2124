@@ -99,6 +99,10 @@ namespace DalApi
         /// </summary>
         /// <param name="parcel">the parcel with new data to update</param>
         void UpdateParcel(Parcel parcel);
+        /// <summary>
+        /// A function that recieve a parcel and delete the station whith the same id in the parcels list
+        /// </summary>
+        /// <param name="p">the parcel to delete</param>
         void DeleteParcel(Parcel p);
         /// <summary>
         /// A function that recieve a station and delete the station whith the same id in the stations list
@@ -178,22 +182,87 @@ namespace DalApi
         /// <param name="lat2"></param>
         /// <returns></returns>
         double Haversine(double lon1, double lat1, double lon2, double lat2);
+        /// <summary>
+        /// a unction that calculate the number of available Charging Ports
+        /// </summary>
+        /// <param name="baseStationId">the base staion to check on</param>
+        /// <returns></returns>
         int AvailableChargingPorts(int baseStationId);
+        /// <summary>
+        /// a function that returns the list of drones charge
+        /// </summary>
+        /// <param name="predicate">if there is a requierment</param>
+        /// <returns></returns>
         IEnumerable<DroneCharge> GetDronesInCharge(Func<DroneCharge, bool> predicate = null);
-        // IEnumerable<Station> AvailableChargingStations();
+        /// <summary>
+        /// a unction that calculate the number of parcels the customer got
+        /// </summary>
+        /// <param name="customerId">the customer to check on</param>
+        /// <returns>the number of parcels the customer got</returns>
         int ParcelsCustomerGot(int customerId);
+        /// <summary>
+        /// a unction that calculate the number of parcels the customer send and not delievered
+        /// </summary>
+        /// <param name="customerId">the customer to check on</param>
+        /// <returns>the number of parcels the customer send and delievered</returns>
         int ParcelsCustomerSendAndDelivered(int customerId);
-
+        /// <summary>
+        /// a function to update a station in the list
+        /// </summary>
+        /// <param name="st">the station to update</param>
         void UpdateStations(Station st);
+        /// <summary>
+        /// a function to update a parcel in the list
+        /// </summary>
+        /// <param name="parcel">the parcel to update</param>
         void UpdateParcels(Parcel parcel);
+        /// <summary>
+        /// a function to update a customer in the list
+        /// </summary>
+        /// <param name="customer">the customer to update</param>
         void UpdateCustomers(Customer customer);
+        /// <summary>
+        /// a function to calc a distance between points
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="lonP"></param>
+        /// <param name="latP"></param>
+        /// <returns>the distance</returns>
         double Distance(int ID, double lonP, double latP);
-
+        /// <summary>
+        /// a function that returns an array with the power requested in each status of the drone
+        /// </summary>
+        /// <returns>an array with the power requested in each status of the drone</returns>
         double[] PowerRequest();
+        /// <summary>
+        /// a unction that calculate the number of parcels the customer send and not delievered
+        /// </summary>
+        /// <param name="iD">the customer to check on</param>
+        /// <returns>the number of parcels the customer send and not delievered</returns>
         int ParcelsCustomerSendAndNotDelivered(int iD);
+        /// <summary>
+        /// a unction that calculate the number of parcels on the way to the customer 
+        /// </summary>
+        /// <param name="iD">the customer to check on</param>
+        /// <returns>the number of parcels the customer send and not delievered</returns>
         int ParcelsInTheWayToCustomer(int iD);
+        /// <summary>
+        /// a function that returns the status of the parcel
+        /// </summary>
+        /// <param name="iD">the id of the parcel</param>
+        /// <returns>the status of the parcel</returns>
         int GetStatusOfParcel(int iD);
+        /// <summary>
+        /// A function that gets a user and return true if the user exists or false if not
+        /// </summary>
+        /// <param name="userDO">the user it checks</param>
+        /// <returns>true if the user exists or false if not</returns>
         bool LogInVerify(User userDO);
+        /// <summary>
+        /// A function that gets a user and return true if the user is a worker or false if not
+        /// </summary>
+        /// <param name="userDO">the user it checks</param>
+        /// <returns>true if the user is a worker or false if not</returns>
         bool isWorker(User userDO);
     }
 }

@@ -146,19 +146,7 @@ namespace BL
             lock (myDal)
             {
                 DroneForList df = drones.FirstOrDefault(x => x.Id == requestedId);
-                //Parcel p = GetParcel(df.ParcelId);
-                //PackageInTransfer Pack = new PackageInTransfer()
-                //{
-                //    Id = df.ParcelId,
-                //    Longitude = p.Longitude,
-                //    Collection = GetCustomer(p.Sender.Id).DroneLocation,
-                //    DeliveryDestination = GetCustomer(p.Target.Id).DroneLocation,
-                //    Priority = p.Priority,
-                //    Sender = p.Sender,
-                //    Target = p.Target,
-                //    Status = (ParcelStatuses)getParcelStatus(myDal.GetParcel(p.Id)),
-                //    TransportDistance = calcDistance(GetCustomer(p.Sender.Id).DroneLocation, GetCustomer(p.Target.Id).DroneLocation)
-                //};
+               
                 Drone droneBO = new Drone()
                 {
                     Id = df.Id,
@@ -224,6 +212,11 @@ namespace BL
             }
             
         }
+        /// <summary>
+        /// A function that recieve a drones id and return from the list of the drone the drone with this id
+        /// </summary>
+        /// <param name="requestedId">drone id</param>
+        /// <returns>return the drone for list with this id</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DroneForList GetDroneForList(int requestedId)
         {

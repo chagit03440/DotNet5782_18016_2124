@@ -57,6 +57,11 @@ namespace BL
                 return parcelBO;
             }
         }
+        /// <summary>
+        /// A function that recieve a parcels id and return from the list of the parcel the parcel with this id
+        /// </summary>
+        /// <param name="requestedId">id parcel</param>
+        /// <returns>return the parcelForList with this id</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public ParcelForList GetParcelForList(int requestedId)
         {
@@ -147,6 +152,10 @@ namespace BL
                 myDal.UpdateParcel(p);
             }
         }
+        /// <summary>
+        /// A function that recieve a parcel and delete it from the lists of the parcels
+        /// </summary>
+        /// <param name="p">the parcel to delete</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(Parcel p)
         {

@@ -57,6 +57,11 @@ namespace Dal
                 return DataSource.parcels;
             return DataSource.parcels.Where(predicate);
         }
+        /// <summary>
+        /// a function that returns the list of drones charge
+        /// </summary>
+        /// <param name="predicate">if there is a requierment</param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetDronesInCharge(Func<DroneCharge, bool> predicate = null)
         {
@@ -75,16 +80,6 @@ namespace Dal
                 return DataSource.stations;
             return DataSource.stations.Where(predicate);
         }
-        //public IEnumerable<Station> AvailableChargingStations()
-        //{
-        //    Station[] baseStations = new Station[DataSource.Config.newBaseStationId];
-        //    for (int i = 0; i < DataSource.Config.newBaseStationId; i++)
-        //    {
-        //        baseStations[i] = DataSource.stations[i];
-        //        baseStations[i].ChargeSlots -= DataSource.incharge.Count(dc => dc.StationId == i);
-        //    }
-        //    return baseStations;
-        //}
 
 
         /// <summary>
@@ -313,7 +308,13 @@ namespace Dal
             double distance = 2 * RADIUS * Math.Asin(havd);
             return distance;
         }
-
+        /// <summary>
+        /// a function to calc a distance between points
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <param name="lonP"></param>
+        /// <param name="latP"></param>
+        /// <returns>the distance</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double Distance(int ID, double lonP, double latP)
         {
@@ -328,7 +329,10 @@ namespace Dal
         }
 
 
-
+        /// <summary>
+        /// a function that returns an array with the power requested in each status of the drone
+        /// </summary>
+        /// <returns>an array with the power requested in each status of the drone</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] PowerRequest()
         {
@@ -340,7 +344,11 @@ namespace Dal
             arr[4] = DataSource.Config.chargingRate;
             return arr;
         }
-
+        /// <summary>
+        /// A function that gets a user and return true if the user exists or false if not
+        /// </summary>
+        /// <param name="userDO">the user it checks</param>
+        /// <returns>true if the user exists or false if not</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool LogInVerify(User user)
         {
@@ -358,7 +366,11 @@ namespace Dal
             else
                 throw new DO.InVaildIdException( $"bad user id: {user.UserName}");
         }
-
+        /// <summary>
+        /// A function that gets a user and return true if the user is a worker or false if not
+        /// </summary>
+        /// <param name="userDO">the user it checks</param>
+        /// <returns>true if the user is a worker or false if not</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool isWorker(User user)
         {
