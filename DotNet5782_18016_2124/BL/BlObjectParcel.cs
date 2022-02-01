@@ -118,6 +118,8 @@ namespace BL
                 newParcel.CreationTime = DateTime.Now;
                 newParcel.DroneP = null;
                 DO.Parcel parcelDO = new DO.Parcel();
+                parcelDO.SenderId = newParcel.Sender.Id;
+                parcelDO.TargetId = newParcel.Target.Id;
                 parcelDO.ID = newParcel.Id;
                 try
                 {

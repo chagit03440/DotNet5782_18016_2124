@@ -117,15 +117,6 @@ namespace PL
             bool flag = true;
             try
             {
-                //ParcelForList parcel = new ParcelForList()
-                //{
-                //    Id = Convert.ToInt32(txtId.Text),
-                //    Longitude = (WeightCategories)comboWeight.SelectedItem,
-                //    SenderId = Convert.ToInt32(txtSenderId.Text),
-                //    TargetId= Convert.ToInt32(txtTargetId.Text),
-                //    Priority=(Priorities)comboPriority.SelectedItem,
-
-                //};
                 DroneForList d = comboDrone.SelectedItem as DroneForList;
                 DroneInParcel dp = new DroneInParcel() { Id = d.Id, Battery = d.Battery, Location = d.DroneLocation };
                 Parcel p = new Parcel()

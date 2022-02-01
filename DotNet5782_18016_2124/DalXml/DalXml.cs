@@ -426,10 +426,15 @@ namespace Dal
         public void AddParcel(Parcel parcelToAdd)
         {
             List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
-            if (!listOfAllParcels.Exists(x => x.ID == parcelToAdd.ID))
+            if (listOfAllParcels.Exists(x => x.ID == parcelToAdd.ID))
                 throw new AlreadyExistExeption("The parcel already axist in the path");
-           //int[] pid = XMLTools.LoadListFromXMLElement(configPath).Element("RowNumbers").Elements().ToArray();
+            var pid = XMLTools.LoadListFromXMLElement(configPath).Element("RowNumbers");
            
+            string id= pid.Element("NewParcelId").Value;
+            parcelToAdd.ID =Convert.ToInt32(id);
+            int i = Convert.ToInt32(id);
+            i++;
+            XMLTools.LoadListFromXMLElement(configPath).Element("RowNumbers").Element("NewParcelId").Value=i.ToString();
             listOfAllParcels.Add(parcelToAdd);
             XMLTools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelPath);
         }

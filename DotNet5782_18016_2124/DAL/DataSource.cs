@@ -144,7 +144,7 @@ private static void creatParcel(int n)
                     newParcel.SenderId = rand.Next(i+1000,i+1000+n);
                     newParcel.TargetId = rand.Next(i + 1000, i + 1000 + n);
                     newParcel.Longitude = (WeightCategories)rand.Next(3);
-                    newParcel.DroneId = rand.Next(1000, 9999);
+                    newParcel.DroneId = 0;
                     newParcel.Priority = (Priorities)rand.Next(1, 3);
                     newParcel.Requested = null;
                     newParcel.Scheduled = null;

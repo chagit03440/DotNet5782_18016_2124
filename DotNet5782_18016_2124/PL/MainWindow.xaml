@@ -1,4 +1,4 @@
-﻿<Window x:Class="PL.MainWindow"        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        xmlns:local="clr-namespace:PL"        mc:Ignorable="d"        Title="MainWindow" Height="742" Width="800">    <Window.Resources>
+﻿<Window x:Class="PL.MainWindow"        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"        xmlns:local="clr-namespace:PL"        mc:Ignorable="d"        Title="MainWindow" Height="532" Width="598">    <Window.Resources>
         <Style TargetType="ComboBox">
             <Setter Property="FontSize"
               Value="12" />
@@ -32,25 +32,29 @@
         </Style>
         <!--<local:StationModel x:Key="station"/>-->
     </Window.Resources>    <Window.Background>        <ImageBrush ImageSource="/DRONE3.png"/>    </Window.Background>
-    <Grid>
+    <Grid Margin="0,10,10,-6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="133*"/>
+            <ColumnDefinition Width="27*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="163*"/>
             <RowDefinition Height="45*"/>
         </Grid.RowDefinitions>
-        <Label Name="lblPassword" Content="Password" HorizontalAlignment="Left" Margin="115,329,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="36"/>        <Label Name="lblUsername" Content="Username" HorizontalAlignment="Left" Margin="115,128,0,0" VerticalAlignment="Top" FontSize="36" FontWeight="Normal"/>
-        <Button Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="89,29,0,0" VerticalAlignment="Top" Height="55" Width="213" FontSize="20" FontWeight="Normal" Grid.Row="1" Click="btnClose_Click">
+        <Label Name="lblPassword" Content="Password" HorizontalAlignment="Left" Margin="85,260,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="36"/>        <Label Name="lblUsername" Content="Username" HorizontalAlignment="Left" Margin="85,104,0,0" VerticalAlignment="Top" FontSize="36" FontWeight="Normal"/>
+        <Button Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="26,0,0,0" VerticalAlignment="Center" Height="55" Width="165" FontSize="20" FontWeight="Normal" Grid.Row="1" Click="btnClose_Click">
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
-        </Button>        <Button Name="btnLogin" Content="Log in" HorizontalAlignment="Left" Margin="325,29,0,0" VerticalAlignment="Top" Height="55" Width="193" FontSize="20" FontWeight="Normal" Grid.Row="1" Click="btnLogin_Click">
+        </Button>        <Button Name="btnLogin" Content="Log in" HorizontalAlignment="Left" Margin="214,0,0,0" VerticalAlignment="Center" Height="55" Width="163" FontSize="20" FontWeight="Normal" Grid.Row="1" Click="btnLogin_Click">
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
         </Button>
-        <Label Content="Welcome!" HorizontalAlignment="Left" Margin="309,32,0,0" VerticalAlignment="Top" Height="49" Width="284" FontSize="36"/>
-        <TextBox Name="txtUserName" HorizontalAlignment="Left" Margin="115,186,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="427" Height="59"/>
-        <TextBox x:Name="txtPassword" HorizontalAlignment="Left" Margin="115,383,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="427" Height="59"/>
-        <Button x:Name="btnSignup" Content="Sign up" HorizontalAlignment="Left" Margin="556,29,0,0" VerticalAlignment="Top" Height="55" Width="193" FontSize="20" FontWeight="Normal" Grid.Row="1" Click="btnSignup_Click">
+        <Label Content="Welcome!" HorizontalAlignment="Left" Margin="204,29,0,0" VerticalAlignment="Top" Height="49" Width="284" FontSize="36"/>
+        <TextBox Name="txtUserName" HorizontalAlignment="Left" Margin="75,165,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="315" Height="59"/>
+        <TextBox x:Name="txtPassword" HorizontalAlignment="Left" Margin="75,308,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="316" Height="59"/>
+        <Button x:Name="btnSignup" Content="Sign up" HorizontalAlignment="Left" VerticalAlignment="Center" Height="55" Width="184" FontSize="20" FontWeight="Normal" Grid.Row="1" Click="btnSignup_Click" Grid.ColumnSpan="2" Margin="394,0,0,0">
             <Button.Background>
                 <ImageBrush/>
             </Button.Background>
