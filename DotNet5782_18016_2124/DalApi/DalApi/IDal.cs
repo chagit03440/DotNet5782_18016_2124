@@ -147,7 +147,7 @@ namespace DalApi
         void SupplyParcel(Parcel parcel, Customer customer);
 
         /// <summary>
-        ///
+        ///change decimel number to sexagesimel
         /// </summary>
         /// <param name="coord"></param>
         /// <param name="latOrLot"></param>

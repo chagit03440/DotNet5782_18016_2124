@@ -30,14 +30,19 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-        private DroneWindow windowDrones;
-
+        /// <summary>
+        /// a function to remove the close box from the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void ToolWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
+       
+        private DroneWindow windowDrones;
         private BlApi.IBL myBl;
         private BO.Drone drone;
         bool closing;
@@ -47,7 +52,10 @@ namespace PL
         bool charge;
 
         public Drone Drone { get => drone; }
-
+        /// <summary>
+        /// constructor for adding mode
+        /// </summary>
+        /// <param name="myBl"></param>
         public DroneWindow(BlApi.IBL myBl)
         {
             InitializeComponent();
@@ -57,7 +65,7 @@ namespace PL
             this.myBl = myBl;
             drone = new Drone();
             DataContext = drone;
-
+            btnManual.IsEnabled = false;
             comboStatus.ItemsSource = myBl.GetStations();
             comboMaxWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             grdAdd.Visibility = Visibility.Visible;
@@ -77,10 +85,13 @@ namespace PL
             lblLatitude.Visibility = Visibility.Hidden;
             lblLongtitude.Visibility = Visibility.Hidden;
         }
+        /// <summary>
+        /// a function for apdate the window to  update mode
+        /// </summary>
         private void WindowUp()
         {
             btnShowParcel.Visibility = Visibility.Hidden;
-
+            btnManual.IsEnabled = false;
             grdAdd.Visibility = Visibility.Hidden;
             comboMaxWeight.Visibility = Visibility.Hidden;
             comboStatus.Visibility = Visibility.Hidden;
@@ -124,6 +135,11 @@ namespace PL
             if (windowDrones != null)
                 Update();
         }
+        /// <summary>
+        /// constructor for update mode
+        /// </summary>
+        /// <param name="myBl"></param>
+        /// <param name="d"></param>
         public DroneWindow(BlApi.IBL myBl, Drone d)
         {
 
@@ -138,6 +154,11 @@ namespace PL
             txtBattery.Text = d.Battery.ToString() + "%";
             WindowUp();
         }
+        /// <summary>
+        /// a function for update the model of the drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnUpdateModel_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -160,8 +181,11 @@ namespace PL
 
 
 
-
-
+        /// <summary>
+        /// a function to add a drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
@@ -212,7 +236,11 @@ namespace PL
 
 
 
-
+        /// <summary>
+        /// a function to relese drone from charging in case the user aprooved it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
 
@@ -230,13 +258,21 @@ namespace PL
             Update();
 
         }
-
+        /// <summary>
+        /// a function to relese drone from charging 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRelease_Click(object sender, RoutedEventArgs e)
         {
             grdUpdate.Visibility = Visibility.Hidden;
             grdRelease.Visibility = Visibility.Visible;
         }
-
+        /// <summary>
+        /// a function to recharge the drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCharge_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -257,7 +293,11 @@ namespace PL
             }
 
         }
-
+        /// <summary>
+        /// a function for belonging the drone to a parcel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAssignment_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -279,7 +319,11 @@ namespace PL
             }
         }
 
-
+        /// <summary>
+        /// a funcion to deliver the prcel that in this drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void btnDelivery_Click(object sender, RoutedEventArgs e)
         {
@@ -307,7 +351,11 @@ namespace PL
 
 
         }
-
+        /// <summary>
+        /// a function to pickup the parcel 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPickedup_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -327,7 +375,11 @@ namespace PL
 
 
         }
-
+        /// <summary>
+        /// a function to close the window 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
 
@@ -340,7 +392,11 @@ namespace PL
         }
 
 
-
+/// <summary>
+/// a function to show the parcel in this drone
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
         private void btnShowParcel_Click(object sender, RoutedEventArgs e)
         {
             Parcel p = myBl.GetParcel(drone.Package.Id);
@@ -348,13 +404,18 @@ namespace PL
             pw.Show();
             //pw.Update += ParcelWindow_Update;
         }
-
+ 
         private void UpdateWidowDrone()
         {
             drone = myBl.GetDrone(drone.Id);
             DataContext = drone;
             WindowUp();
         }
+        /// <summary>
+        /// a function to send the drone to a simulator mode
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAutomatic_Click(object sender, RoutedEventArgs e)
         {
             btnManual.IsEnabled = true;
@@ -363,8 +424,13 @@ namespace PL
             worker.ProgressChanged += (sender, args) => UpdateWidowDrone();
             worker.RunWorkerAsync(drone.Id);
         }
-        private void Manual_Click(object sender, RoutedEventArgs e)
-        {
+        /// <summary>
+        /// a function to stop the simulator of the drone
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Manual_Click(object sender, RoutedEventArgs e) 
+            {
             worker.CancelAsync();
             btnManual.IsEnabled = false;
         }

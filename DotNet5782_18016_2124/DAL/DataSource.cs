@@ -35,7 +35,7 @@ namespace DAL
 
             static Random rand = new Random();
             /// <summary>
-            /// a function 
+            /// a function to initialize the lists with data
             /// </summary>
             internal static void Initialize()
             {
@@ -67,7 +67,9 @@ namespace DAL
                 }
             }
 
-
+            /// <summary>
+            /// A function that initialize users with random data
+            /// </summary>
             private static void createUsers()
             {
                 ListUser = new List<User>

@@ -75,7 +75,7 @@ namespace BL
                         drone.DroneLocation = findDroneLocation(drone);//find the location of the drone
                         
                         int minBattery = calcMinBatteryRequired(drone);
-                        drone.Battery = rand.Next(minBattery, 100) ;
+                        drone.Battery = (double)rand.Next(minBattery, 100) / 100;
                     }
                     else
                     {
@@ -116,8 +116,8 @@ namespace BL
                             }
 
 
-                            drone.DroneLocation = getBaseStationLocation(stationId + 1000);
-                            drone.Battery = (int)rand.Next(0, 20);
+                            drone.DroneLocation = getBaseStationLocation(stationId + 1000);//the location of the drone is the location of the closest base station
+                            drone.Battery = (double)rand.Next(0, 20);
                             drone.ParcelId = 0;
                         }
 
@@ -126,7 +126,7 @@ namespace BL
                             drone.DroneLocation = findDroneLocation(drone);
                             drone.ParcelId = 0;
                             int minBattery = calcMinBatteryRequired(drone);
-                            drone.Battery = (int)rand.Next(minBattery, 100);
+                            drone.Battery = (double)rand.Next(minBattery, 100);
                         }
                     }
                 }
@@ -424,7 +424,7 @@ namespace BL
                             {
                                 //update drone
                                 drone.DroneLocation = item.Location;
-                                drone.Battery -=Convert.ToInt32( calcDistance(item.Location, drone.DroneLocation) * myDal.PowerRequest()[4]);
+                                drone.Battery -= calcDistance(item.Location, drone.DroneLocation) * myDal.PowerRequest()[4];
                                 drone.Status = DroneStatuses.Maintenance;
                                 DroneForList d = new DroneForList()
                                 {
@@ -541,7 +541,7 @@ namespace BL
                     {
                         //update drone
 
-                        drone.Battery +=Convert.ToInt32( time * myDal.PowerRequest()[4]);
+                        drone.Battery += time * myDal.PowerRequest()[4];
                         drone.Status = DroneStatuses.Free;
                         updateDroneForList(drone);
                         //update station and drone in BL
