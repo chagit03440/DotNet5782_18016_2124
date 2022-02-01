@@ -425,10 +425,7 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcelToAdd)
         {
-            List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
-            if (!listOfAllParcels.Exists(x => x.ID == parcelToAdd.ID))
-                throw new AlreadyExistExeption("The parcel already axist in the path");
-           //int[] pid = XMLTools.LoadListFromXMLElement(configPath).Element("RowNumbers").Elements().ToArray();
+            List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath); 
            
             listOfAllParcels.Add(parcelToAdd);
             XMLTools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelPath);
@@ -727,8 +724,9 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public double[] PowerRequest()
         {
-            
-                return XMLTools.LoadListFromXMLElement(configPath).Element("BatteryUsages").Elements()
+
+           var l= XMLTools.LoadListFromXMLElement(configPath);
+            return  l.Element("BatteryUsages").Elements()
                     .Select(e => Convert.ToDouble(e.Value)).ToArray();
             
         }

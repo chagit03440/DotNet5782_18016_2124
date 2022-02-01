@@ -16,9 +16,9 @@ namespace BO
         public Priorities Priority { get; set; }
         public DroneInParcel DroneP { get; set; }
         public DateTime? CreationTime { get; set; }
-        public int AssociationTime { get; set; }
-        public int CollectionTime { get; set; }
-        public int SupplyTime { get; set; }
+        public DateTime? AssociationTime { get; set; }
+        public DateTime? CollectionTime { get; set; }
+        public DateTime? SupplyTime { get; set; }
 
         public override String ToString()
         {

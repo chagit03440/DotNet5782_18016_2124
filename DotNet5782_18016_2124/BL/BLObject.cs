@@ -133,7 +133,9 @@ namespace BL
             }
             }
 
-        
+
+
+
         /// <summary>
         /// A function that return  the list of the drones
         /// </summary>
@@ -341,61 +343,63 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AssignmentParcelToDrone(int droneId)
         {
-            try
+            lock (myDal)
             {
-
-                DroneForList drone = GetDroneForList(droneId);
-                if (drone.Id == 0)
-                    throw new BLAlreadyExistExeption("DroneP not found");
-                int maxW = 0, maxPri = 0;
-                double minDis = 0;
-                int pId = 0;
-                int dId = 0;
-                DO.Parcel? parcelDo = null;
-                if (drone.Status == DroneStatuses.Free)
+                try
                 {
-                    foreach (DO.Parcel parcel in myDal.GetParcels())
-                    {
-                        Customer sc = GetCustomer(parcel.SenderId);
-                        Location senderCustomerL = sc.Location;
-                        Customer tc = GetCustomer(parcel.TargetId);
-                        Location targetCustomerL = tc.Location;
-                        double toCus = calcDistance(drone.DroneLocation, senderCustomerL);
-                        double toStation = calcDistance(senderCustomerL, findClosetBaseStationLocation(senderCustomerL));
-                        double betweenCustomers = calcDistance(senderCustomerL, targetCustomerL);
-                        maxPri = (int)parcel.Priority;
-                        maxW = (int)parcel.Longitude;
-                        minDis = calcDistance(drone.DroneLocation, senderCustomerL);
-                        if (BatteryUsages(toCus, 0) + BatteryUsages(toStation, 0) + BatteryUsages(betweenCustomers, (int)parcel.Longitude + 1) < drone.Battery)
-                        {
-                            parcelDo = parcel;
 
-                            pId = parcel.ID;
-                            dId = parcel.DroneId;
+                    DroneForList drone = GetDroneForList(droneId);
+                    if (drone.Id == 0)
+                        throw new BLAlreadyExistExeption("DroneP not found");
+                    int maxW = 0, maxPri = 0;
+                    double minDis = 0;
+                    int pId = 0;
+                    int dId = 0;
+                    DO.Parcel? parcelDo = null;
+                    if (drone.Status == DroneStatuses.Free)
+                    {
+                        foreach (DO.Parcel parcel in myDal.GetParcels())
+                        {
+                            Customer sc = GetCustomer(parcel.SenderId);
+                            Location senderCustomerL = sc.Location;
+                            Customer tc = GetCustomer(parcel.TargetId);
+                            Location targetCustomerL = tc.Location;
+                            double toCus = calcDistance(drone.DroneLocation, senderCustomerL);
+                            double toStation = calcDistance(targetCustomerL, findClosetBaseStationLocation(senderCustomerL));
+                            double betweenCustomers = calcDistance(senderCustomerL, targetCustomerL);
+                            maxPri = (int)parcel.Priority;
+                            maxW = (int)parcel.Longitude;
+                            minDis = calcDistance(drone.DroneLocation, senderCustomerL);
+                            if (BatteryUsages(toCus, 0) + BatteryUsages(toStation, 0) + BatteryUsages(betweenCustomers, (int)parcel.Longitude + 1) < drone.Battery)
+                            {
+                                parcelDo = parcel;
+
+                                pId = parcel.ID;
+                                dId = parcel.DroneId;
+                            }
+
                         }
-
-                    }
-                    if (parcelDo != null)
-                    {
-                        int index = drones.FindIndex(x => x.Id == drone.Id);
-                        drones[index].Status = DroneStatuses.Shipping;
-                        DroneInParcel dp = new DroneInParcel() { Id = dId };
-                        Parcel p = new Parcel()
+                        if (parcelDo != null)
                         {
-                            Id = pId,
-                            DroneP = dp
-                        };
-                        UpdateParcel(p);
+                            int index = drones.FindIndex(x => x.Id == drone.Id);
+                            drones[index].Status = DroneStatuses.Shipping;
+                            DroneInParcel dp = new DroneInParcel() { Id = dId };
+                            Parcel p = new Parcel()
+                            {
+                                Id = pId,
+                                DroneP = dp
+                            };
+                            UpdateParcel(p);
+                        }
                     }
+
                 }
+                catch (Exception ex)
+                {
 
+                    throw new BLAlreadyExistExeption("The drone can't be recharge", ex);
+                }
             }
-            catch (Exception ex)
-            {
-
-                throw new BLAlreadyExistExeption("The drone can't be recharge", ex);
-            }
-            
 
         }
 
@@ -463,7 +467,7 @@ namespace BL
                     Name = station.Name,
                     Longitude = station.Location.Longitude,
                     Lattitude = station.Location.Lattitude,
-                    ChargeSlots = station.ChargeSlots
+                    ChargeSlots =station.ChargeSlots  
 
                 };
                 DO.Drone drone = new DO.Drone

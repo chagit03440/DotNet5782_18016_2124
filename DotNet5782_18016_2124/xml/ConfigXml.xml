@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<data-config>
+	 
 		<BatteryUsages>
 			<FreeBatteryUsing>1</FreeBatteryUsing>
 			<LightBatteryUsing>2</LightBatteryUsing>
@@ -11,5 +11,5 @@
 		<RowNumbers>
 			<NewParcelId>100000</NewParcelId>
 		</RowNumbers>
-	</data-config>
+	 
 </config>
