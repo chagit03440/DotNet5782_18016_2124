@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -20,7 +19,7 @@ namespace PL
     /// <summary>
     /// Interaction logic for DroneWindow.xaml
     /// </summary>
-    /// 
+    ///
     public partial class DroneWindow : Window
     {
         //to remove close box from window
@@ -30,8 +29,9 @@ namespace PL
         private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
         private DroneWindow windowDrones;
-        private bool _close { get; set; } = false;
+
         void ToolWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
@@ -40,12 +40,13 @@ namespace PL
         }
         private BlApi.IBL myBl;
         private BO.Drone drone;
-        //public event PropertyChangedEventHandler PropertyChanged;
-        //public event Action Update = delegate { };
-         
-         
+        bool closing;
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event Action Update = delegate { };
+        BackgroundWorker worker;
+        bool charge;
+
         public Drone Drone { get => drone; }
-        public Action Update { get; internal set; }
 
         public DroneWindow(BlApi.IBL myBl)
         {
@@ -141,7 +142,7 @@ namespace PL
         {
             try
             {
-                 drone.Model = txtModel.Text;
+                drone.Model = txtModel.Text;
                 myBl.UpdateDrone(drone);
                 MessageBox.Show("the model of the drone was successfully updated");
 
@@ -159,7 +160,7 @@ namespace PL
 
 
 
-        
+
 
         private void btnAddDrone_Click(object sender, RoutedEventArgs e)
         {
@@ -326,23 +327,16 @@ namespace PL
 
 
         }
-        private void WindowClose(object sender, CancelEventArgs e)
-        {
-            if (!_close)
-            {
-                e.Cancel = true;
-                MessageBox.Show("You can't force the window to close");
-            }
-        }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
 
-
-            if (worker != null)
-                worker.CancelAsync();
-            _close = true;
-            Close();
+            this.Close();
+            //if (worker != null)
+            //{
+            //    closing = true;
+            //    e.Cancel = true;
+            //}
         }
 
 
@@ -354,15 +348,10 @@ namespace PL
             pw.Show();
             //pw.Update += ParcelWindow_Update;
         }
-        BackgroundWorker worker;
 
         private void UpdateWidowDrone()
         {
             drone = myBl.GetDrone(drone.Id);
-            txtStatus.Text = drone.Status.ToString();
-            txtBattery.Text = drone.Battery.ToString()+"%";
-            txtLatitude.Text = drone.Location.Lattitude.ToString();
-            txtLongtitude.Text = drone.Location.Longitude.ToString();
             DataContext = drone;
             WindowUp();
         }
@@ -374,11 +363,11 @@ namespace PL
             worker.ProgressChanged += (sender, args) => UpdateWidowDrone();
             worker.RunWorkerAsync(drone.Id);
         }
-        private void Manual_Click(object sender, RoutedEventArgs e) 
-            {
+        private void Manual_Click(object sender, RoutedEventArgs e)
+        {
             worker.CancelAsync();
             btnManual.IsEnabled = false;
-            }
+        }
 
     }
 
@@ -386,4 +375,3 @@ namespace PL
 
 
 }
-

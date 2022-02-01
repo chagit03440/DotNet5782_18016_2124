@@ -90,7 +90,7 @@ namespace PL
             this.myBl = myBl;
             DataContext = c;
            
-            customer = new Customer();
+            customer = c;
             selectedCustomer = c;
             btnAddCustomer.Visibility = Visibility.Hidden;
             //fillTextbox(c);
@@ -123,37 +123,7 @@ namespace PL
 
 
 
-        private void fillTextbox(CustomerForList c)
-        {
-
-            txtId.Text = c.Id.ToString();
-            txtName.Text = c.Name.ToString();
-            txtPhone.Text = c.Phone.ToString();
-            //txtLongtitude.Text = c.Location.Longitude.ToString();
-            //txtLatitude.Text = c.Location.Lattitude.ToString();
-            comboParcelsFrom.ItemsSource = myBl.GetParcels(p => p.SenderId == c.Id);
-            comboParcelsTo.ItemsSource = myBl.GetParcels(p => p.TargetId == c.Id);
-
-
-        }
-        private void fillTextbox(Customer c)
-        {
-            if (c != null)
-            {
-                DataContext = this;
-                txtId.Text = c.Id.ToString();
-                txtName.Text = c.Name.ToString();
-                txtPhone.Text = c.Phone.ToString();
-                txtLongtitude.Text = c.Location.Longitude.ToString();
-                txtLatitude.Text = c.Location.Lattitude.ToString();
-                List<int> lFrom = c.ParcelsFromTheCustomer.Select(item => item.Id).ToList();
-                List<int> lTo = c.ParcelsToTheCustomer.Select(item => item.Id).ToList();
-                comboParcelsFrom.ItemsSource = lFrom;
-                comboParcelsTo.ItemsSource = lTo;
-                return;
-            }
-
-        }
+        
 
 
         private void btnExit_Click(object sender, RoutedEventArgs e)

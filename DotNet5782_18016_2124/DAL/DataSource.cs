@@ -22,7 +22,7 @@ namespace DAL
                 internal static int newDroneId = 1;
                 internal static int newBaseStationId = 1;
                 internal static int newCustomerId = 1;
-                internal static int newParcelId = 1;
+                internal static int newParcelId = 1000;
 
 
             }
@@ -139,7 +139,8 @@ private static void creatParcel(int n)
                 for (int i = 0; i < n; i++)
                 {
                     Parcel newParcel = new Parcel();
-                    newParcel.ID = i+1000;
+                    newParcel.ID = Config.newParcelId;
+                    Config.newParcelId++;
                     newParcel.SenderId = rand.Next(i+1000,i+1000+n);
                     newParcel.TargetId = rand.Next(i + 1000, i + 1000 + n);
                     newParcel.Longitude = (WeightCategories)rand.Next(3);

@@ -20,6 +20,14 @@ namespace PL
     /// </summary>
     public partial class StationListWindow : Window
     {
+        //to remove close box from window
+        private const int GWL_STYLE = -16;
+        private const int WS_SYSMENU = 0x80000;
+        [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
+        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
         private BlApi.IBL myBl { get; }
         private ObservableCollection<BO.StationForList> collection;
         public StationListWindow(BlApi.IBL MyBl)
@@ -29,15 +37,10 @@ namespace PL
             InitializeComponent();
             Loaded += ToolWindow_Loaded;
             collection = new ObservableCollection<BO.StationForList>(myBl.GetStations());
-            stationListView.ItemsSource = collection;
+           
+            stationListView.ItemsSource =collection;
         }
-        //to remove close box from window
-        private const int GWL_STYLE = -16;
-        private const int WS_SYSMENU = 0x80000;
-        [System.Runtime.InteropServices.DllImport("user32.dll", SetLastError = true)]
-        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        
 
 
         void ToolWindow_Loaded(object sender, RoutedEventArgs e)
