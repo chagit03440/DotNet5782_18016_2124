@@ -126,7 +126,7 @@ namespace BL
                             drone.DroneLocation = findDroneLocation(drone);
                             drone.ParcelId = 0;
                             int minBattery = calcMinBatteryRequired(drone);
-                            drone.Battery = (int)rand.Next(minBattery, 100);
+                            drone.Battery = rand.Next(minBattery, 100);
                         }
                     }
                 }
