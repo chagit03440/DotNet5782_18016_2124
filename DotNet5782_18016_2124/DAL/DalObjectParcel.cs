@@ -20,10 +20,7 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel newParcel)
         {
-            if (DataSource.parcels.Exists(x => x.ID == newParcel.ID))
-            {
-                throw new AlreadyExistExeption($"id{newParcel.ID} allready exist!!");
-            };
+           
             DataSource.parcels.Add(newParcel);
         }
         /// <summary>

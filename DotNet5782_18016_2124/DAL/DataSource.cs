@@ -18,7 +18,7 @@ namespace DAL
                 internal static double lightWeight = 10;
                 internal static double mediumWeight = 50;
                 internal static double heavyWeight = 150;
-                internal static double chargingRate = 10.26;
+                internal static double chargingRate = 10;
                 internal static int newDroneId = 1;
                 internal static int newBaseStationId = 1;
                 internal static int newCustomerId = 1;
@@ -169,7 +169,7 @@ private static void creatParcel(int n)
                     Station newStation = new Station();
                     newStation.ID = i+1000;
                     newStation.Name = $"Station{i}";
-                    newStation.ChargeSlots = 10 + i;
+                    newStation.ChargeSlots = rand.Next(1, 1000); ;
                     newStation.Lattitude = 31.785664 + i;
                     newStation.Longitude = 35.189938 + i;
                     stations.Add(newStation);

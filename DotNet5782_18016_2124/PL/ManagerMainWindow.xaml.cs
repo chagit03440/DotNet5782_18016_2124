@@ -24,29 +24,30 @@ namespace PL
     public partial class ManagerMainWindow : Window
     {
         BlApi.IBL myBl;
+//constructor
         public ManagerMainWindow(BlApi.IBL MyBl)
         {
             myBl = MyBl;
             InitializeComponent();
         }
-
+        //a click to open the dronelist window
         private void Button_Click(object sender, RoutedEventArgs e)
 
         {
 
             new DroneListWindow(myBl).Show();
         }
-
+        //a click to open the stationlist window
         private void BtnStation_Click(object sender, RoutedEventArgs e)
         {
             new StationListWindow(myBl).Show();
         }
-
+    //a click to open the customerlist window
         private void BtnCustomer_Click(object sender, RoutedEventArgs e)
         {
             new CustomersListWindow(myBl).Show();
         }
-
+        //a click to open the parcellist window
         private void BtnParcel_Click(object sender, RoutedEventArgs e)
         {
             new ParcelsListWindow(myBl).Show();

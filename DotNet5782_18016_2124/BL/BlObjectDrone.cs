@@ -184,7 +184,7 @@ namespace BL
         {
             lock (myDal)
             {
-                drone.Battery = (double)rand.Next(20, 40);
+                drone.Battery = (int)rand.Next(20, 40);
 
                 //IDAL.DO.Drone tdrone = myDal.GetDrones(drone.Id);
                 DO.Drone tdrone = new DO.Drone() { ID = drone.Id, MaxWeight = (DO.WeightCategories)drone.MaxWeight, Model = drone.Model };

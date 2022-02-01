@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -20,7 +19,7 @@ namespace PL
     /// <summary>
     /// Interaction logic for DroneWindow.xaml
     /// </summary>
-    /// 
+    ///
     public partial class DroneWindow : Window
     {
         //to remove close box from window
@@ -51,7 +50,7 @@ namespace PL
         public event Action Update = delegate { };
         BackgroundWorker worker;
         bool charge;
-       
+
         public Drone Drone { get => drone; }
         /// <summary>
         /// constructor for adding mode
@@ -405,9 +404,7 @@ namespace PL
             pw.Show();
             //pw.Update += ParcelWindow_Update;
         }
- /// <summary>
- /// a function to update the window whilw the simulator
- /// </summary>
+ 
         private void UpdateWidowDrone()
         {
             drone = myBl.GetDrone(drone.Id);
@@ -436,7 +433,7 @@ namespace PL
             {
             worker.CancelAsync();
             btnManual.IsEnabled = false;
-            }
+        }
 
     }
 
@@ -444,4 +441,3 @@ namespace PL
 
 
 }
-

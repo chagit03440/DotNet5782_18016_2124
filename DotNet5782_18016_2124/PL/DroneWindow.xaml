@@ -125,7 +125,7 @@
         </Grid>
         <Grid x:Name="grdRelease" Grid.Row="4" Margin="6,17,-251,17" Grid.RowSpan="3" Grid.Column="2">
             <Label Content="Enter the time (in minute)" HorizontalAlignment="Left" Margin="53,12,0,0" VerticalAlignment="Top"/>
-            <Button Name="btnOk" Content="OK" HorizontalAlignment="Left" Margin="92,121,0,0" VerticalAlignment="Top" Width="50" Click="btnOk_Click">
+            <Button Name="btnOk" Content="OK" HorizontalAlignment="Left" Margin="92,121,0,4" Width="50" Click="btnOk_Click">
                 <Button.Background>
                     <ImageBrush/>
                 </Button.Background>

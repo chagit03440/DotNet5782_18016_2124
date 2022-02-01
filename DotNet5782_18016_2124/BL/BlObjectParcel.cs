@@ -44,11 +44,11 @@ namespace BL
                     Priority = (Priorities)parcelDO.Priority,
                     Sender = new CustomerInParcel() { Id = parcelDO.SenderId, Name = GetCustomer(parcelDO.SenderId).Name },
                     Target = new CustomerInParcel() { Id = parcelDO.TargetId, Name = GetCustomer(parcelDO.TargetId).Name },
-                    AssociationTime = 0,
-                    CollectionTime = 0,
+                    AssociationTime = null,
+                    CollectionTime = null,
                     CreationTime = DateTime.MinValue,
                     DroneP = d,
-                    SupplyTime = 0
+                    SupplyTime = null
 
                 };
 
@@ -117,15 +117,18 @@ namespace BL
         {
             lock (myDal)
             {
-                newParcel.AssociationTime = 0;
-                newParcel.CollectionTime = 0;
-                newParcel.SupplyTime = 0;
+                newParcel.AssociationTime = null;
+                newParcel.CollectionTime = null;
+                newParcel.SupplyTime = null;
                 newParcel.CreationTime = DateTime.Now;
                 newParcel.DroneP = null;
                 DO.Parcel parcelDO = new DO.Parcel();
                 parcelDO.SenderId = newParcel.Sender.Id;
                 parcelDO.TargetId = newParcel.Target.Id;
                 parcelDO.ID = newParcel.Id;
+                parcelDO.SenderId = newParcel.Sender.Id;
+                parcelDO.TargetId = newParcel.Target.Id;
+
                 try
                 {
                     myDal.AddParcel(parcelDO);

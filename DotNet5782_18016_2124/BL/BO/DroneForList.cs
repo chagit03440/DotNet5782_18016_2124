@@ -10,7 +10,7 @@ namespace BO
         public String Model { get; set; }
         public WeightCategories MaxWeight { get; set; }
         public DroneStatuses Status { get; set; }
-        public double Battery { get; set; }
+        public int Battery { get; set; }
         public Location DroneLocation { get; set; }
         public int ParcelId { get; set; }
         //public int DeliveryId { get; internal set; }

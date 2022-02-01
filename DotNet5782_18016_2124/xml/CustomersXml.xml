@@ -16,7 +16,7 @@
   </Customer>
   <Customer>
     <ID>1002</ID>
-    <Name>Customer 2</Name>
+    <Name>Customer77</Name>
     <Phone>057-2634809</Phone>
     <Longitude>35.15287354474555</Longitude>
     <Lattitude>31.779569441955335</Lattitude>
@@ -51,7 +51,7 @@
   </Customer>
   <Customer>
     <ID>1007</ID>
-    <Name>Customer 7</Name>
+    <Name>Customer 756</Name>
     <Phone>055-3373682</Phone>
     <Longitude>35.14340063088732</Longitude>
     <Lattitude>31.72937775358063</Lattitude>

@@ -101,6 +101,7 @@
                         <GradientStop Color="#FF2939D6" Offset="1"/>
                     </LinearGradientBrush>
                 </ComboBox.Background>
+                
             </ComboBox>
             <Label Name="lblWeightSelector" Content="Weight Selector" Grid.Column="2" HorizontalAlignment="Center" Margin="0,67,0,0" VerticalAlignment="Top" Height="28" Width="110"/>
         </Grid>

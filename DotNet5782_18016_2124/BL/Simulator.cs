@@ -36,6 +36,7 @@ namespace BL
                         }
                         catch
                         {
+                            
                             if (drone.Battery < 100)
                             {
                                 battery = (int)drone.Battery;

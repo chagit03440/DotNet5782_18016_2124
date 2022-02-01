@@ -95,7 +95,7 @@
                 </ListView.GroupStyle>
             </ListView>
         </Grid>
-        <Button Name="closbtn" Content="Exit" HorizontalAlignment="Left" Margin="209,365,0,7" Width="174" FontSize="14" FontWeight="Bold" Click="closbtn_Click" Grid.Column="1">
+        <Button Name="closbtn" Content="Exit" HorizontalAlignment="Left" Margin="209,365,0,10" Width="174" FontSize="14" FontWeight="Bold" Click="closbtn_Click" Grid.Column="1">
             <Button.Background>
                 <ImageBrush Stretch="Fill"/>
             </Button.Background>
@@ -105,11 +105,12 @@
                 <ImageBrush/>
             </Button.Background>
         </Button>
-        <ComboBox HorizontalAlignment="Left" Margin="240,364,0,0" VerticalAlignment="Top" Width="181" Grid.ColumnSpan="2" Height="59">
-            <ComboBox.Background>
+        <Button Name="groupingbtn" Content="Group by charge slots" HorizontalAlignment="Left" Margin="240,364,0,8" Width="174" FontSize="14" FontWeight="Bold" Click="group_Click" Grid.ColumnSpan="2">
+            <Button.Background>
                 <ImageBrush/>
-            </ComboBox.Background>
-        </ComboBox>
+            </Button.Background>
+        </Button>
+
 
     </Grid>
 </Window>

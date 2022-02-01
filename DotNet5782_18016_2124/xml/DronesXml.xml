@@ -7,7 +7,7 @@
   </Drone>
   <Drone>
     <ID>1001</ID>
-    <Model>iFly1</Model>
+    <Model>iFly1123457777</Model>
     <MaxWeight>middle</MaxWeight>
   </Drone>
   <Drone>
@@ -48,6 +48,11 @@
   <Drone>
     <ID>1009</ID>
     <Model>iFly9</Model>
+    <MaxWeight>middle</MaxWeight>
+  </Drone>
+  <Drone>
+    <ID>12334</ID>
+    <Model>hhh</Model>
     <MaxWeight>middle</MaxWeight>
   </Drone>
 </ArrayOfDrone>

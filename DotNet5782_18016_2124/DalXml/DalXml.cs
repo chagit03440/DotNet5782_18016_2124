@@ -534,17 +534,17 @@ namespace Dal
         public void AddParcel(Parcel parcelToAdd)
         {
             List<Parcel> listOfAllParcels = XMLTools.LoadListFromXMLSerializer<Parcel>(parcelPath);
-            if (listOfAllParcels.Exists(x => x.ID == parcelToAdd.ID))
-                throw new AlreadyExistExeption("The parcel already axist in the path");
-            var pid = XMLTools.LoadListFromXMLElement(configPath).Element("RowNumbers");
-           
-            string id= pid.Element("NewParcelId").Value;
-            parcelToAdd.ID =Convert.ToInt32(id);
-            int i = Convert.ToInt32(id);
-            i++;
-            XMLTools.LoadListFromXMLElement(configPath).Element("RowNumbers").Element("NewParcelId").Value=i.ToString();
+            XElement configXml = XMLTools.LoadListFromXMLElement(configPath);
+            parcelToAdd.ID = 1 + int.Parse(configXml.Element("RowNumbers").Element("NewParcelId").Value);
+            parcelToAdd.Requested = DateTime.Now;
+            parcelToAdd.Scheduled = null;
+            parcelToAdd.PickedUp = null;
+            parcelToAdd.Delivered = null;
             listOfAllParcels.Add(parcelToAdd);
-            XMLTools.SaveListToXMLSerializer<Parcel>(listOfAllParcels, parcelPath);
+            XMLTools.SaveListToXMLSerializer(listOfAllParcels, parcelPath);
+            configXml.Element("RowNumbers").Element("NewParcelId").Value = parcelToAdd.ID.ToString();
+            XMLTools.SaveListToXMLElement(configXml, "ConfigXml.xml");
+
         }
         /// <summary>
         /// A function that recieve a parcel and delete the station whith the same id in the parcels list

@@ -40,6 +40,16 @@ namespace PL
             btnDroneWindow.Visibility = Visibility.Hidden;
             btnSenderWindow.Visibility = Visibility.Hidden;
             btnTargetWindow.Visibility = Visibility.Hidden;
+            txtAssociationTime.Visibility = Visibility.Hidden;
+            txtCollectionTime.Visibility = Visibility.Hidden;
+            txtCreationTime.Visibility = Visibility.Hidden;
+            lblAssociationTime.Visibility = Visibility.Hidden;
+            comboDrone.Visibility = Visibility.Hidden;
+            lblCollectionTime.Visibility = Visibility.Hidden;
+            lblCreationTime.Visibility = Visibility.Hidden;
+            lblDrone.Visibility = Visibility.Hidden;
+            lblSupplyTime.Visibility = Visibility.Hidden;
+            txtSupplyTime.Visibility = Visibility.Hidden;
 
             comboPriority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
             comboWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
@@ -117,19 +127,18 @@ namespace PL
             bool flag = true;
             try
             {
-                DroneForList d = comboDrone.SelectedItem as DroneForList;
-                DroneInParcel dp = new DroneInParcel() { Id = d.Id, Battery = d.Battery, Location = d.DroneLocation };
+                
                 Parcel p = new Parcel()
                 {
                     Priority = (Priorities)comboPriority.SelectedItem,
-                    DroneP = dp,
-                    AssociationTime = Convert.ToInt32(txtAssociationTime.Text),
-                    CollectionTime = Convert.ToInt32(txtCollectionTime.Text),
-                   // CreationTime =(DateTime)Convert.ToInt32(txtCreationTime.Text),
+                    DroneP = null,
+                    AssociationTime = DateTime.Now,
+                    CollectionTime = null,
+                   CreationTime =DateTime.Now,
                     Id = Convert.ToInt32(txtId.Text),
                     Longitude = (WeightCategories)comboWeight.SelectedItem,
                     Sender =new CustomerInParcel() { Id= Convert.ToInt32(txtSenderId.Text), Name=myBl.GetCustomer(Convert.ToInt32(txtSenderId.Text)).Name},
-                    SupplyTime= Convert.ToInt32(txtSupplyTime.Text),
+                    SupplyTime=null,
                     Target=new CustomerInParcel() { Id = Convert.ToInt32(txtTargetId.Text), Name = myBl.GetCustomer(Convert.ToInt32(txtTargetId.Text)).Name }
                     
                 };
