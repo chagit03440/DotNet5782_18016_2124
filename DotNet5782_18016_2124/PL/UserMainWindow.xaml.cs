@@ -43,7 +43,12 @@ namespace PL
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
-        //constructor 
+
+        /// <summary>
+        ///  constructor
+        /// </summary>
+        /// <param name="MyBl"></param>
+        /// <param name="curUser"></param>
         public UserMainWindow(BlApi.IBL MyBl, BO.User curUser)
         {
             myBl = MyBl;
@@ -56,7 +61,11 @@ namespace PL
             collection = new ObservableCollection<BO.ParcelForList>(myBl.GetParcels(p => p.SenderId == c.Id || p.TargetId == c.Id));
             ListViewParcels.ItemsSource = collection;
         }
-        //a click to open the parcel window
+         /// <summary>
+        /// a click to open the parcel window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
             ParcelWindow pw = new ParcelWindow(myBl);
@@ -72,7 +81,11 @@ namespace PL
             collection = new ObservableCollection<BO.ParcelForList>(myBl.GetParcels(p=>p.SenderId==c.Id||p.TargetId == c.Id));
             ListViewParcels.ItemsSource = collection;
         }
-        //a click that let the user updat the parcel
+         /// <summary>
+        /// a click that let the user updat the parcel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListViewParcels_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (ListViewParcels.SelectedItem == null)
@@ -94,7 +107,12 @@ namespace PL
             parcelWindow.Show();
             parcelWindow.Update += ParcelWindow_Update;
         }
-        //a click to close the window
+    
+        /// <summary>
+        /// a click to close the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

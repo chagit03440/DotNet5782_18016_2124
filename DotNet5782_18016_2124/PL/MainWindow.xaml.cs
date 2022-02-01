@@ -34,16 +34,25 @@ namespace PL
             InitializeComponent();
         }
 
-       
-        //close 
+
+      
+        /// <summary>
+        /// close 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
-         
-        //a click to enter to the system to existing user
 
+
+        /// <summary>
+        /// a click to enter to the system to existing user
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             curUser.UserName = txtUserName.Text;
@@ -84,7 +93,13 @@ namespace PL
 
             }
         }
-        //a click to open the customer window to add user
+
+
+        /// <summary>
+        ///  a click to open the customer window to add user
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSignup_Click(object sender, RoutedEventArgs e)
         {
             CustomerWindow cu= new CustomerWindow(myBl);

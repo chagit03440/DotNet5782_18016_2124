@@ -24,7 +24,10 @@ namespace PL
         private BlApi.IBL myBl { get; }
         private ObservableCollection<BO.ParcelForList> collection;
         private List<IGrouping<int, ParcelForList>> GroupingData { get; set; }
-
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="MyBl"></param>
         public ParcelsListWindow(BlApi.IBL MyBl)
         {
             myBl = MyBl;
@@ -75,17 +78,7 @@ namespace PL
             {
                 
                 pr = myBl.GetParcel(prL.Id);
-                //else
-                //    parcel = new BO.Parcel()
-                //    {
-                //        Id = parcel.Id,
-                //        Longitude = (WeightCategories)parcel.Longitude,
-                //        Priority = (Priorities)parcel.Priority,
-                //        AssociationTime = 0,
-                //        CollectionTime = 0,
-                //        CreationTime = DateTime.MinValue,
-                //        SupplyTime = 0
-                //    };
+                 
 
             }
             catch (Exception ex)
@@ -99,7 +92,11 @@ namespace PL
 
 
         }
-
+        /// <summary>
+        /// a click open a window to add parcel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
             ParcelWindow pw = new ParcelWindow(myBl);
@@ -107,31 +104,50 @@ namespace PL
             pw.Update += ParcelWindow_Update;
 
         }
-
+        /// <summary>
+        /// close window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+        /// <summary>
+        /// a click open a window to updat parcel
+        /// </summary>
         private void ParcelWindow_Update()
         {
             collection = new ObservableCollection<BO.ParcelForList>(myBl.GetParcels(null));
             ParcelsListView.ItemsSource = collection;
         }
-
+        /// <summary>
+        /// piriorty selector -put the options
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboPrioritySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BO.Priorities pr = (BO.Priorities)comboPrioritySelector.SelectedItem;
             
             this.ParcelsListView.ItemsSource = myBl.GetParcels(p => p.Priority==pr);
         }
-
+        /// <summary>
+        /// status selector -put the options
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboStatusSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BO.ParcelStatuses ps = (BO.ParcelStatuses)comboStatusSelector.SelectedItem;
 
             this.ParcelsListView.ItemsSource = myBl.GetParcels(p => p.Status == ps);
         }
-
+        /// <summary>
+        /// group the parcel by sendrId
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSender_Click(object sender, RoutedEventArgs e)
         {
           
@@ -139,7 +155,11 @@ namespace PL
             ParcelsListView.ItemsSource = GroupingData;
 
         }
-
+        /// <summary>
+        /// wehigt selector -put the options
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboWehigtSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BO.WeightCategories pw = (BO.WeightCategories)comboWeightSelector.SelectedItem;

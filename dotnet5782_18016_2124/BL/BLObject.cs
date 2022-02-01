@@ -31,7 +31,7 @@ namespace BL
             drones = new List<DroneForList>();
             try
             {
-                initializeDrones();
+                initializeDrones();//to initialize the list of the drones
             }
 
             catch (BLInVaildIdException ex)
@@ -57,7 +57,7 @@ namespace BL
             {
             lock (myDal)
             {
-                foreach (var drone in myDal.GetDrones())
+                foreach (var drone in myDal.GetDrones())//to copy the drones from the list of drones in Dal
                 {
                     drones.Add(new DroneForList
                     {
@@ -69,18 +69,18 @@ namespace BL
 
                 foreach (var drone in drones)
                 {
-                    if (isDroneWhileShipping(drone))
+                    if (isDroneWhileShipping(drone))//if the drone is shipping a parcel
                     {
                         drone.Status = DroneStatuses.Shipping;
-                        drone.DroneLocation = findDroneLocation(drone);
-                        // note : drone.DeliveryId getting value inside isDroneWhileShipping
+                        drone.DroneLocation = findDroneLocation(drone);//find the location of the drone
+                        
                         int minBattery = calcMinBatteryRequired(drone);
                         drone.Battery = rand.Next(minBattery, 100) ;
                     }
                     else
                     {
                         drone.Status = (DroneStatuses)rand.Next(0, 2);
-                        if (drone.Status == DroneStatuses.Maintenance)
+                        if (drone.Status == DroneStatuses.Maintenance)//if the drone ststus is maitenance
                         {
                             DO.Station station = default;
                             DO.Drone drone1 = default;
@@ -107,7 +107,7 @@ namespace BL
                             }
                             try
                             {
-                                myDal.AnchorDroneStation(station, drone1);
+                                myDal.AnchorDroneStation(station, drone1);//send the drone to recharge
                             }
                             catch (DO.InVaildIdException ex)
                             {
@@ -121,7 +121,7 @@ namespace BL
                             drone.ParcelId = 0;
                         }
 
-                        if (drone.Status == DroneStatuses.Free)
+                        if (drone.Status == DroneStatuses.Free)//if the status of the drone is free
                         {
                             drone.DroneLocation = findDroneLocation(drone);
                             drone.ParcelId = 0;
@@ -133,7 +133,9 @@ namespace BL
             }
             }
 
-        
+
+
+
         /// <summary>
         /// A function that return  the list of the drones
         /// </summary>
@@ -341,61 +343,63 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AssignmentParcelToDrone(int droneId)
         {
-            try
+            lock (myDal)
             {
-
-                DroneForList drone = GetDroneForList(droneId);
-                if (drone.Id == 0)
-                    throw new BLAlreadyExistExeption("DroneP not found");
-                int maxW = 0, maxPri = 0;
-                double minDis = 0;
-                int pId = 0;
-                int dId = 0;
-                DO.Parcel? parcelDo = null;
-                if (drone.Status == DroneStatuses.Free)
+                try
                 {
-                    foreach (DO.Parcel parcel in myDal.GetParcels())
-                    {
-                        Customer sc = GetCustomer(parcel.SenderId);
-                        Location senderCustomerL = sc.Location;
-                        Customer tc = GetCustomer(parcel.TargetId);
-                        Location targetCustomerL = tc.Location;
-                        double toCus = calcDistance(drone.DroneLocation, senderCustomerL);
-                        double toStation = calcDistance(senderCustomerL, findClosetBaseStationLocation(senderCustomerL));
-                        double betweenCustomers = calcDistance(senderCustomerL, targetCustomerL);
-                        maxPri = (int)parcel.Priority;
-                        maxW = (int)parcel.Longitude;
-                        minDis = calcDistance(drone.DroneLocation, senderCustomerL);
-                        if (BatteryUsages(toCus, 0) + BatteryUsages(toStation, 0) + BatteryUsages(betweenCustomers, (int)parcel.Longitude + 1) < drone.Battery)
-                        {
-                            parcelDo = parcel;
 
-                            pId = parcel.ID;
-                            dId = parcel.DroneId;
+                    DroneForList drone = GetDroneForList(droneId);
+                    if (drone.Id == 0)
+                        throw new BLAlreadyExistExeption("DroneP not found");
+                    int maxW = 0, maxPri = 0;
+                    double minDis = 0;
+                    int pId = 0;
+                    int dId = 0;
+                    DO.Parcel? parcelDo = null;
+                    if (drone.Status == DroneStatuses.Free)
+                    {
+                        foreach (DO.Parcel parcel in myDal.GetParcels())
+                        {
+                            Customer sc = GetCustomer(parcel.SenderId);
+                            Location senderCustomerL = sc.Location;
+                            Customer tc = GetCustomer(parcel.TargetId);
+                            Location targetCustomerL = tc.Location;
+                            double toCus = calcDistance(drone.DroneLocation, senderCustomerL);
+                            double toStation = calcDistance(targetCustomerL, findClosetBaseStationLocation(senderCustomerL));
+                            double betweenCustomers = calcDistance(senderCustomerL, targetCustomerL);
+                            maxPri = (int)parcel.Priority;
+                            maxW = (int)parcel.Longitude;
+                            minDis = calcDistance(drone.DroneLocation, senderCustomerL);
+                            if (BatteryUsages(toCus, 0) + BatteryUsages(toStation, 0) + BatteryUsages(betweenCustomers, (int)parcel.Longitude + 1) < drone.Battery)
+                            {
+                                parcelDo = parcel;
+
+                                pId = parcel.ID;
+                                dId = parcel.DroneId;
+                            }
+
                         }
-
-                    }
-                    if (parcelDo != null)
-                    {
-                        int index = drones.FindIndex(x => x.Id == drone.Id);
-                        drones[index].Status = DroneStatuses.Shipping;
-                        DroneInParcel dp = new DroneInParcel() { Id = dId };
-                        Parcel p = new Parcel()
+                        if (parcelDo != null)
                         {
-                            Id = pId,
-                            DroneP = dp
-                        };
-                        UpdateParcel(p);
+                            int index = drones.FindIndex(x => x.Id == drone.Id);
+                            drones[index].Status = DroneStatuses.Shipping;
+                            DroneInParcel dp = new DroneInParcel() { Id = dId };
+                            Parcel p = new Parcel()
+                            {
+                                Id = pId,
+                                DroneP = dp
+                            };
+                            UpdateParcel(p);
+                        }
                     }
+
                 }
+                catch (Exception ex)
+                {
 
+                    throw new BLAlreadyExistExeption("The drone can't be recharge", ex);
+                }
             }
-            catch (Exception ex)
-            {
-
-                throw new BLAlreadyExistExeption("The drone can't be recharge", ex);
-            }
-            
 
         }
 
@@ -463,7 +467,7 @@ namespace BL
                     Name = station.Name,
                     Longitude = station.Location.Longitude,
                     Lattitude = station.Location.Lattitude,
-                    ChargeSlots = station.ChargeSlots
+                    ChargeSlots =station.ChargeSlots  
 
                 };
                 DO.Drone drone = new DO.Drone
@@ -476,7 +480,10 @@ namespace BL
                 myDal.AnchorDroneStation(s, drone);
             }
         }
-
+        /// <summary>
+        /// a function that recieves a drone and free it from charging without update it's battery
+        /// </summary>
+        /// <param name="droneId">the drone to free</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void FreeDroneFromeCharger(int droneId)
         {
@@ -672,6 +679,11 @@ namespace BL
                 }
             }
         }
+        /// <summary>
+        /// A function that gets a user and return true if the user exists or false if not
+        /// </summary>
+        /// <param name="curUser">the user it checks</param>
+        /// <returns>true if the user exists or false if not</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool LogInVerify(User curUser)
         {
@@ -700,6 +712,11 @@ namespace BL
             }
 
         }
+        /// <summary>
+        /// A function that gets a user and return true if the user is a worker or false if not
+        /// </summary>
+        /// <param name="curUser">the user it checks</param>
+        /// <returns>true if the user is a worker or false if not</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool isWorker(User curUser)
         {
@@ -718,10 +735,20 @@ namespace BL
                 return check;
             }
         }
+        /// <summary>
+        /// a function that returns an array with the power requested in each status of the drone
+        /// </summary>
+        /// <returns>an array with the power requested in each status of the drone</returns>
         public double[] Power()
         {
           return  myDal.PowerRequest();
         }
+        /// <summary>
+        /// a function that start  the simulator of the drone
+        /// </summary>
+        /// <param name="id">the drone that need to be in simulator</param>
+        /// <param name="update">a function that update the windows of the drones</param>
+        /// <param name="checkStop">a function that tells to the simulator if it needs to stop or not</param>
         public void StartDroneSimulator(int droneId, Action action, Func<bool> stop)
         {
             new Simulator(this, droneId, action, stop);

@@ -31,7 +31,10 @@ namespace PL
         private List<IGrouping<int, StationForList>> GroupingData { get; set; }
         private BlApi.IBL myBl { get; }
         private ObservableCollection<BO.StationForList> collection;
-        //constructor 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="MyBl"></param>
         public StationListWindow(BlApi.IBL MyBl)
         {
             myBl = MyBl;
@@ -51,13 +54,22 @@ namespace PL
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
- 
-        //close the window
+
+        /// <summary>
+        ///   close the window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void closbtn_Click(object sender, RoutedEventArgs e)
         {
            
             Close();
         }
+        /// <summary>
+        /// a click open window to updat station
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (stationListView.SelectedItem == null)
@@ -88,7 +100,12 @@ namespace PL
             collection = new ObservableCollection<BO.StationForList>(myBl.GetStations( ));
             stationListView.ItemsSource = collection;
         }
-        //the click open the station window to add station
+ 
+        /// <summary>
+        /// the click open the station window to add station
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addbtn_Click(object sender, RoutedEventArgs e)
         {
             StationWindow s = new StationWindow(myBl);
@@ -99,7 +116,11 @@ namespace PL
         {
 
         }
-        //a function to group a station by Available Charge Slots
+        /// <summary>
+        ///  a function to group a station by Available Charge Slots
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void group_Click(object sender, RoutedEventArgs e)
         {
             GroupingData = myBl.GetStations().GroupBy(x => x.AvailableChargeSlots).ToList();

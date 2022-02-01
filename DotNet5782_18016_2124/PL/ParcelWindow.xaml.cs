@@ -24,7 +24,10 @@ namespace PL
         private IBL myBl;
         private Parcel parcel;
         public event Action Update = delegate { };
-
+        /// <summary>
+        /// constructor to add
+        /// </summary>
+        /// <param name="myBl"></param>
         public ParcelWindow(IBL myBl)
         {
             InitializeComponent();
@@ -72,6 +75,11 @@ namespace PL
             var hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
         }
+        /// <summary>
+        /// constructor to updat parcel
+        /// </summary>
+        /// <param name="myBl"></param>
+        /// <param name="pr">the parcel to updat</param>
         public ParcelWindow(IBL myBl, Parcel pr)
         {
             InitializeComponent();
@@ -89,8 +97,12 @@ namespace PL
 
         }
 
-       
 
+        /// <summary>
+        /// open the window with the drone that assingment parcel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDroneWindow_Click(object sender, RoutedEventArgs e)
         {
             Parcel p = myBl.GetParcel(parcel.Id);
@@ -99,7 +111,11 @@ namespace PL
             DroneWindow droneWindow= new DroneWindow(myBl, d);
             droneWindow.Show();
         }
-
+        /// <summary>
+        /// open the window with who get the parcel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnTargetWindow_Click(object sender, RoutedEventArgs e)
         {
             
@@ -107,21 +123,35 @@ namespace PL
             CustomerWindow customerWindow = new CustomerWindow(myBl, c);
             customerWindow.Show();
         }
-
+        /// <summary>
+        /// open the window with who send the parcel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSenderWindow_Click(object sender, RoutedEventArgs e)
         {
             Customer c = myBl.GetCustomer(parcel.Sender.Id);
             CustomerWindow customerWindow = new CustomerWindow(myBl, c);
             customerWindow.Show();
         }
-
+        
+        /// <summary>
+        /// a click to delete parcel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             myBl.DeleteParcel(parcel);
             Update();
             this.Close();
         }
-
+    
+        /// <summary>
+        /// a click to add parcel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddParcel_Click(object sender, RoutedEventArgs e)
         {
             bool flag = true;
@@ -171,7 +201,11 @@ namespace PL
             if (flag)
                 this.Close();
         }
-
+        /// <summary>
+        /// close window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
