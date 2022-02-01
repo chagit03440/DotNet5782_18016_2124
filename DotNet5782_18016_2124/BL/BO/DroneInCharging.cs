@@ -7,7 +7,7 @@ namespace BO
     public class DroneInCharging
     {
         public int Id { get; set; }
-        public double Battery { get; set; }
+        public int Battery { get; set; }
 
         public override String ToString()
         {

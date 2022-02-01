@@ -18,7 +18,7 @@ namespace DAL
                 internal static double lightWeight = 10;
                 internal static double mediumWeight = 50;
                 internal static double heavyWeight = 150;
-                internal static double chargingRate = 10.26;
+                internal static double chargingRate = 10;
                 internal static int newDroneId = 1;
                 internal static int newBaseStationId = 1;
                 internal static int newCustomerId = 1;

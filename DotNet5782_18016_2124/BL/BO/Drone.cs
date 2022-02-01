@@ -10,7 +10,7 @@ namespace BO
         public String Model { get; set; }
         public WeightCategories MaxWeight { get; set; }
         public DroneStatuses Status { get; set; }
-        public double Battery { get; set; }
+        public int Battery { get; set; }
         public Location Location { get; set; }
         public PackageInTransfer Package { get; set; }
         public override String ToString()

@@ -31,7 +31,7 @@ namespace PL
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
         private DroneWindow windowDrones;
-
+        private bool _close { get; set; } = false;
         void ToolWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Code to remove close box from window
@@ -40,47 +40,12 @@ namespace PL
         }
         private BlApi.IBL myBl;
         private BO.Drone drone;
-        bool closing;
-        public event PropertyChangedEventHandler PropertyChanged;
-        public event Action Update = delegate { };
-        BackgroundWorker worker;
-        bool charge;
-        //public bool Charge
-        //{
-        //    get => charge;
-        //    set => this.setAndNotify(PropertyChanged, nameof(Charge), out charge, value);
-        //}
-        //bool release;
-        //public bool Release
-        //{
-        //    get => release;
-        //    set => this.setAndNotify(PropertyChanged, nameof(Release), out release, value);
-        //}
-        //bool auto;
-        //public bool Auto
-        //{
-        //    get => auto;
-        //    set => this.setAndNotify(PropertyChanged, nameof(Auto), out auto, value);
-        //}
-        //bool schedule;
-        //public bool Schedule
-        //{
-        //    get => schedule;
-        //    set => this.setAndNotify(PropertyChanged, nameof(Schedule), out schedule, value);
-        //}
-        //bool pickup;
-        //public bool Pickup
-        //{
-        //    get => pickup;
-        //    set => this.setAndNotify(PropertyChanged, nameof(Pickup), out pickup, value);
-        //}
-        //bool deliver;
-        //public bool Deliver
-        //{
-        //    get => deliver;
-        //    set => this.setAndNotify(PropertyChanged, nameof(Deliver), out deliver, value);
-        //}
+        //public event PropertyChangedEventHandler PropertyChanged;
+        //public event Action Update = delegate { };
+         
+         
         public Drone Drone { get => drone; }
+        public Action Update { get; internal set; }
 
         public DroneWindow(BlApi.IBL myBl)
         {
@@ -176,7 +141,7 @@ namespace PL
         {
             try
             {
-                drone.Model = txtModel.Text;
+                 drone.Model = txtModel.Text;
                 myBl.UpdateDrone(drone);
                 MessageBox.Show("the model of the drone was successfully updated");
 
@@ -361,16 +326,23 @@ namespace PL
 
 
         }
+        private void WindowClose(object sender, CancelEventArgs e)
+        {
+            if (!_close)
+            {
+                e.Cancel = true;
+                MessageBox.Show("You can't force the window to close");
+            }
+        }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
 
-            this.Close();
-            //if (worker != null)
-            //{
-            //    closing = true;
-            //    e.Cancel = true;
-            //}
+
+            if (worker != null)
+                worker.CancelAsync();
+            _close = true;
+            Close();
         }
 
 
@@ -382,10 +354,15 @@ namespace PL
             pw.Show();
             //pw.Update += ParcelWindow_Update;
         }
- 
+        BackgroundWorker worker;
+
         private void UpdateWidowDrone()
         {
             drone = myBl.GetDrone(drone.Id);
+            txtStatus.Text = drone.Status.ToString();
+            txtBattery.Text = drone.Battery.ToString()+"%";
+            txtLatitude.Text = drone.Location.Lattitude.ToString();
+            txtLongtitude.Text = drone.Location.Longitude.ToString();
             DataContext = drone;
             WindowUp();
         }

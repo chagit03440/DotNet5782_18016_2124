@@ -173,7 +173,7 @@ namespace BL
                         DroneInCharging d = new DroneInCharging()
                         {
                             Id = dc.Id,
-                            Battery = getDroneBattery(dc.Id)
+                            Battery =Convert.ToInt32( getDroneBattery(dc.Id))
                         };
 
                         l.Add(d);
