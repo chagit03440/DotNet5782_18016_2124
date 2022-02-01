@@ -416,7 +416,6 @@ namespace Dal
             var listOfCustomer = XMLTools.LoadListFromXMLSerializer<Customer>(customerPath);
             Customer customer = listOfCustomer.Find(x => x.ID == customerID);
             if (!listOfCustomer.Exists(x => x.ID == customer.ID))
-
                 throw new InVaildIdException("The customer doesn't exist in system");
             return customer;
         }
@@ -542,9 +541,14 @@ namespace Dal
             parcelToAdd.Delivered = null;
             listOfAllParcels.Add(parcelToAdd);
             XMLTools.SaveListToXMLSerializer(listOfAllParcels, parcelPath);
-            configXml.Element("RowNumbers").Element("NewParcelId").Value = parcelToAdd.ID.ToString();
+            configXml.Element("RowNumbers").Element("NewParcelId").Value =(parcelToAdd.ID+1).ToString();
             XMLTools.SaveListToXMLElement(configXml, "ConfigXml.xml");
 
+        }
+        public string getParcelId()
+        {
+            XElement configXml = XMLTools.LoadListFromXMLElement(configPath);
+            return configXml.Element("RowNumbers").Element("NewParcelId").Value;
         }
         /// <summary>
         /// A function that recieve a parcel and delete the station whith the same id in the parcels list

@@ -19,7 +19,7 @@
     <Name>Station2</Name>
     <Longitude>37.189938</Longitude>
     <Lattitude>33.785664</Lattitude>
-    <ChargeSlots>11</ChargeSlots>
+    <ChargeSlots>0</ChargeSlots>
   </Station>
   <Station>
     <ID>1003</ID>

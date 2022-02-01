@@ -216,6 +216,11 @@ namespace BlApi
         /// </summary>
         /// <returns>an array with the power requested in each status of the drone</returns>
         public double[] Power();
+        /// <summary>
+        /// a function that return the next parcel id
+        /// </summary>
+        /// <returns></returns>
+        public string getParcelId();
     }
 }
 

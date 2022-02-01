@@ -75,7 +75,7 @@ namespace BL
                         drone.DroneLocation = findDroneLocation(drone);//find the location of the drone
                         
                         int minBattery = calcMinBatteryRequired(drone);
-                        drone.Battery = rand.Next(minBattery, 100) ;
+                        drone.Battery = (int)rand.Next(minBattery, 100);
                     }
                     else
                     {
@@ -116,7 +116,7 @@ namespace BL
                             }
 
 
-                            drone.DroneLocation = getBaseStationLocation(stationId + 1000);
+                            drone.DroneLocation = getBaseStationLocation(stationId + 1000);//the location of the drone is the location of the closest base station
                             drone.Battery = (int)rand.Next(0, 20);
                             drone.ParcelId = 0;
                         }
@@ -749,6 +749,13 @@ namespace BL
         {
             new Simulator(this, droneId, action, stop);
         }
-
+        /// <summary>
+        /// a function that return the next parcel id
+        /// </summary>
+        /// <returns></returns>
+        public string getParcelId()
+        {
+            return myDal.getParcelId();
+        }
     }
 }

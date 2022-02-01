@@ -264,6 +264,11 @@ namespace DalApi
         /// <param name="userDO">the user it checks</param>
         /// <returns>true if the user is a worker or false if not</returns>
         bool isWorker(User userDO);
+        /// <summary>
+        /// a function that return the next parcel id
+        /// </summary>
+        /// <returns></returns>
+        public string getParcelId();
     }
 }
 

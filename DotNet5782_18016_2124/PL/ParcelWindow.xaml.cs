@@ -37,7 +37,8 @@ namespace PL
 
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
-
+            txtId.Text = myBl.getParcelId();
+            txtId.IsEnabled = false;
             btnCollect.Visibility = Visibility.Hidden;
             btnDelete.Visibility = Visibility.Hidden;
             btnDroneWindow.Visibility = Visibility.Hidden;
@@ -88,9 +89,14 @@ namespace PL
             parcel = pr;
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
-            comboDrone.ItemsSource = myBl.GetDrones(d => d.Status == DroneStatuses.Free);
+           // comboDrone.ItemsSource = myBl.GetDrones(d => d.Status == DroneStatuses.Free);
 
-
+            txtAssociationTime.IsEnabled = false;
+            txtCollectionTime.IsEnabled = false;
+            txtCreationTime.IsEnabled = false;
+            txtSupplyTime.IsEnabled = false;
+            txtId.IsEnabled = false;
+            comboDrone.IsEnabled = false;
             btnAddParcel.Visibility = Visibility.Hidden;
             comboPriority.ItemsSource = Enum.GetValues(typeof(BO.Priorities));
             comboWeight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));

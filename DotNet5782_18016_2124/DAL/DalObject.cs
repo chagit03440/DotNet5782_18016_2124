@@ -379,7 +379,10 @@ namespace Dal
             worker = us.Worker;
             return worker;
         }
-
+        public string getParcelId()
+        {
+            return DataSource.Config.newParcelId.ToString();
+        }
     }
 }
 
