@@ -74,8 +74,8 @@ namespace BL
                         drone.Status = DroneStatuses.Shipping;
                         drone.DroneLocation = findDroneLocation(drone);//find the location of the drone
                         
-                        int minBattery = calcMinBatteryRequired(drone);
-                        drone.Battery = (int)rand.Next(minBattery, 100);
+                        int minBattery = calcMinBatteryRequired(drone);//calc the minimum battery to this drone
+                        drone.Battery = (int)rand.Next(minBattery, 100);//a random battery
                     }
                     else
                     {
@@ -117,16 +117,16 @@ namespace BL
 
 
                             drone.DroneLocation = getBaseStationLocation(stationId + 1000);//the location of the drone is the location of the closest base station
-                            drone.Battery = (int)rand.Next(0, 20);
-                            drone.ParcelId = 0;
+                            drone.Battery = (int)rand.Next(0, 20);//random battery
+                            drone.ParcelId = 0;//the drone isnt assinment yet
                         }
 
                         if (drone.Status == DroneStatuses.Free)//if the status of the drone is free
                         {
-                            drone.DroneLocation = findDroneLocation(drone);
+                            drone.DroneLocation = findDroneLocation(drone);//find the location of the drone
                             drone.ParcelId = 0;
-                            int minBattery = calcMinBatteryRequired(drone);
-                            drone.Battery = rand.Next(minBattery, 100);
+                            int minBattery = calcMinBatteryRequired(drone);//calc the minimum battery 
+                            drone.Battery = rand.Next(minBattery, 100);//random battery
                         }
                     }
                 }
@@ -621,14 +621,14 @@ namespace BL
                 {
                     try
                     {
-                        DroneForList droneL = drones.Find(x => x.Id == droneId);
-                        DO.Parcel parcel = myDal.GetParcels().First(item => item.ID == droneL.ParcelId);
+                        DroneForList droneL = drones.Find(x => x.Id == droneId);//find the drone
+                        DO.Parcel parcel = myDal.GetParcels().First(item => item.ID == droneL.ParcelId);//find the parcel
                         DroneForList df = GetDroneForList(droneId);
                         ParcelForList pf = GetParcelForList(df.ParcelId);
                         CustomerInParcel s = new CustomerInParcel()
-                        { Id = GetCustomer(pf.SenderId).Id, Name = GetCustomer(pf.SenderId).Name };
+                        { Id = GetCustomer(pf.SenderId).Id, Name = GetCustomer(pf.SenderId).Name };//find the sender
                         CustomerInParcel t = new CustomerInParcel()
-                        { Id = GetCustomer(pf.TargetId).Id, Name = GetCustomer(pf.TargetId).Name };
+                        { Id = GetCustomer(pf.TargetId).Id, Name = GetCustomer(pf.TargetId).Name };//find the target
                         PackageInTransfer pi = new PackageInTransfer()
                         {
                             Id = pf.Id,
@@ -639,24 +639,25 @@ namespace BL
                             Sender = s,
                             Target = t,
                             Status = pf.Status,
+                            //the distance between the sender and rhe target
                             TransportDistance = calcDistance(GetCustomer(pf.SenderId).Location, GetCustomer(pf.TargetId).Location)
 
 
                         };
                         Drone drone = new Drone()
                         { Id = df.Id, Battery = df.Battery, Location = df.DroneLocation, MaxWeight = df.MaxWeight, Model = df.Model, Status = df.Status, Package = pi };
-                        if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)
+                        if (parcel.Scheduled != DateTime.MinValue && parcel.PickedUp == DateTime.MinValue)//if the parel dont assinment yet
                         {
 
                             Location l1 = new Location() { Lattitude = drone.Package.Collection.Lattitude, Longitude = drone.Package.Collection.Longitude };
                             Location l2 = new Location() { Lattitude = drone.Package.DeliveryDestination.Lattitude, Longitude = drone.Package.DeliveryDestination.Longitude };
-                            double distance = calcDistance(l1, l2);
-                            droneL.Battery -= (int)(distance * myDal.PowerRequest()[4]);
-                            droneL.DroneLocation = drone.Package.DeliveryDestination;
-                            droneL.Status = DroneStatuses.Maintenance;
+                            double distance = calcDistance(l1, l2);//clac the distance 
+                            droneL.Battery -= (int)(distance * myDal.PowerRequest()[4]);//update the battery
+                            droneL.DroneLocation = drone.Package.DeliveryDestination;//update location
+                            droneL.Status = DroneStatuses.Maintenance;//update status
                             int index = drones.FindIndex(x => x.Id == droneId);
                             drones[index] = droneL;
-                            myDal.UpdateParcels(parcel);
+                            myDal.UpdateParcels(parcel);//update parcel
                         }
                         else
                             throw new BLAlreadyExistExeption("drone could not deliver parcel");
@@ -695,7 +696,7 @@ namespace BL
                 };
                 try
                 {
-                    myDal.LogInVerify(userDO);
+                    myDal.LogInVerify(userDO);//seand to the function in dal
 
                 }
                 catch (DO.InVaildIdException ex)
@@ -727,7 +728,7 @@ namespace BL
                     Worker = curUser.Worker,
 
                 };
-                check = myDal.isWorker(userDO);
+                check = myDal.isWorker(userDO);//seand to the function in dal
                 return check;
             }
         }
@@ -737,7 +738,7 @@ namespace BL
         /// <returns>an array with the power requested in each status of the drone</returns>
         public double[] Power()
         {
-          return  myDal.PowerRequest();
+          return  myDal.PowerRequest();//seand to the function in dal
         }
         /// <summary>
         /// a function that start  the simulator of the drone
@@ -755,7 +756,7 @@ namespace BL
         /// <returns></returns>
         public string getParcelId()
         {
-            return myDal.getParcelId();
+            return myDal.getParcelId();//seand to the function in dal
         }
     }
 }
