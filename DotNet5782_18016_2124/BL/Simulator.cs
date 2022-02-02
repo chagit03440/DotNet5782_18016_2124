@@ -23,7 +23,7 @@ namespace BL
             bl = _bl;
             double distance;
             int battery;
-            DroneForList drone = bl.GetDrones().First(x => x.Id == droneID);
+            DroneForList drone = bl.GetDrones().FirstOrDefault(x => x.Id == droneID);
             while (!IsTimeRun())
             {
                 switch (drone.Status)
@@ -31,8 +31,8 @@ namespace BL
                     case DroneStatuses.Free:
                         try
                         {
-                            bl.AssignmentParcelToDrone(droneID);
-                            ReportProgressInSimultor();
+                            bl.AssignmentParcelToDrone(droneID);//try to assiment a parcel to the drone
+                            ReportProgressInSimultor();// to update th window of the list
                         }
                         catch
                         {
@@ -40,18 +40,18 @@ namespace BL
                             if (drone.Battery < 100)
                             {
                                 battery = (int)drone.Battery;
-                                BO.Station baseStation = bl.findClosetBaseStation(drone);
-                                distance = bl.calcDistance(drone.DroneLocation, baseStation.Location);
+                                BO.Station baseStation = bl.findClosetBaseStation(drone);//fin the closest base station to
+                                distance = bl.calcDistance(drone.DroneLocation, baseStation.Location);//calc the distance to the station
                                 while (distance > 0)
                                 {
                                     drone.Battery -= (int)bl.Power()[0];//the drone is available
-                                    ReportProgressInSimultor();
+                                    ReportProgressInSimultor();//update
                                     distance -= 1;
                                     Thread.Sleep(1000);
                                 }
                                 drone.Battery = battery;//restarting the battery
                                 bl.SendDroneToRecharge(droneID);//here it will change it to the correct battery
-                                ReportProgressInSimultor();
+                                ReportProgressInSimultor();//update
                             }
                         }
                         break;
@@ -60,16 +60,16 @@ namespace BL
                         {
                             if (drone.Battery + (int)bl.Power()[4] > 100)//check if there aill be to much battery
                             {
-                                bl.GetDrones().First(x => x.Id == droneID).Battery = 100;
+                                bl.GetDrones().FirstOrDefault(x => x.Id == droneID).Battery = 100;
                             }
                             else
                             {
-                                bl.GetDrones().First(x => x.Id == droneID).Battery += (int)bl.Power()[4];
+                                bl.GetDrones().FirstOrDefault(x => x.Id == droneID).Battery += (int)bl.Power()[4];
                             }
-                            ReportProgressInSimultor();
+                            ReportProgressInSimultor();//update
                             Thread.Sleep(1000);
                         }
-                        bl.FreeDroneFromeCharger(droneID);
+                        bl.FreeDroneFromeCharger(droneID);//free the drone from the charging station
                         ReportProgressInSimultor();
                         break;
                     case DroneStatuses.Shipping:
@@ -91,13 +91,13 @@ namespace BL
                                 UpdateLocationDrone(_drone.Location, bl.GetCustomer(_drone.Package.Sender.Id).Location, _drone, longitude, latitude);
                                 drone.DroneLocation = _drone.Location;
                                 bl.GetDrones().First(item => item.Id == drone.Id).DroneLocation = drone.DroneLocation;
-                                ReportProgressInSimultor();
+                                ReportProgressInSimultor();//update
                                 Thread.Sleep(1000);
                             }
                             //meens the drone arraived to the sender
                             drone.DroneLocation = location;
                             drone.Battery = battery;
-                            bl.PickedupParcel(_drone.Id);
+                            bl.PickedupParcel(_drone.Id);//send the sender to pickup the parcel
                             ReportProgressInSimultor();
                         }
                         else //PickedUp != null
@@ -124,15 +124,15 @@ namespace BL
                                     default:
                                         break;
                                 }
-                                UpdateLocationDrone(_drone.Location, bl.GetCustomer(_drone.Package.Target.Id).Location, _drone, longitude, latitude);
+                                UpdateLocationDrone(_drone.Location, bl.GetCustomer(_drone.Package.Target.Id).Location, _drone, longitude, latitude);//update the location of the drone
                                 drone.DroneLocation = _drone.Location;
-                                ReportProgressInSimultor();
+                                ReportProgressInSimultor();//update window
                                 distance -= 1;
                                 Thread.Sleep(500);
                             }
                             drone.DroneLocation = d;
                             drone.Battery = battery;
-                            bl.PackageDeliveryByDrone(_drone.Id);
+                            bl.PackageDeliveryByDrone(_drone.Id);//the prcel delivered by the drone
                             ReportProgressInSimultor();
                         }
                         break;

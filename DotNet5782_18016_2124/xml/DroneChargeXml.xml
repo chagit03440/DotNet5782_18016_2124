@@ -2,15 +2,15 @@
 <ArrayOfDroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <DroneCharge>
     <DroneId>1000</DroneId>
-    <StationId>1009</StationId>
+    <StationId>1005</StationId>
   </DroneCharge>
   <DroneCharge>
     <DroneId>1001</DroneId>
-    <StationId>1004</StationId>
+    <StationId>1005</StationId>
   </DroneCharge>
   <DroneCharge>
     <DroneId>1002</DroneId>
-    <StationId>1006</StationId>
+    <StationId>1007</StationId>
   </DroneCharge>
   <DroneCharge>
     <DroneId>1003</DroneId>
@@ -18,30 +18,30 @@
   </DroneCharge>
   <DroneCharge>
     <DroneId>1004</DroneId>
-    <StationId>1009</StationId>
-  </DroneCharge>
-  <DroneCharge>
-    <DroneId>1005</DroneId>
-    <StationId>1007</StationId>
-  </DroneCharge>
-  <DroneCharge>
-    <DroneId>1006</DroneId>
-    <StationId>1007</StationId>
-  </DroneCharge>
-  <DroneCharge>
-    <DroneId>1007</DroneId>
-    <StationId>1007</StationId>
-  </DroneCharge>
-  <DroneCharge>
-    <DroneId>1008</DroneId>
-    <StationId>1008</StationId>
-  </DroneCharge>
-  <DroneCharge>
-    <DroneId>1009</DroneId>
     <StationId>1002</StationId>
   </DroneCharge>
   <DroneCharge>
+    <DroneId>1005</DroneId>
+    <StationId>1000</StationId>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>1006</DroneId>
+    <StationId>1005</StationId>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>1007</DroneId>
+    <StationId>1001</StationId>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>1008</DroneId>
+    <StationId>1006</StationId>
+  </DroneCharge>
+  <DroneCharge>
+    <DroneId>1009</DroneId>
+    <StationId>1001</StationId>
+  </DroneCharge>
+  <DroneCharge>
     <DroneId>12334</DroneId>
-    <StationId>1009</StationId>
+    <StationId>1006</StationId>
   </DroneCharge>
 </ArrayOfDroneCharge>

@@ -668,15 +668,15 @@ namespace Dal
             {
                 throw new InVaildIdException($"cannot anchor drone{drone.ID}to station", p);
             }
-            if(station.ChargeSlots>0)
+            if(station.ChargeSlots>0)//update the amount of charge slots in the sation
                  station.ChargeSlots--;
-            DroneCharge dCharge = new DroneCharge()
+            DroneCharge dCharge = new DroneCharge()//create a new drone charge
             {
                 DroneId = drone.ID,
                 StationId = station.ID
             };
-            AddDroneCharge(dCharge);
-            UpdateStation(station);
+            AddDroneCharge(dCharge);//add the drone charge
+            UpdateStation(station);//update the station
         }
         /// <summary>
         /// A function that recieve a parcel and a drone and and update the parcel to be connected to the drone, update the list of the parcels and drones accordingly
@@ -704,7 +704,7 @@ namespace Dal
             }
 
             parcel.DroneId = drone.ID;
-            parcel.Scheduled = DateTime.Today;
+            parcel.Scheduled = DateTime.Today;//the Scheduled time is now
             //drone.Status = DroneStatuses.shipping;
 
             //updating drones
@@ -742,8 +742,8 @@ namespace Dal
                 DroneId = drone.ID,
                 StationId = st.ID
             };
-            deleteDroneCharge(dCharge);
-            st.ChargeSlots++;
+            deleteDroneCharge(dCharge);//delete the drone charge from the list
+            st.ChargeSlots++;//update charge slots in the station
             UpdateStation(st);
         }
 
@@ -773,9 +773,9 @@ namespace Dal
             }
 
 
-            parcel.Scheduled = DateTime.Today;
-            DeleteCustomer(customer.ID);
-            UpdateParcels(parcel);
+            parcel.Scheduled = DateTime.Today;//update the scheduled time
+            DeleteCustomer(customer.ID);//dlete the customer
+            UpdateParcels(parcel);//update the parcel
         }
         /// <summary>
         ///

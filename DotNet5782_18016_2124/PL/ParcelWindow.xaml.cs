@@ -37,7 +37,8 @@ namespace PL
 
             //to remove close box from window
             Loaded += ToolWindow_Loaded;
-            txtId.Text = myBl.getParcelId();
+
+            txtId.Text = myBl.getParcelId();//the next id
             txtId.IsEnabled = false;
             btnCollect.Visibility = Visibility.Hidden;
             btnDelete.Visibility = Visibility.Hidden;
